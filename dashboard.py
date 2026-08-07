@@ -948,7 +948,7 @@ header.krheader{animation-delay:.08s}
 .badge.t-Proposed{color:#fff;background:var(--warn)}
 .badge.t-Guidance{color:#fff;background:var(--brand)}
 .badge.t-Enforcement{color:#fff;background:var(--neutral)}
-.p-sdn .sdnintro{font-size:12.5px;color:var(--ink-muted);margin:2px 0 28px}
+.p-sdn .sdnintro{font-size:12.5px;color:var(--ink-muted);margin:2px 0 10px}
 .p-sdn .sdnlist{display:flex;flex-direction:column;gap:2px}
 .sdnrow{display:flex;align-items:center;gap:10px;padding:6px 0;
   border-bottom:1px solid var(--rule);flex-wrap:wrap}
@@ -967,7 +967,7 @@ header.krheader{animation-delay:.08s}
 .sdnsearch input::-webkit-search-cancel-button{display:none}
 .sdncount{font-size:12.5px;color:var(--ink-muted)}
 .p-sdn h3{font-size:13px;text-transform:uppercase;letter-spacing:.04em;
-  color:var(--brand);font-weight:700;margin:18px 0 8px;padding-bottom:4px;
+  color:var(--brand);font-weight:700;margin:8px 0 8px;padding-bottom:4px;
   border-bottom:2px solid var(--accent);display:inline-block}
 .sdnfullsearch{margin-top:4px}
 .sdnfullcount{font-weight:400;text-transform:none;letter-spacing:0}
