@@ -978,6 +978,10 @@ header.krheader{animation-delay:.08s}
 .sdnhighlights{display:grid;grid-template-columns:1fr 1fr;gap:8px 20px}
 .sdnhighlights .sdnmini h3{margin-top:0}
 @media (max-width:640px){.sdnhighlights{grid-template-columns:1fr}}
+.sdnactivity{margin-top:20px;padding-top:14px;border-top:1px solid var(--rule)}
+.sdnactivity summary{cursor:pointer;font-size:13px;font-weight:600;
+  color:var(--ink-2)}
+.sdnactivity[open] summary{margin-bottom:4px}
 .card .agency{font-size:12px;color:var(--ink-muted)}
 .card h3{font-size:14.5px;margin:0 0 5px;font-weight:600;line-height:1.35;
   text-align:justify;text-align-last:left}
@@ -3011,18 +3015,25 @@ def sdn_panel(today, days=30, cap=200):
         '</div>'
     )
 
+    # Led with the full-list search — that's the one thing most readers
+    # actually want here. Everything else (day-over-day changes, recent
+    # additions/removals) is real and stays, but tucked into a closed
+    # sub-section rather than competing with it up front; the panel was
+    # reading as cluttered with all of it open by default.
     return (
         '<details class="panel p-sdn foldable" open>'
-        f'<summary><h2>OFAC SDN list changes <span style="float:right;'
-        f'text-transform:none;letter-spacing:0">last {days} days</span></h2></summary>'
-        '<p class="sdnintro">Day-over-day changes to OFAC\'s Specially '
-        'Designated Nationals list — additions, removals and edits, '
-        'diffed against the previous day\'s full list. Not classified or '
-        'summarized; a name and program tag speaks for itself.</p>'
+        f'<summary><h2>OFAC SDN list <span style="float:right;'
+        f'text-transform:none;letter-spacing:0">{total_label}</span></h2></summary>'
+        '<p class="sdnintro">Search OFAC\'s Specially Designated Nationals '
+        'list by name. Not classified or summarized; a name and program tag '
+        'speaks for itself.</p>'
+        f'{full_search}'
+        '<details class="sdnactivity">'
+        f'<summary>Recent list activity (last {days} days)</summary>'
         f'{highlights}'
         '<h3>Recent changes</h3>'
         f'{changes_body}'
-        f'{full_search}'
+        '</details>'
         '</details>'
     )
 
