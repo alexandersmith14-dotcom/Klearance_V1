@@ -2917,7 +2917,7 @@ def coverage_panel(store):
 ACTION_LABEL = {"added": "Added", "removed": "Removed", "modified": "Modified"}
 
 
-def sdn_panel(today, days=30, cap=200):
+def sdn_panel(today, days=30, cap=5):
     """OFAC SDN list changes from the last `days` days, written by
     sdn_monitor.py into SDN_LOG_PATH. Server-rendered, not JS-templated like
     the main card feed — volume here is naturally small (usually single
@@ -2948,8 +2948,8 @@ def sdn_panel(today, days=30, cap=200):
             for e in shown
         )
         omitted = len(recent) - len(shown)
-        note = (f'<p class="sdnnote">{omitted} more not shown — see the full '
-                f'log.</p>' if omitted > 0 else "")
+        note = (f'<p class="sdnnote">{omitted} more change{"s" if omitted != 1 else ""} '
+                f'in the last {days} days not shown here.</p>' if omitted > 0 else "")
         # Filters the "recent changes" list above, client-side, against rows
         # already in the DOM. Separate ids from the full-list search below —
         # that one fetches data on demand rather than filtering the DOM.
