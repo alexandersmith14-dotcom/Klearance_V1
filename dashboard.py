@@ -2591,14 +2591,27 @@ footer{margin-top:40px;padding-top:16px;border-top:1px solid #e3e3e3;
 """
 
 
-def build_update_page(d):
+def build_update_page(d, related=()):
     """A standalone, permalinked page for one regulatory update — the plain-
     English summary that otherwise only exists inside the dashboard's
     client-side JSON. Kept deliberately light (no app JS/CSS) since its only
-    job is to be a crawlable, shareable landing page for this one topic."""
+    job is to be a crawlable, shareable landing page for this one topic.
+
+    `related` is a handful of other updates from the same agency, passed in
+    by write_update_pages(). Linking them here gives each permalink page a
+    few internal inlinks besides the "back to tracker" link, and lets a
+    crawler reach one topic's whole history without going back through the
+    homepage's JS-rendered list each time."""
     title = d["title"] or "Regulatory update"
     agency = " · ".join(d["sources"]) or "Federal regulator"
     desc = (d["why"] or "")[:300]
+    related_html = (
+        "<h2>Related updates</h2><ul>" + "".join(
+            f'<li><a href="{hesc(r["slug"])}.html">{hesc(r["title"] or "Regulatory update")}</a>'
+            f' <span class="meta">{hesc(r["date"] or "")}</span></li>'
+            for r in related
+        ) + "</ul>"
+    ) if related else ""
     page_url = f"{SITE_URL}{UPDATES_DIR}/{d['slug']}.html"
     dates = []
     if d.get("comments_close_on"):
@@ -2638,6 +2651,7 @@ def build_update_page(d):
 <p class="meta">{meta_line}</p>
 <p>{hesc(d["why"] or "")}</p>
 <p><a href="{hesc(d["url"])}" target="_blank" rel="noopener">Read the original source at {hesc(agency)} &rarr;</a></p>
+{related_html}
 <footer>Tracked by <a href="../index.html">KleaRance</a>, Kaufman Rossin's regulatory
   intelligence platform. Not legal or compliance advice.</footer>
 </body></html>"""
@@ -2647,13 +2661,22 @@ def write_update_pages(rows):
     """Writes one permalink HTML page per relevant row into UPDATES_DIR.
     Returns the list of (page_url, lastmod) pairs for the sitemap."""
     os.makedirs(UPDATES_DIR, exist_ok=True)
+    slugged = [d for d in rows if d["slug"]]
+
+    # Grouped by the same agency key build_update_page() shows as a badge, so
+    # "related" always matches what's on screen. rows is already date-sorted
+    # (build_rows), so each group stays newest-first without re-sorting here.
+    by_agency = {}
+    for d in slugged:
+        by_agency.setdefault(" · ".join(d["sources"]), []).append(d)
+
     entries = []
-    for d in rows:
-        if not d["slug"]:
-            continue
+    for d in slugged:
+        siblings = by_agency[" · ".join(d["sources"])]
+        related = [r for r in siblings if r is not d][:4]
         with open(os.path.join(UPDATES_DIR, f"{d['slug']}.html"), "w",
                    encoding="utf-8") as f:
-            f.write(build_update_page(d))
+            f.write(build_update_page(d, related))
         entries.append((f"{SITE_URL}{UPDATES_DIR}/{d['slug']}.html",
                          d["date"] or ""))
     return entries
@@ -3136,6 +3159,20 @@ def main():
     regref_html = regref_panel()
     sdn_html = sdn_panel(today)
 
+    # Static seed for #cards: real <a href> markup for every relevant update,
+    # present in the HTML this function returns — not only after
+    # $('#cards').innerHTML = ... runs client-side (script.js, ~line 1660).
+    # That JS call replaces this on load, so it stays the single source of
+    # truth for the interactive list; this only makes sure a crawler reading
+    # the raw HTML (no JS executed) still finds a real link to every
+    # permalink page, instead of an empty div.
+    static_cards_html = "".join(
+        f'<div class="card"><h3><a href="{UPDATES_DIR}/{hesc(d["slug"])}.html">'
+        f'{hesc(d["title"] or "Regulatory update")}</a></h3>'
+        f'<p class="meta">{hesc(" · ".join(d["sources"]))} &middot; {hesc(d["date"] or "")}</p></div>'
+        for d in relevant_rows if d["slug"]
+    )
+
 
     # Tiles are clickable when they count something — clicking filters the list to
     # exactly those items. A zero tile is left inert (nothing to show).
@@ -3467,7 +3504,7 @@ def main():
     <details class="panel p-updates foldable" open>
       <summary><h2>Latest updates <span style="float:right;text-transform:none;letter-spacing:0"
           id="cardcount"></span></h2></summary>
-      <div id="cards"></div>
+      <div id="cards">{static_cards_html}</div>
       <button id="showmore" type="button" hidden>Show more updates</button>
     </details>
     <div id="alsofound"></div>
