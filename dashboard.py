@@ -3278,7 +3278,7 @@ def main():
 <!-- Moved up from the bottom of the page, per Alexander — an empty-state
      panel ("No SDN list changes recorded") buried below 370 cards and the
      footer read as broken/missing rather than as a quiet day. -->
-<div style="margin-top:18px">{sdn_html}</div>
+<div style="margin:18px 0">{sdn_html}</div>
 
 <!-- Filters & view sits above Search now (was the other way round). On a phone
      this block collapses to its summary, so Search still lands directly under a
