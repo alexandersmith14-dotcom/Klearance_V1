@@ -969,11 +969,20 @@ header.krheader{animation-delay:.08s}
 .sdnsearch input::-webkit-search-cancel-button{display:none}
 .sdncount{font-size:12.5px;color:var(--ink-muted)}
 .p-sdn h3{font-size:13px;text-transform:uppercase;letter-spacing:.04em;
-  color:var(--ink-muted);margin:18px 0 8px}
+  color:var(--brand);font-weight:700;margin:18px 0 8px;padding-bottom:4px;
+  border-bottom:2px solid var(--accent);display:inline-block}
 .sdnfullsearch{margin-top:4px}
 .sdnfullcount{font-weight:400;text-transform:none;letter-spacing:0}
-.sdnhighlights{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px 20px}
+.sdnhighlights{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px 28px}
 .sdnhighlights .sdnmini h3{margin-top:0}
+/* Long entity names (some run 60+ chars) wrapped inconsistently against
+   short ones when name+meta shared a row with flex-wrap — some rows one
+   line, some two, reading as cramped/uneven. Every row now always stacks
+   name then meta, so the rhythm is consistent regardless of name length. */
+.sdnhighlights .sdnrow{flex-direction:column;align-items:flex-start;
+  gap:2px;padding:9px 0}
+.sdnhighlights .sdnmeta{white-space:normal}
+.sdnhighlights .sdnlist{gap:0}
 @media (max-width:900px){.sdnhighlights{grid-template-columns:1fr 1fr}}
 @media (max-width:480px){.sdnhighlights{grid-template-columns:1fr}}
 .sdnactivity{margin-top:20px;padding-top:14px;border-top:1px solid var(--rule)}
