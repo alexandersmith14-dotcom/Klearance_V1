@@ -122,6 +122,13 @@ ICS_PATH = "deadlines.ics"
 # og:image and og:url — a relative path silently produces no preview.
 SITE_URL = "https://alexandersmith14-dotcom.github.io/Klearance_V1/"
 
+# One permalink page per relevant update, so each plain-English summary gets
+# its own indexable URL instead of living only inside a client-side "show
+# more" list. Derived output, regenerated every build — never committed (see
+# .gitignore), same treatment as deadlines.ics.
+UPDATES_DIR = "updates"
+SITEMAP_PATH = "sitemap.xml"
+
 # Kaufman Rossin brand.
 # Navy #003B6A and green #AED136 are taken from kaufmanrossin.com, along with
 # its heading grey #3C3C3C and body ink #212529.
@@ -1591,12 +1598,17 @@ let userChoseDlLimit = false;    // same, for the deadlines panel
 let userToggledFilters = false;  // or an explicit open/close
 
 function renderCards(rs) {
-  const list = rs.slice(0, cardLimit);
-  $('#cards').innerHTML = list.length ? list.map(d => {
+  // Every matching row renders into the DOM regardless of cardLimit — only
+  // display is capped (via the `hidden` attribute, same mechanism as a native
+  // <details> accordion), not markup. A search crawler executing this script
+  // sees the full text of every update; only human eyes past cardLimit need a
+  // click to reveal it. Slicing rs itself before mapping used to mean 362 of
+  // 370 plain-English summaries never existed in the DOM at all.
+  $('#cards').innerHTML = rs.length ? rs.map((d, i) => {
     const short = (d.type || '').split(' ')[0];
     // In the "everything" view a set-aside item must be visibly marked, or the
     // reader cannot tell which items met the criteria and which did not.
-    return `<div class="card${d.relevant ? '' : ' dropped'}">
+    return `<div class="card${d.relevant ? '' : ' dropped'}"${i >= cardLimit ? ' hidden' : ''}>
       <div class="top">
         <span class="badge t-${esc(short)}">${esc(d.type || '—')}</span>
         <span class="agency">${esc(d.sources.join(' · '))}</span>
@@ -1606,14 +1618,14 @@ function renderCards(rs) {
       <p>${esc(d.why)}</p>
       <div class="cardfoot">
         <div class="meta">${esc(d.date)} · <span class="u u-${esc(d.urgency)}">${esc(d.urgency)}</span></div>
-        <div class="actions">${calButtons(d)}${itemActionButtons(d)}</div>
+        <div class="actions">${d.slug ? `<a class="cal" href="updates/${esc(d.slug)}.html">Details</a>` : ''}${calButtons(d)}${itemActionButtons(d)}</div>
       </div>
     </div>`;
   }).join('') : '<div class="empty">No updates match this filter.</div>';
   $('#cardcount').textContent = `${rs.length} update${rs.length === 1 ? '' : 's'}`;
   const more = $('#showmore');
   if (more) {
-    const hidden = rs.length - list.length;
+    const hidden = rs.length - Math.min(rs.length, cardLimit);
     more.hidden = hidden <= 0;
     more.textContent = `Show ${hidden} more update${hidden === 1 ? '' : 's'}`;
   }
@@ -2443,6 +2455,122 @@ def build_rows(store):
     return rows
 
 
+_SLUG_STRIP = re.compile(r"[^a-z0-9]+")
+
+
+def assign_slugs(rows):
+    """Give every relevant row a stable, unique slug for its permalink page.
+    Set-aside items get none — thin, filtered-out content isn't worth its own
+    indexable page, and skipping them keeps the sitemap free of noise."""
+    seen = set()
+    for d in rows:
+        if not d["relevant"]:
+            d["slug"] = None
+            continue
+        base = _SLUG_STRIP.sub("-", (d["title"] or "").lower()).strip("-")[:80] or "update"
+        slug = f"{d['date'] or '0000-00-00'}-{base}"
+        if slug in seen:
+            n = 2
+            while f"{slug}-{n}" in seen:
+                n += 1
+            slug = f"{slug}-{n}"
+        seen.add(slug)
+        d["slug"] = slug
+
+
+UPDATE_PAGE_CSS = """
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  max-width:760px;margin:0 auto;padding:32px 20px;color:#212529;line-height:1.6;background:#fff}
+a{color:#003b6a}
+.badge{display:inline-block;background:#f0f0f0;color:#3c3c3c;font-size:12px;
+  font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:3px 9px;
+  border-radius:3px;margin:0 6px 0 0}
+.meta{color:#6c757d;font-size:13px;margin:12px 0 24px}
+.back{display:inline-block;margin-bottom:20px;font-size:13px}
+footer{margin-top:40px;padding-top:16px;border-top:1px solid #e3e3e3;
+  font-size:12px;color:#6c757d}
+"""
+
+
+def build_update_page(d):
+    """A standalone, permalinked page for one regulatory update — the plain-
+    English summary that otherwise only exists inside the dashboard's
+    client-side JSON. Kept deliberately light (no app JS/CSS) since its only
+    job is to be a crawlable, shareable landing page for this one topic."""
+    title = d["title"] or "Regulatory update"
+    agency = " · ".join(d["sources"]) or "Federal regulator"
+    desc = (d["why"] or "")[:300]
+    page_url = f"{SITE_URL}{UPDATES_DIR}/{d['slug']}.html"
+    dates = []
+    if d.get("comments_close_on"):
+        dates.append(f"Comments close {hesc(d['comments_close_on'])}")
+    if d.get("effective_on"):
+        dates.append(f"Takes effect {hesc(d['effective_on'])}")
+    meta_line = " · ".join([hesc(d["date"] or "")] + dates)
+    jsonld = {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": title,
+        "description": d["why"] or "",
+        "datePublished": d["date"] or "",
+        "url": page_url,
+        "publisher": {"@type": "Organization", "name": "Kaufman Rossin",
+                       "url": "https://kaufmanrossin.com/"},
+        "about": agency,
+    }
+    return f"""<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{hesc(title)} — KleaRance</title>
+<meta name="description" content="{hesc(desc)}">
+<link rel="canonical" href="{page_url}">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Klearance">
+<meta property="og:title" content="{hesc(title)}">
+<meta property="og:description" content="{hesc(desc)}">
+<meta property="og:url" content="{page_url}">
+<meta property="og:image" content="{SITE_URL}og-image.png">
+<script type="application/ld+json">{json.dumps(jsonld)}</script>
+<style>{UPDATE_PAGE_CSS}</style></head>
+<body>
+<a class="back" href="../index.html">&larr; Back to the KleaRance tracker</a><br>
+<span class="badge">{hesc(d["type"] or "Update")}</span><span class="badge">{hesc(agency)}</span>
+<h1>{hesc(title)}</h1>
+<p class="meta">{meta_line}</p>
+<p>{hesc(d["why"] or "")}</p>
+<p><a href="{hesc(d["url"])}" target="_blank" rel="noopener">Read the original source at {hesc(agency)} &rarr;</a></p>
+<footer>Tracked by <a href="../index.html">KleaRance</a>, Kaufman Rossin's regulatory
+  intelligence platform. Not legal or compliance advice.</footer>
+</body></html>"""
+
+
+def write_update_pages(rows):
+    """Writes one permalink HTML page per relevant row into UPDATES_DIR.
+    Returns the list of (page_url, lastmod) pairs for the sitemap."""
+    os.makedirs(UPDATES_DIR, exist_ok=True)
+    entries = []
+    for d in rows:
+        if not d["slug"]:
+            continue
+        with open(os.path.join(UPDATES_DIR, f"{d['slug']}.html"), "w",
+                   encoding="utf-8") as f:
+            f.write(build_update_page(d))
+        entries.append((f"{SITE_URL}{UPDATES_DIR}/{d['slug']}.html",
+                         d["date"] or ""))
+    return entries
+
+
+def build_sitemap(update_entries, today):
+    urls = [(SITE_URL, str(today))] + update_entries
+    body = "".join(
+        f"  <url><loc>{hesc(u)}</loc><lastmod>{hesc(lm or str(today))}</lastmod></url>\n"
+        for u, lm in urls
+    )
+    return ('<?xml version="1.0" encoding="UTF-8"?>\n'
+            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+            f"{body}</urlset>\n")
+
+
 def kpis(rows, today):
     """Headline numbers, and tag each item with the tiles it belongs to.
 
@@ -2767,6 +2895,7 @@ def main():
         store = json.load(f)
 
     rows = build_rows(store)
+    assign_slugs(rows)
     today = datetime.now(timezone.utc).date()
 
     # Busiest agency first, so the ordering carries information rather than being
@@ -2845,6 +2974,7 @@ def main():
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Regulatory update tracker — community banks, credit unions &amp; fintechs</title>
 <meta name="description" content="{share_desc}">
+<link rel="canonical" href="{SITE_URL}">
 <!-- Tab, bookmark and home-screen icons. Generated by make_icons.py; the paths
      are relative because the site is served from a /regwatch/ subpath, not a
      domain root. Anything absolute here 404s.
@@ -2876,6 +3006,21 @@ def main():
 <meta name="twitter:title" content="Regulatory update tracker — community banks, credit unions &amp; fintechs">
 <meta name="twitter:description" content="{share_desc}">
 <meta name="twitter:image" content="{SITE_URL}og-image.png">
+<script type="application/ld+json">{{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "KleaRance",
+  "url": "{SITE_URL}",
+  "description": {json.dumps(share_desc)},
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Any",
+  "isAccessibleForFree": true,
+  "publisher": {{
+    "@type": "Organization",
+    "name": "Kaufman Rossin",
+    "url": "https://kaufmanrossin.com/"
+  }}
+}}</script>
 <style>{CSS}</style></head>
 <body data-today="{today}">
 <!-- Replica of kaufmanrossin.com's own two-band header, full-bleed outside
@@ -2988,13 +3133,13 @@ def main():
   <div class="hero-overlay" aria-hidden="true"></div>
   <div class="hero-inner">
     <div class="hero-titleblock">
-      <p class="hero-word"><svg viewBox="0 0 40 34" aria-hidden="true">
+      <h1 class="hero-word"><svg viewBox="0 0 40 34" aria-hidden="true">
           <path d="M2,22 L9,29 L17,10 L22,10 L25,4 L28,10 L38,10" fill="none"
             stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
           <circle class="hero-ping-sm" cx="25" cy="4" r="2.6" fill="none" stroke="var(--accent)"
             stroke-width="1.2" opacity="0"/>
           <circle cx="25" cy="4" r="2.6" fill="var(--accent)"/>
-        </svg><span class="kr kr-k">K<span class="kr-divider" aria-hidden="true"></span></span><span class="hero-word-rest">lea</span><span class="kr kr-r">R</span><span class="hero-word-rest">ance</span></p>
+        </svg><span class="kr kr-k">K<span class="kr-divider" aria-hidden="true"></span></span><span class="hero-word-rest">lea</span><span class="kr kr-r">R</span><span class="hero-word-rest">ance</span><span class="sr-only"> — Regulatory Update Tracker for Community Banks, Credit Unions &amp; Fintechs</span></h1>
       <div class="hero-rule"></div>
       <p class="hero-sub"><b>by KAUFMAN <span class="hero-pipe">|</span> ROSSIN</b></p>
     </div>
@@ -3256,6 +3401,12 @@ if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
 
     with open(OUT_PATH, "w", encoding="utf-8") as f:
         f.write(html)
+
+    update_entries = write_update_pages(rows)
+    with open(SITEMAP_PATH, "w", encoding="utf-8") as f:
+        f.write(build_sitemap(update_entries, today))
+    print(f"Wrote {len(update_entries)} update pages to {UPDATES_DIR}/ "
+          f"and {SITEMAP_PATH}")
 
     # The subscribable feed. Written with CRLF already embedded, so newline="" to
     # stop the platform translating them again.

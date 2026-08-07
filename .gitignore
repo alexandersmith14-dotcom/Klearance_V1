@@ -31,3 +31,8 @@ worker/.wrangler/
 
 # Derived calendar feed, regenerated every build (see dashboard.py ICS_PATH)
 deadlines.ics
+
+# Derived permalink pages + sitemap, regenerated every build (see
+# dashboard.py UPDATES_DIR / SITEMAP_PATH)
+/updates/
+sitemap.xml
