@@ -706,7 +706,8 @@ header.krheader{animation-delay:.08s}
 
 .coverage{font-size:12.5px;color:var(--ink-2)}
 .coverage summary{cursor:pointer;font-size:12.5px;color:var(--brand);
-  font-weight:600;list-style:none}
+  font-weight:600;list-style:none;display:inline-block;
+  padding-bottom:3px;border-bottom:2px solid var(--accent)}
 .coverage summary::-webkit-details-marker{display:none}
 .coverage summary::before{content:"▸ ";}
 .coverage[open] summary::before{content:"▾ ";}
@@ -2856,7 +2857,7 @@ def coverage_panel(store):
         + '. History depth varies by source — some publish archives going back '
         'years, others only their most recent items.')
     return (
-        '<details class="coverage"><summary>What this covers, and what it does not'
+        '<details class="coverage" open><summary>What this covers, and what it does not'
         '</summary><div class="body">'
         f'<p><strong>Tracked:</strong> {tracked_intro}</p>'
         f'<div class="grid">{"".join(rows)}</div>'
