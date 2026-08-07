@@ -37,3 +37,7 @@ deadlines.ics
 /updates/
 sitemap.xml
 
+# Derived SDN search index, regenerated every build from sdn_snapshot.json
+# (which IS committed — see sdn_monitor.py SDN_INDEX_PATH)
+sdn_index.json
+

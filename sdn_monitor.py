@@ -35,6 +35,13 @@ SDN_SNAPSHOT_PATH = "sdn_snapshot.json"
 # Committed — this is the thing with lasting value, an audit trail.
 SDN_LOG_PATH = "sdn_log.json"
 
+# Compact, public, current-list search index — see the comment where it's
+# written for why it's separate from SDN_SNAPSHOT_PATH. Gitignored, not
+# committed: unlike the snapshot, this doesn't need to persist across runs —
+# it's fully derivable from `current` at build time, same as sitemap.xml. The
+# workflow's "Assemble the published site" step copies it into site/.
+SDN_INDEX_PATH = "sdn_index.json"
+
 # Position of each field in OFAC's SDN.CSV — no header row, columns are fixed.
 FIELDS = ["ent_num", "name", "sdn_type", "program", "title", "call_sign",
           "vess_type", "tonnage", "grt", "vess_flag", "vess_owner", "remarks"]
@@ -107,6 +114,18 @@ def main():
 
     with open(SDN_SNAPSHOT_PATH, "w", encoding="utf-8") as f:
         json.dump(current, f)
+
+    # A separate, compact public file for searching the CURRENT full list (as
+    # opposed to SDN_LOG_PATH, which only covers day-over-day changes). Array-
+    # of-arrays rather than the snapshot's full per-entry dicts, and drops the
+    # bulky vessel/tonnage/remarks fields nothing here uses — name + program +
+    # type is what a reader searches by. Lazy-loaded by the dashboard on first
+    # use, not embedded in the page itself, so it can't bloat initial page
+    # weight the way the update cards used to before that got fixed.
+    index = [[num, r["name"], r["sdn_type"], r["program"]]
+             for num, r in current.items()]
+    with open(SDN_INDEX_PATH, "w", encoding="utf-8") as f:
+        json.dump(index, f)
 
     # Always write the log, even with zero new events — the workflow's commit
     # step does an unconditional `git add sdn_log.json`, which needs the file

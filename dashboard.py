@@ -123,6 +123,12 @@ ICS_PATH = "deadlines.ics"
 # script, not in the dashboard build.
 SDN_LOG_PATH = "sdn_log.json"
 
+# Read-only here too — only used to report the current full-list count next
+# to the "search the full list" box. The actual per-entry data for that
+# search comes from sdn_index.json (sdn_monitor.py SDN_INDEX_PATH), fetched
+# lazily by the browser, not from this file.
+SDN_SNAPSHOT_PATH = "sdn_snapshot.json"
+
 # Absolute URL of the published site. Social scrapers require absolute URLs for
 # og:image and og:url — a relative path silently produces no preview.
 SITE_URL = "https://alexandersmith14-dotcom.github.io/Klearance_V1/"
@@ -965,6 +971,13 @@ header.krheader{animation-delay:.08s}
   border-color:var(--brand)}
 .sdnsearch input::-webkit-search-cancel-button{display:none}
 .sdncount{font-size:12.5px;color:var(--ink-muted)}
+.p-sdn h3{font-size:13px;text-transform:uppercase;letter-spacing:.04em;
+  color:var(--ink-muted);margin:18px 0 8px}
+.sdnfullsearch{margin-top:4px}
+.sdnfullcount{font-weight:400;text-transform:none;letter-spacing:0}
+.sdnhighlights{display:grid;grid-template-columns:1fr 1fr;gap:8px 20px}
+.sdnhighlights .sdnmini h3{margin-top:0}
+@media (max-width:640px){.sdnhighlights{grid-template-columns:1fr}}
 .card .agency{font-size:12px;color:var(--ink-muted)}
 .card h3{font-size:14.5px;margin:0 0 5px;font-weight:600;line-height:1.35;
   text-align:justify;text-align-last:left}
@@ -2035,25 +2048,72 @@ if (dlMoreBtn) dlMoreBtn.addEventListener('click', () => {
   dlMoreBtn.hidden = true;
 });
 
-// OFAC SDN panel search — a small standalone filter, independent of the main
-// card search/filter pipeline above. The SDN list has no agency/view/relevant
-// dimensions to combine with, just a name/program to match, so it doesn't need
-// that machinery — plain substring match against each row's own text, toggling
-// `hidden` the same way the card list's own pagination does.
-const sdnq = document.getElementById('sdnq');
-if (sdnq) {
-  const sdnRows = [...document.querySelectorAll('.sdnrow')];
-  const sdnCount = document.getElementById('sdncount');
-  sdnq.addEventListener('input', () => {
-    const query = sdnq.value.trim().toLowerCase();
+// OFAC SDN "recent changes" search — a small standalone filter, independent
+// of the main card search/filter pipeline above. The changes list has no
+// agency/view/relevant dimensions to combine with, just a name/program to
+// match, so it doesn't need that machinery — plain substring match against
+// each row's own text, toggling `hidden` the same way the card list's own
+// pagination does.
+const sdnChangesQ = document.getElementById('sdnchangesq');
+if (sdnChangesQ) {
+  const sdnRows = [...document.querySelectorAll('.p-sdn .sdnlist:not(.sdnfullresults) .sdnrow')];
+  const sdnChangesCount = document.getElementById('sdnchangescount');
+  sdnChangesQ.addEventListener('input', () => {
+    const query = sdnChangesQ.value.trim().toLowerCase();
     let shown = 0;
     sdnRows.forEach(row => {
       const match = !query || row.textContent.toLowerCase().includes(query);
       row.hidden = !match;
       if (match) shown++;
     });
-    if (sdnCount) sdnCount.textContent =
+    if (sdnChangesCount) sdnChangesCount.textContent =
       query ? `${shown} of ${sdnRows.length} match` : '';
+  });
+}
+
+// Full-list SDN search — looks up a name against the CURRENT ~19k-entry list,
+// not just recent changes. sdn_index.json isn't fetched until the reader
+// actually types something, so a page load that never touches this box never
+// pays for it. Fetched once and cached in memory for the rest of the session.
+const sdnListQ = document.getElementById('sdnlistq');
+if (sdnListQ) {
+  const sdnListResults = document.getElementById('sdnlistresults');
+  const sdnListCount = document.getElementById('sdnlistcount');
+  let sdnIndex = null;
+  let sdnIndexPromise = null;
+  const SDN_RESULT_CAP = 50;
+
+  function renderSdnResults(query) {
+    if (!query) { sdnListResults.innerHTML = ''; sdnListCount.textContent = ''; return; }
+    const q = query.toLowerCase();
+    const matches = sdnIndex.filter(([num, name]) => name.toLowerCase().includes(q));
+    const shown = matches.slice(0, SDN_RESULT_CAP);
+    sdnListResults.innerHTML = shown.length ? shown.map(([num, name, type, program]) =>
+      `<div class="sdnrow">
+        <span class="sdnname">${esc(name || '(unnamed entry)')}</span>
+        <span class="sdnmeta">${esc(program || '—')}${type ? ' · ' + esc(type) : ''}</span>
+      </div>`
+    ).join('') : '<p class="sdnempty">No matches on the current list.</p>';
+    sdnListCount.textContent = matches.length > SDN_RESULT_CAP
+      ? `showing first ${SDN_RESULT_CAP} of ${matches.length} matches`
+      : `${matches.length} match${matches.length === 1 ? '' : 'es'}`;
+  }
+
+  sdnListQ.addEventListener('input', () => {
+    const query = sdnListQ.value.trim();
+    if (!query) { renderSdnResults(''); return; }
+    if (sdnIndex) { renderSdnResults(query); return; }
+    if (!sdnIndexPromise) {
+      sdnListCount.textContent = 'loading full list…';
+      sdnIndexPromise = fetch('sdn_index.json').then(r => r.json()).then(data => {
+        sdnIndex = data;
+        return data;
+      }).catch(() => {
+        sdnListCount.textContent = 'Could not load the full list — try again.';
+        sdnIndexPromise = null;
+      });
+    }
+    sdnIndexPromise.then(() => { if (sdnIndex) renderSdnResults(sdnListQ.value.trim()); });
   });
 }
 
@@ -2871,8 +2931,8 @@ def sdn_panel(today, days=30, cap=200):
     shown = recent[:cap]
 
     if not shown:
-        body = ('<p class="sdnempty">No SDN list changes recorded in the last '
-                f'{days} days.</p>')
+        changes_body = ('<p class="sdnempty">No SDN list changes recorded in the last '
+                         f'{days} days.</p>')
     else:
         rows = "".join(
             f'<div class="sdnrow">'
@@ -2886,14 +2946,70 @@ def sdn_panel(today, days=30, cap=200):
         omitted = len(recent) - len(shown)
         note = (f'<p class="sdnnote">{omitted} more not shown — see the full '
                 f'log.</p>' if omitted > 0 else "")
-        search = (
+        # Filters the "recent changes" list above, client-side, against rows
+        # already in the DOM. Separate ids from the full-list search below —
+        # that one fetches data on demand rather than filtering the DOM.
+        changes_search = (
             '<div class="sdnsearch">'
-            '<input id="sdnq" type="search" autocomplete="off" '
-            'placeholder="Search by name or program…" aria-label="Search SDN list changes">'
-            '<span id="sdncount" class="sdncount"></span>'
+            '<input id="sdnchangesq" type="search" autocomplete="off" '
+            'placeholder="Search these changes by name or program…" '
+            'aria-label="Search SDN list changes">'
+            '<span id="sdnchangescount" class="sdncount"></span>'
             '</div>'
         )
-        body = f'{search}<div class="sdnlist">{rows}</div>{note}'
+        changes_body = f'{changes_search}<div class="sdnlist">{rows}</div>{note}'
+
+    # Quick-glance highlights, pulled from the WHOLE log rather than the
+    # `days`-windowed `recent` above — a slow month for additions shouldn't
+    # leave this empty just because the 5 most recent ones happened 40 days
+    # ago. Additions and removals are split rather than interleaved because a
+    # reader scanning for "who's newly sanctioned" and one scanning for
+    # "who got delisted" are doing two different jobs.
+    def _mini_list(title, action, empty_label):
+        items = sorted((e for e in log if e["action"] == action),
+                        key=lambda e: e["date"], reverse=True)[:5]
+        if not items:
+            body = f'<p class="sdnempty">{empty_label}</p>'
+        else:
+            body = '<div class="sdnlist">' + "".join(
+                f'<div class="sdnrow">'
+                f'<span class="sdnname">{hesc(e["name"] or "(unnamed entry)")}</span>'
+                f'<span class="sdnmeta">{hesc(e["program"] or "—")} · {hesc(e["date"])}</span>'
+                f'</div>'
+                for e in items
+            ) + '</div>'
+        return f'<div class="sdnmini"><h3>{title}</h3>{body}</div>'
+
+    highlights = (
+        '<div class="sdnhighlights">'
+        + _mini_list("Most recent additions", "added", "No additions recorded yet.")
+        + _mini_list("Most recent removals", "removed", "No removals recorded yet.")
+        + '</div>'
+    )
+
+    total = None
+    if os.path.exists(SDN_SNAPSHOT_PATH):
+        with open(SDN_SNAPSHOT_PATH, encoding="utf-8") as f:
+            total = len(json.load(f))
+    total_label = f'{total:,} entries' if total is not None else 'the full list'
+
+    # Separate from the changes log above: this looks up any name against the
+    # CURRENT full SDN list (~19k entries), not just what changed recently.
+    # Backed by sdn_index.json, fetched lazily on first use rather than
+    # embedded in the page — a 19k-entry list doesn't belong in every page
+    # load, only in the hands of someone actually searching.
+    full_search = (
+        '<div class="sdnfullsearch">'
+        f'<h3>Search the full list <span class="sdnfullcount">({total_label})</span></h3>'
+        '<div class="sdnsearch">'
+        '<input id="sdnlistq" type="search" autocomplete="off" '
+        'placeholder="Search all tracked SDN entries by name…" '
+        'aria-label="Search the full SDN list">'
+        '<span id="sdnlistcount" class="sdncount"></span>'
+        '</div>'
+        '<div id="sdnlistresults" class="sdnlist sdnfullresults"></div>'
+        '</div>'
+    )
 
     return (
         '<details class="panel p-sdn foldable" open>'
@@ -2903,7 +3019,10 @@ def sdn_panel(today, days=30, cap=200):
         'Designated Nationals list — additions, removals and edits, '
         'diffed against the previous day\'s full list. Not classified or '
         'summarized; a name and program tag speaks for itself.</p>'
-        f'{body}'
+        f'{highlights}'
+        '<h3>Recent changes</h3>'
+        f'{changes_body}'
+        f'{full_search}'
         '</details>'
     )
 
