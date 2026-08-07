@@ -37,7 +37,3 @@ deadlines.ics
 /updates/
 sitemap.xml
 
-# SDN diff snapshot, regenerated every run — only exists to diff against next
-# time (see sdn_monitor.py SDN_SNAPSHOT_PATH). sdn_log.json (the actual change
-# history) IS committed on purpose, same treatment as store.json.
-sdn_snapshot.json

@@ -24,8 +24,11 @@ import fetcher
 
 SDN_URL = "https://sanctionslistservice.ofac.treas.gov/api/download/SDN.CSV"
 
-# Regenerated every run, gitignored — only exists to diff against next time.
-# Same treatment as fetcher's own updates.json.
+# Committed, not gitignored — this has to persist ACROSS runs, and GitHub
+# Actions checks out a fresh repo every run with nothing carried over except
+# what's in git. A gitignored snapshot here would mean every single daily run
+# sees no prior snapshot and treats itself as the baseline forever, silently
+# never diffing anything. (That happened — see the commit that fixed it.)
 SDN_SNAPSHOT_PATH = "sdn_snapshot.json"
 
 # Cumulative log of Added/Removed/Modified events, one entry per change.
