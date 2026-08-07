@@ -950,9 +950,6 @@ header.krheader{animation-delay:.08s}
 .badge.t-Proposed{color:#fff;background:var(--warn)}
 .badge.t-Guidance{color:#fff;background:var(--brand)}
 .badge.t-Enforcement{color:#fff;background:var(--neutral)}
-.badge.sdn-added{color:#fff;background:var(--ok)}
-.badge.sdn-removed{color:#fff;background:var(--crit)}
-.badge.sdn-modified{color:#fff;background:var(--warn)}
 .p-sdn .sdnintro{font-size:12.5px;color:var(--ink-muted);margin:2px 0 12px}
 .p-sdn .sdnlist{display:flex;flex-direction:column;gap:2px}
 .sdnrow{display:flex;align-items:center;gap:10px;padding:6px 0;
@@ -975,9 +972,10 @@ header.krheader{animation-delay:.08s}
   color:var(--ink-muted);margin:18px 0 8px}
 .sdnfullsearch{margin-top:4px}
 .sdnfullcount{font-weight:400;text-transform:none;letter-spacing:0}
-.sdnhighlights{display:grid;grid-template-columns:1fr 1fr;gap:8px 20px}
+.sdnhighlights{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px 20px}
 .sdnhighlights .sdnmini h3{margin-top:0}
-@media (max-width:640px){.sdnhighlights{grid-template-columns:1fr}}
+@media (max-width:900px){.sdnhighlights{grid-template-columns:1fr 1fr}}
+@media (max-width:480px){.sdnhighlights{grid-template-columns:1fr}}
 .sdnactivity{margin-top:20px;padding-top:14px;border-top:1px solid var(--rule)}
 .sdnactivity summary{cursor:pointer;font-size:13px;font-weight:600;
   color:var(--ink-2)}
@@ -2052,29 +2050,6 @@ if (dlMoreBtn) dlMoreBtn.addEventListener('click', () => {
   dlMoreBtn.hidden = true;
 });
 
-// OFAC SDN "recent changes" search — a small standalone filter, independent
-// of the main card search/filter pipeline above. The changes list has no
-// agency/view/relevant dimensions to combine with, just a name/program to
-// match, so it doesn't need that machinery — plain substring match against
-// each row's own text, toggling `hidden` the same way the card list's own
-// pagination does.
-const sdnChangesQ = document.getElementById('sdnchangesq');
-if (sdnChangesQ) {
-  const sdnRows = [...document.querySelectorAll('.p-sdn .sdnlist:not(.sdnfullresults) .sdnrow')];
-  const sdnChangesCount = document.getElementById('sdnchangescount');
-  sdnChangesQ.addEventListener('input', () => {
-    const query = sdnChangesQ.value.trim().toLowerCase();
-    let shown = 0;
-    sdnRows.forEach(row => {
-      const match = !query || row.textContent.toLowerCase().includes(query);
-      row.hidden = !match;
-      if (match) shown++;
-    });
-    if (sdnChangesCount) sdnChangesCount.textContent =
-      query ? `${shown} of ${sdnRows.length} match` : '';
-  });
-}
-
 // Full-list SDN search — looks up a name against the CURRENT ~19k-entry list,
 // not just recent changes. sdn_index.json isn't fetched until the reader
 // actually types something, so a page load that never touches this box never
@@ -2914,14 +2889,10 @@ def coverage_panel(store):
     )
 
 
-ACTION_LABEL = {"added": "Added", "removed": "Removed", "modified": "Modified"}
-
-
-def sdn_panel(today, days=30, cap=5):
-    """OFAC SDN list changes from the last `days` days, written by
-    sdn_monitor.py into SDN_LOG_PATH. Server-rendered, not JS-templated like
-    the main card feed — volume here is naturally small (usually single
-    digits a day), so there's no pagination-vs-crawlability tradeoff to
+def sdn_panel(today):
+    """OFAC SDN list changes, written by sdn_monitor.py into SDN_LOG_PATH.
+    Server-rendered, not JS-templated like the main card feed — volume here
+    is naturally small, so there's no pagination-vs-crawlability tradeoff to
     make; everything just renders.
     """
     if not os.path.exists(SDN_LOG_PATH):
@@ -2929,46 +2900,15 @@ def sdn_panel(today, days=30, cap=5):
     with open(SDN_LOG_PATH, encoding="utf-8") as f:
         log = json.load(f)
 
-    cutoff = (today - timedelta(days=days)).isoformat()
-    recent = [e for e in log if e["date"] >= cutoff]
-    recent.sort(key=lambda e: e["date"], reverse=True)
-    shown = recent[:cap]
-
-    if not shown:
-        changes_body = ('<p class="sdnempty">No SDN list changes recorded in the last '
-                         f'{days} days.</p>')
-    else:
-        rows = "".join(
-            f'<div class="sdnrow">'
-            f'<span class="badge sdn-{e["action"]}">{ACTION_LABEL[e["action"]]}</span>'
-            f'<span class="sdnname">{hesc(e["name"] or "(unnamed entry)")}</span>'
-            f'<span class="sdnmeta">{hesc(e["program"] or "—")}'
-            f'{" · " + hesc(e["sdn_type"]) if e["sdn_type"] else ""} · {hesc(e["date"])}</span>'
-            f'</div>'
-            for e in shown
-        )
-        omitted = len(recent) - len(shown)
-        note = (f'<p class="sdnnote">{omitted} more change{"s" if omitted != 1 else ""} '
-                f'in the last {days} days not shown here.</p>' if omitted > 0 else "")
-        # Filters the "recent changes" list above, client-side, against rows
-        # already in the DOM. Separate ids from the full-list search below —
-        # that one fetches data on demand rather than filtering the DOM.
-        changes_search = (
-            '<div class="sdnsearch">'
-            '<input id="sdnchangesq" type="search" autocomplete="off" '
-            'placeholder="Search these changes by name or program…" '
-            'aria-label="Search SDN list changes">'
-            '<span id="sdnchangescount" class="sdncount"></span>'
-            '</div>'
-        )
-        changes_body = f'{changes_search}<div class="sdnlist">{rows}</div>{note}'
-
-    # Quick-glance highlights, pulled from the WHOLE log rather than the
-    # `days`-windowed `recent` above — a slow month for additions shouldn't
-    # leave this empty just because the 5 most recent ones happened 40 days
-    # ago. Additions and removals are split rather than interleaved because a
-    # reader scanning for "who's newly sanctioned" and one scanning for
-    # "who got delisted" are doing two different jobs.
+    # Three parallel lists rather than one combined feed — a reader wants
+    # "who's newly sanctioned" or "who got delisted" or "what changed on an
+    # existing entry", not a mixed chronological stream they have to scan
+    # for the type they care about. (An earlier combined "Recent changes"
+    # list — everything interleaved, its own search box — turned out to be
+    # almost entirely redundant with these three, per Alexander.) Pulled
+    # from the WHOLE log, not a day-windowed slice — a slow month for
+    # additions shouldn't leave this empty just because the 5 most recent
+    # ones happened 40 days ago.
     def _mini_list(title, action, empty_label):
         items = sorted((e for e in log if e["action"] == action),
                         key=lambda e: e["date"], reverse=True)[:5]
@@ -2988,6 +2928,7 @@ def sdn_panel(today, days=30, cap=5):
         '<div class="sdnhighlights">'
         + _mini_list("Most recent additions", "added", "No additions recorded yet.")
         + _mini_list("Most recent removals", "removed", "No removals recorded yet.")
+        + _mini_list("Most recent modifications", "modified", "No modifications recorded yet.")
         + '</div>'
     )
 
@@ -3029,10 +2970,8 @@ def sdn_panel(today, days=30, cap=5):
         'speaks for itself.</p>'
         f'{full_search}'
         '<details class="sdnactivity">'
-        f'<summary>Recent list activity (last {days} days)</summary>'
+        '<summary>Recent list activity</summary>'
         f'{highlights}'
-        '<h3>Recent changes</h3>'
-        f'{changes_body}'
         '</details>'
         '</details>'
     )
