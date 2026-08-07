@@ -2920,8 +2920,9 @@ def sdn_panel(today):
     # additions shouldn't leave this empty just because the 5 most recent
     # ones happened 40 days ago.
     def _mini_list(title, action, empty_label):
-        items = sorted((e for e in log if e["action"] == action),
-                        key=lambda e: e["date"], reverse=True)[:5]
+        matching = sorted((e for e in log if e["action"] == action),
+                           key=lambda e: e["date"], reverse=True)
+        items = matching[:5]
         if not items:
             body = f'<p class="sdnempty">{empty_label}</p>'
         else:
@@ -2932,6 +2933,12 @@ def sdn_panel(today):
                 f'</div>'
                 for e in items
             ) + '</div>'
+            # Fewer than 5 reads as cut off / broken unless it's clear that's
+            # the true total, not a display limit — same principle as the
+            # "Not a complete record" line elsewhere on this page: absence
+            # or a short list must not be mistaken for missing data.
+            if len(matching) < 5:
+                body += (f'<p class="sdnnote">All {len(matching)} recorded.</p>')
         return f'<div class="sdnmini"><h3>{title}</h3>{body}</div>'
 
     highlights = (
