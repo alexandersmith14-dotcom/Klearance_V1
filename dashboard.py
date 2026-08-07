@@ -990,6 +990,7 @@ header.krheader{animation-delay:.08s}
 .sdnactivity summary{cursor:pointer;font-size:13px;font-weight:600;
   color:var(--ink-2)}
 .sdnactivity[open] summary{margin-bottom:4px}
+.sdnsince{font-weight:400;color:var(--ink-muted);font-size:12px}
 .card .agency{font-size:12px;color:var(--ink-muted)}
 .card h3{font-size:14.5px;margin:0 0 5px;font-weight:600;line-height:1.35;
   text-align:justify;text-align-last:left}
@@ -2909,6 +2910,7 @@ def sdn_panel(today):
         return ""
     with open(SDN_LOG_PATH, encoding="utf-8") as f:
         log = json.load(f)
+    since_label = f"records back to {hesc(min(e['date'] for e in log))}" if log else "no records yet"
 
     # Three parallel lists rather than one combined feed — a reader wants
     # "who's newly sanctioned" or "who got delisted" or "what changed on an
@@ -2987,7 +2989,7 @@ def sdn_panel(today):
         'speaks for itself.</p>'
         f'{full_search}'
         '<details class="sdnactivity">'
-        '<summary>Recent list activity</summary>'
+        f'<summary>Recent list activity <span class="sdnsince">({since_label})</span></summary>'
         f'{highlights}'
         '</details>'
         '</details>'
