@@ -987,7 +987,7 @@ header.krheader{animation-delay:.08s}
 .sdnhighlights .sdnlist{gap:0}
 @media (max-width:900px){.sdnhighlights{grid-template-columns:1fr 1fr}}
 @media (max-width:480px){.sdnhighlights{grid-template-columns:1fr}}
-.sdnactivity{margin-top:32px;padding-top:18px;border-top:1px solid var(--rule)}
+.sdnactivity{margin-top:14px;padding-top:10px;border-top:1px solid var(--rule)}
 .sdnactivity summary{cursor:pointer;font-size:13px;font-weight:600;
   color:var(--ink-2)}
 .sdnactivity[open] summary{margin-bottom:4px}
