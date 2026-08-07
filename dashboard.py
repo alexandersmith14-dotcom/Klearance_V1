@@ -541,14 +541,11 @@ h1.wordmark svg{width:.85em;height:.72em;margin-bottom:.08em;flex:none}
      toward K and off of R. Desktop unchanged. */
   .hero-word svg{margin-right:-.65em;transform:translateY(-4px)}
   .kr-divider{margin-left:.05em}
-  /* .hero-titleblock's align-items:flex-end right-aligns the credit line
-     to match the wordmark's right edge -- the approved desktop treatment.
-     On a narrow mobile column the short "by KAUFMAN | ROSSIN" text just
-     floats with a big gap to its left and nothing else nearby anchors
-     that right edge, reading as adrift rather than deliberately aligned.
-     Centered under the wordmark on mobile only; desktop's right-aligned
-     look is untouched. */
-  .hero-sub{align-self:center;text-align:center}
+  /* Was centered on mobile (floated with dead space either side, read as
+     adrift rather than deliberate) -- shifted right instead, matching
+     desktop's right-aligned-to-the-wordmark treatment rather than
+     centering. Per Alexander. */
+  .hero-sub{align-self:flex-end;text-align:right}
 }
 
 /* "by KAUFMAN | ROSSIN" credit line — same navy/lime pipe as the full-size
@@ -951,7 +948,7 @@ header.krheader{animation-delay:.08s}
 .badge.t-Proposed{color:#fff;background:var(--warn)}
 .badge.t-Guidance{color:#fff;background:var(--brand)}
 .badge.t-Enforcement{color:#fff;background:var(--neutral)}
-.p-sdn .sdnintro{font-size:12.5px;color:var(--ink-muted);margin:2px 0 12px}
+.p-sdn .sdnintro{font-size:12.5px;color:var(--ink-muted);margin:2px 0 20px}
 .p-sdn .sdnlist{display:flex;flex-direction:column;gap:2px}
 .sdnrow{display:flex;align-items:center;gap:10px;padding:6px 0;
   border-bottom:1px solid var(--rule);flex-wrap:wrap}
@@ -975,7 +972,12 @@ header.krheader{animation-delay:.08s}
 .sdnfullsearch{margin-top:4px}
 .sdnfullcount{font-weight:400;text-transform:none;letter-spacing:0}
 .sdnhighlights{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px 28px}
-.sdnhighlights .sdnmini h3{margin-top:0}
+.sdnhighlights .sdnmini h3{margin:0;display:inline-block}
+.sdnmini summary{cursor:pointer;list-style:none}
+.sdnmini summary::-webkit-details-marker{display:none}
+.sdnmini summary::before{content:"▸ ";color:var(--ink-muted);font-size:12px}
+.sdnmini[open] summary::before{content:"▾ "}
+.sdnmini .sdnminisearch{margin:10px 0}
 /* Long entity names (some run 60+ chars) wrapped inconsistently against
    short ones when name+meta shared a row with flex-wrap — some rows one
    line, some two, reading as cramped/uneven. Every row now always stacks
@@ -986,7 +988,7 @@ header.krheader{animation-delay:.08s}
 .sdnhighlights .sdnlist{gap:0}
 @media (max-width:900px){.sdnhighlights{grid-template-columns:1fr 1fr}}
 @media (max-width:480px){.sdnhighlights{grid-template-columns:1fr}}
-.sdnactivity{margin-top:20px;padding-top:14px;border-top:1px solid var(--rule)}
+.sdnactivity{margin-top:28px;padding-top:16px;border-top:1px solid var(--rule)}
 .sdnactivity summary{cursor:pointer;font-size:13px;font-weight:600;
   color:var(--ink-2)}
 .sdnactivity[open] summary{margin-bottom:4px}
@@ -2061,6 +2063,25 @@ if (dlMoreBtn) dlMoreBtn.addEventListener('click', () => {
   dlMoreBtn.hidden = true;
 });
 
+// Per-mini-list filter (additions/removals/modifications) — each has at
+// most 5 rows, so this is a plain substring match over an already-tiny DOM,
+// same `hidden`-toggle mechanism as everywhere else on this page.
+document.querySelectorAll('.sdnminisearch input').forEach(input => {
+  const mini = input.closest('.sdnmini');
+  const rows = [...mini.querySelectorAll('.sdnrow')];
+  const count = input.closest('.sdnminisearch').querySelector('.sdncount');
+  input.addEventListener('input', () => {
+    const query = input.value.trim().toLowerCase();
+    let shown = 0;
+    rows.forEach(row => {
+      const match = !query || row.textContent.toLowerCase().includes(query);
+      row.hidden = !match;
+      if (match) shown++;
+    });
+    if (count) count.textContent = query ? `${shown} of ${rows.length} match` : '';
+  });
+});
+
 // Full-list SDN search — looks up a name against the CURRENT ~19k-entry list,
 // not just recent changes. sdn_index.json isn't fetched until the reader
 // actually types something, so a page load that never touches this box never
@@ -2926,22 +2947,33 @@ def sdn_panel(today):
                            key=lambda e: e["date"], reverse=True)
         items = matching[:5]
         if not items:
-            body = f'<p class="sdnempty">{empty_label}</p>'
-        else:
-            body = '<div class="sdnlist">' + "".join(
-                f'<div class="sdnrow">'
-                f'<span class="sdnname">{hesc(e["name"] or "(unnamed entry)")}</span>'
-                f'<span class="sdnmeta">{hesc(e["program"] or "—")} · {hesc(e["date"])}</span>'
-                f'</div>'
-                for e in items
-            ) + '</div>'
-            # Fewer than 5 reads as cut off / broken unless it's clear that's
-            # the true total, not a display limit — same principle as the
-            # "Not a complete record" line elsewhere on this page: absence
-            # or a short list must not be mistaken for missing data.
-            if len(matching) < 5:
-                body += (f'<p class="sdnnote">All {len(matching)} recorded.</p>')
-        return f'<div class="sdnmini"><h3>{title}</h3>{body}</div>'
+            return (f'<details class="sdnmini"><summary><h3>{title}</h3></summary>'
+                    f'<p class="sdnempty">{empty_label}</p></details>')
+        rows = '<div class="sdnlist">' + "".join(
+            f'<div class="sdnrow">'
+            f'<span class="sdnname">{hesc(e["name"] or "(unnamed entry)")}</span>'
+            f'<span class="sdnmeta">{hesc(e["program"] or "—")} · {hesc(e["date"])}</span>'
+            f'</div>'
+            for e in items
+        ) + '</div>'
+        # Fewer than 5 reads as cut off / broken unless it's clear that's
+        # the true total, not a display limit — same principle as the
+        # "Not a complete record" line elsewhere on this page: absence
+        # or a short list must not be mistaken for missing data.
+        note = (f'<p class="sdnnote">All {len(matching)} recorded.</p>'
+                if len(matching) < 5 else '')
+        # Own search box per list, filtering just its own up-to-5 rows —
+        # cheap given the size, but keeps each list self-contained rather
+        # than reaching for a shared filter across three different lists
+        # of different types.
+        search = (
+            f'<div class="sdnsearch sdnminisearch">'
+            f'<input type="search" autocomplete="off" '
+            f'placeholder="Filter by name or program…" aria-label="Filter {hesc(title.lower())}">'
+            f'<span class="sdncount"></span></div>'
+        )
+        return (f'<details class="sdnmini"><summary><h3>{title}</h3></summary>'
+                f'{search}{rows}{note}</details>')
 
     highlights = (
         '<div class="sdnhighlights">'
