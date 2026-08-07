@@ -3274,6 +3274,12 @@ def main():
     <div class="agrow" id="agencies"></div>
   </div>
 </div>
+
+<!-- Moved up from the bottom of the page, per Alexander — an empty-state
+     panel ("No SDN list changes recorded") buried below 370 cards and the
+     footer read as broken/missing rather than as a quiet day. -->
+<div style="margin-top:18px">{sdn_html}</div>
+
 <!-- Filters & view sits above Search now (was the other way round). On a phone
      this block collapses to its summary, so Search still lands directly under a
      single "Filters & view ▸" line and stays the first live control. -->
@@ -3375,8 +3381,6 @@ def main():
     </details>
   </div>
 </div>
-
-<div style="margin-top:18px">{sdn_html}</div>
 
 </div>
 
