@@ -1,1 +1,3058 @@
-[]
+[
+  {
+    "date": "2026-08-07",
+    "ent_num": "fr-2026-16153",
+    "action": "modified",
+    "name": "AL-SHABBANI, Basheer Abdulkadhim Alwan",
+    "program": "SDGT",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-23",
+    "ent_num": "fr-2026-15996",
+    "action": "added",
+    "name": "ACOSTA HERNANDEZ, Regulo",
+    "program": "ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-23",
+    "ent_num": "fr-2026-15996",
+    "action": "added",
+    "name": "BARRIENTOS CAMAZ, Jaime Augusto, Villa Canales, Guatemala",
+    "program": "ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-23",
+    "ent_num": "fr-2026-15996",
+    "action": "added",
+    "name": "CARRILLO TORRES, Karina Guadalupe",
+    "program": "ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-23",
+    "ent_num": "fr-2026-15996",
+    "action": "added",
+    "name": "FELIX HERAS, Ramiro Baltazar",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-23",
+    "ent_num": "fr-2026-15996",
+    "action": "added",
+    "name": "MODI, Yuktakumari Ashishkumar, Surat, Gujarat, India",
+    "program": "ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-23",
+    "ent_num": "fr-2026-15996",
+    "action": "added",
+    "name": "RAMIREZ TORRES, Jose de Jesus, Zapopan, Jalisco, Mexico",
+    "program": "ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-23",
+    "ent_num": "fr-2026-15996",
+    "action": "added",
+    "name": "REYNOSO JIMENEZ, Alejandro, Guadalajara, Jalisco, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-23",
+    "ent_num": "fr-2026-15996",
+    "action": "added",
+    "name": "RUGERIO ARRIAGA, Maria Viridiana, Mexico",
+    "program": "ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-23",
+    "ent_num": "fr-2026-15996",
+    "action": "added",
+    "name": "SUTARIA, Satishkumar Hareshbhai, Surat, Gujarat, India",
+    "program": "ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-23",
+    "ent_num": "fr-2026-15996",
+    "action": "added",
+    "name": "AGRAT CHEMICALS AND PHARMACEUTICALS, Surat, Gujarat, India",
+    "program": "ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-23",
+    "ent_num": "fr-2026-15996",
+    "action": "added",
+    "name": "COMERCIALIZADORA GRUPO CARHERN S.A. DE C.V., Cajeme, Sonora, Mexico",
+    "program": "ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-23",
+    "ent_num": "fr-2026-15996",
+    "action": "added",
+    "name": "DESARROLLOS CARTOK S.A. DE C.V., Actopan, Hidalgo, Mexico",
+    "program": "ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-23",
+    "ent_num": "fr-2026-15996",
+    "action": "added",
+    "name": "J AND C IMPORT",
+    "program": "ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-23",
+    "ent_num": "fr-2026-15996",
+    "action": "added",
+    "name": "QUIMICA SOLUCIONES Y LOGISTICA INTEGRAL BAJIO, S.A. DE C.V., Leon, Guanajuato, Mexico",
+    "program": "ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-23",
+    "ent_num": "fr-2026-15996",
+    "action": "added",
+    "name": "SR CHEMICALS AND PHARMACEUTICALS, Surat, Gujarat, India",
+    "program": "ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-23",
+    "ent_num": "fr-2026-15996",
+    "action": "added",
+    "name": "BOTANICA 2000, Guadalajara, Jalisco, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-23",
+    "ent_num": "fr-2026-15996",
+    "action": "added",
+    "name": "ADUAEASY S. DE R.L. DE C.V.",
+    "program": "ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-23",
+    "ent_num": "fr-2026-15996",
+    "action": "added",
+    "name": "CARGO GLOBAL 3PS, S. DE R.L. DE C.V., Guadalajara, Jalisco, Mexico",
+    "program": "ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-23",
+    "ent_num": "fr-2026-15996",
+    "action": "added",
+    "name": "CENTRAL LOGISTICA DE SERVICIOS, 7a Avenida A, Zona 13, Colonia Aurora Reina, Guatemala City, Guatemala",
+    "program": "ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-23",
+    "ent_num": "fr-2026-15996",
+    "action": "added",
+    "name": "CORPORATIVO Y ENLACE RAM S.A. DE C.V., Guadalajara, Jalisco, Mexico",
+    "program": "ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-23",
+    "ent_num": "fr-2026-15996",
+    "action": "added",
+    "name": "ENLACE FORWARDING MEXICO, S. DE R.L. DE C.V., Guadalajara, Jalisco, Mexico",
+    "program": "ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-23",
+    "ent_num": "fr-2026-15996",
+    "action": "added",
+    "name": "E-RAM GROUP LLC, Miami, FL, United States",
+    "program": "ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-23",
+    "ent_num": "fr-2026-15996",
+    "action": "added",
+    "name": "REYMA GLOBAL TRADING SA DE CV, Mexico City, Mexico",
+    "program": "ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-30",
+    "ent_num": "fr-2026-15785",
+    "action": "removed",
+    "name": "DURANSOY, Cagri",
+    "program": "NPWMD IFSR",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-30",
+    "ent_num": "fr-2026-15785",
+    "action": "added",
+    "name": "TANG, Xin",
+    "program": "SDGT IFSR",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-30",
+    "ent_num": "fr-2026-15785",
+    "action": "added",
+    "name": "DURANSOY, Cagri, Turkey",
+    "program": "NPWMD IFSR",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "ALVARADO RODRIGUEZ, Martha Alicia, Tequila, Jalisco, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "AYALA BOTELLO, Miguel Angel, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "BOTELLO ORTIZ, Edgar Gerardo, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "BOTELLO ORTIZ, Jesus David, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "BOTELLO ORTIZ, Ricardo, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "BOTELLO RODRIGUEZ, Gustavo",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "BOTELLO RODRIGUEZ, Wiliams Geovanni, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "BOTELLO ROZALEZ, Gerardo",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "CASTELLANOS CEJA, Julio Cesar, Colima, Colima, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "CISNEROS TAPIA, Liliana, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "CORONA PIMENTEL, Efrain, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "CRUZ CABRERA, Jorge Fernando, Zapopan, Jalisco, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "DIAZ ROBLES, Marcial Apolinar",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "DIAZ ROBLES, Pedro Marcial",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "DOMINGUEZ AGUILERA, Joana, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "GARCIA MARTINEZ, Jose Octaviano, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "GONZALEZ RAMIREZ, Francisco Noe",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "GONZALEZ, Juan Carlos",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "GUTIERREZ VALDEZ, Jose Jesus, Ixtlan Del Rio, Nayarit, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "HERNANDEZ MORALES, Uriel, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "JIMENEZ ARIAS, Roberto, Amatitan, Jalisco, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "LEDEZMA RAMIREZ, Feliciano",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "LOPEZ LARIOS, Angel Gabriel, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "LOZA GARCIA, Rodolfo Alejandro",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "MEDINA CHAVIRA, Adolfo Gabriel, Zapopan, Jalisco, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "MEDINA FLORES, Areli Isis, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "MENA ALVARADO, Alma Laura, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "MENDOZA GARCIA, Luis Mario, Zapopan, Jalisco, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "MORA LEON, Jose, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "MORENO LOPEZ, Fidel Damian, Magdalena, Jalisco, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "RAMIREZ BANALES, Karely Lizbeth",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "RIVERA ZEPEDA, Cuauhtemoc, Mexico",
+    "program": "SDGT",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "RODRIGUEZ FLORES, Salvador Israel, Zapopan, Jalisco, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "RUIZ BANUELOS, Jose Guadalupe",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "SANCHEZ TAMAYO, Hugo Alejandro, Tlaquepaque, Jalisco, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "SERRANO MAGANA, Gabriel, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "VILLA SANCHEZ, Jorge, Guadalajara, Jalisco, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "VILLASENOR OLIVARES, Cesar Alejandro",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "ZEPEDA RODRIGUEZ, Jorge",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "AGROPECUARIA AMATEQ DEL VALLE S.A. DE C.V., Tequila, Jalisco, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "BUBUX BABY SHOES S.A. DE C.V., San Francisco del Rincon, Guanajuato, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "CASA TEQUILERA EL ORIGEN DEL TEQUILA S.A. DE C.V., Amatitan, Jalisco, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "CORPORATIVO DE SEGURIDAD PRIVADA ALFA Y GAMA S.A. DE C.V., Morelia, Michoacan, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "EL ALMACEN LICORERIA, Ixtlan del Rio, Nayarit, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "GREEN AGROPACIFIC S.P.R. DE R.L. DE C.V., Tepic, Nayarit, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "HURRARI KASH S.A. PROMOTORA DE INVERSION DE C.V., Guadalajara, Jalisco, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "MEDIN PRODUCTS",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "MUNDO FIT SUPLEMENTOS S.A. DE C.V., Guadalajara, Jalisco, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "OPTIC PRIVATE TRANSPORTATION S.A. DE C.V., Guadalajara, Jalisco, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "PETROCODA S.A. DE C.V., Ziracuaretiro, Michoacan, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "PRODUCTORES VAGU S.A. DE C.V., Guadalajara, Jalisco, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "RANCHO SAN MIGUEL LOS TRES HERMANOS S.P.R. DE R.L. DE C.V., Zapotlan El Grande, Jalisco, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "STELLA SERVICIOS COMERCIALES Y EMPRESARIALES S.A. DE C.V., Ahuacatlan, Nayarit, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "STRONG ENERGY S.A. DE C.V., Guadalajara, Jalisco, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-23",
+    "ent_num": "fr-2026-15157",
+    "action": "added",
+    "name": "TRANSIC LOGISTIC S.A. DE C.V., Guadalajara, Jalisco, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-13",
+    "ent_num": "fr-2026-14247",
+    "action": "added",
+    "name": "RASHEVSKYI, Dmytro",
+    "program": "CYBER4",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-13",
+    "ent_num": "fr-2026-14247",
+    "action": "added",
+    "name": "SILAYEV, Yevgeniy Vladimirovich",
+    "program": "CYBER4",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-07-13",
+    "ent_num": "fr-2026-14247",
+    "action": "added",
+    "name": "FIRST VPN SERVICE",
+    "program": "CYBER4",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-06-30",
+    "ent_num": "fr-2026-13494",
+    "action": "added",
+    "name": "JURAIDINI SILVA, Oscar Guillermo, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-06-30",
+    "ent_num": "fr-2026-13494",
+    "action": "added",
+    "name": "RUIZ VILLAGOMEZ, J. Refugio",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-06-30",
+    "ent_num": "fr-2026-13494",
+    "action": "added",
+    "name": "CENTRO CAMBIARIO LA PESETA, S.A. DE C.V., Matamoros, Tamaulipas, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-06-30",
+    "ent_num": "fr-2026-13494",
+    "action": "added",
+    "name": "CUCUMBER SWEET WAVES LTD, 27 Old Gloucester Street, London WC1N 3AX, United Kingdom",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-06-30",
+    "ent_num": "fr-2026-13494",
+    "action": "added",
+    "name": "OGUI FLETES, Matamoros, Tamaulipas, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-06-30",
+    "ent_num": "fr-2026-13494",
+    "action": "added",
+    "name": "OJ LIVING TRUST, S.A.P.I. DE C.V., Monterrey, Nuevo Leon, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-06-30",
+    "ent_num": "fr-2026-13494",
+    "action": "added",
+    "name": "RK REAL KING, S.A. DE C.V., Queretaro, Queretaro, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-06-30",
+    "ent_num": "fr-2026-13494",
+    "action": "added",
+    "name": "SOMA TRANSPORTE Y SERVICIOS, S.A. DE C.V., Matamoros, Tamaulipas, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-06-30",
+    "ent_num": "fr-2026-13494",
+    "action": "added",
+    "name": "AHAVAT LOGISTICS SOLUTION, S.A. DE C.V., Metepec, Mexico, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-06-30",
+    "ent_num": "fr-2026-13494",
+    "action": "added",
+    "name": "JOMADI LOGISTICS AND CARGO, S.A. DE C.V.",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-06-30",
+    "ent_num": "fr-2026-13494",
+    "action": "added",
+    "name": "OF TRANSPORTES, Matamoros, Tamaulipas, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-06-26",
+    "ent_num": "fr-2026-13279",
+    "action": "added",
+    "name": "CHOUDHARI, Alok, Raipur, Chhattisgarh, India",
+    "program": "SUDAN-EO14098",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-06-26",
+    "ent_num": "fr-2026-13279",
+    "action": "added",
+    "name": "DERMAN GUZMAN, Jack Peter, Panama City, Panama",
+    "program": "SUDAN-EO14098",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-06-26",
+    "ent_num": "fr-2026-13279",
+    "action": "added",
+    "name": "LOPEZ OCAMPO, Fredy Alejandro, Panama City, Panama",
+    "program": "SUDAN-EO14098",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-06-26",
+    "ent_num": "fr-2026-13279",
+    "action": "added",
+    "name": "MADANI, Tariq Hussain Muhammad, Sudan",
+    "program": "SUDAN-EO14098",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-06-26",
+    "ent_num": "fr-2026-13279",
+    "action": "added",
+    "name": "PALACIOS QUINTANILLA, Enrique Daniel, Panama City, Panama",
+    "program": "SUDAN-EO14098",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-06-25",
+    "ent_num": "fr-2026-13278",
+    "action": "added",
+    "name": "KALIMA KAREKEZI, Jean Malic, Kigali, Rwanda",
+    "program": "DRCONGO",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-06-25",
+    "ent_num": "fr-2026-13278",
+    "action": "added",
+    "name": "KAYOBOTSI, Bosco, Kigali, Rwanda",
+    "program": "DRCONGO",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-06-25",
+    "ent_num": "fr-2026-13278",
+    "action": "added",
+    "name": "BUGAMBIRA MINES LTD",
+    "program": "DRCONGO",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-06-25",
+    "ent_num": "fr-2026-13278",
+    "action": "added",
+    "name": "GASABO GOLD REFINERY LTD, Kigali, Rwanda",
+    "program": "DRCONGO",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-06-25",
+    "ent_num": "fr-2026-13278",
+    "action": "added",
+    "name": "RWINKWAVU MINING CORPORATION LTD, Rwinkwavu, Rwanda",
+    "program": "DRCONGO",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-06-25",
+    "ent_num": "fr-2026-13278",
+    "action": "added",
+    "name": "WOLFRAM MINING AND PROCESSING LTD, Kigali, Rwanda",
+    "program": "DRCONGO",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-13059",
+    "action": "added",
+    "name": "AHMED, Sherif Ahmed Ewis",
+    "program": "SDGT",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-13059",
+    "action": "added",
+    "name": "AL-NAJJAR, Muhammad Jamal Hassan, Turkey",
+    "program": "SDGT",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-13059",
+    "action": "added",
+    "name": "MOGHNY, Karim Sayed Ahmed, Turkey",
+    "program": "SDGT",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-13059",
+    "action": "added",
+    "name": "ABUKISHEK, Saif Hashim Kamel, Barcelona, Spain",
+    "program": "SDGT",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-13059",
+    "action": "added",
+    "name": "MAHFOUZ, Hisham Abu, Amman, Jordan",
+    "program": "SDGT",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-13059",
+    "action": "added",
+    "name": "AUEDA, Jaldia Abubakra, Madrid, Spain",
+    "program": "SDGT",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-13059",
+    "action": "added",
+    "name": "KHATIB, Mohammed, Belgium",
+    "program": "SDGT",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-13059",
+    "action": "added",
+    "name": "ABU RAS, Marwan Muhammad Ayish",
+    "program": "SDGT",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-13059",
+    "action": "added",
+    "name": "THE PALESTINIAN SCHOLARS ASSOCIATION, Al-Katiba Street, Opposite the Civil Service Bureau, Gaza",
+    "program": "SDGT",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-06-02",
+    "ent_num": "fr-2026-11417",
+    "action": "added",
+    "name": "RAD, Amir Hossein",
+    "program": "SDGT IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-06-02",
+    "ent_num": "fr-2026-11417",
+    "action": "added",
+    "name": "KHOEE, Seyed Ali",
+    "program": "SDGT",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-06-02",
+    "ent_num": "fr-2026-11417",
+    "action": "added",
+    "name": "AGHAMIR MOHAMMAD ALI, Seyed Mohammad",
+    "program": "SDGT",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-06-02",
+    "ent_num": "fr-2026-11417",
+    "action": "added",
+    "name": "AGHAMIR MOHAMMAD ALI, Seyed Mohammad Ali",
+    "program": "SDGT",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-06-02",
+    "ent_num": "fr-2026-11417",
+    "action": "added",
+    "name": "NOBITEX",
+    "program": "IRAN SDGT IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-06-02",
+    "ent_num": "fr-2026-11417",
+    "action": "added",
+    "name": "WALLEX",
+    "program": "IRAN IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-06-02",
+    "ent_num": "fr-2026-11417",
+    "action": "added",
+    "name": "BITPIN",
+    "program": "IRAN IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-06-02",
+    "ent_num": "fr-2026-11417",
+    "action": "added",
+    "name": "RAMZINEX",
+    "program": "IRAN IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-29",
+    "ent_num": "fr-2026-11042",
+    "action": "added",
+    "name": "AKHTARIAN, Sayyed Payam",
+    "program": "SDGT IFSR",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-29",
+    "ent_num": "fr-2026-11042",
+    "action": "added",
+    "name": "BAGHERI, Hoda Baradaran",
+    "program": "SDGT IFSR",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-29",
+    "ent_num": "fr-2026-11042",
+    "action": "added",
+    "name": "DAREHSHIRI, Mohammadali Mansour",
+    "program": "SDGT IFSR",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-29",
+    "ent_num": "fr-2026-11042",
+    "action": "added",
+    "name": "REZAEI, Farzaneh",
+    "program": "SDGT IFSR",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-29",
+    "ent_num": "fr-2026-11042",
+    "action": "added",
+    "name": "SARMADI, Roudabeh",
+    "program": "SDGT IFSR",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-29",
+    "ent_num": "fr-2026-11042",
+    "action": "added",
+    "name": "SEPEHR, Ali Majd",
+    "program": "SDGT IFSR",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-29",
+    "ent_num": "fr-2026-11042",
+    "action": "added",
+    "name": "ZAHEDI, Saeid, Rome, Italy",
+    "program": "SDGT IFSR",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-29",
+    "ent_num": "fr-2026-11042",
+    "action": "added",
+    "name": "ZANDIAN, Manoochehr",
+    "program": "SDGT IFSR",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-20",
+    "ent_num": "fr-2026-10518",
+    "action": "added",
+    "name": "AISPURO FELIX, Jesus Alonso, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-20",
+    "ent_num": "fr-2026-10518",
+    "action": "added",
+    "name": "ALARCON PALOMARES, Rodrigo, Mexico",
+    "program": "ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-20",
+    "ent_num": "fr-2026-10518",
+    "action": "added",
+    "name": "OJEDA AVILES, Armando de Jesus, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-20",
+    "ent_num": "fr-2026-10518",
+    "action": "added",
+    "name": "OROZCO ROMERO, Liliana, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-20",
+    "ent_num": "fr-2026-10518",
+    "action": "added",
+    "name": "OROZCO ROMERO, Alfredo, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-20",
+    "ent_num": "fr-2026-10518",
+    "action": "added",
+    "name": "ROMERO MORENO, Amalia Margarita, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-20",
+    "ent_num": "fr-2026-10518",
+    "action": "added",
+    "name": "SAENZ AGUILAR, Baltazar, Sinaloa, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-20",
+    "ent_num": "fr-2026-10518",
+    "action": "added",
+    "name": "BOJORQUEZ CHAPARRO, Castulo, Sinaloa, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-20",
+    "ent_num": "fr-2026-10518",
+    "action": "added",
+    "name": "GARCIA SANDOVAL, Fredi Ismael, Mexico City, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-20",
+    "ent_num": "fr-2026-10518",
+    "action": "added",
+    "name": "GONZALEZ PENUELAS, Jesus (Latin: GONZ&Aacute;LEZ PE&Ntilde;UELAS, Jes&uacute;s)",
+    "program": "SDNTK SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-20",
+    "ent_num": "fr-2026-10518",
+    "action": "added",
+    "name": "MORENO ZAMORA, Luis Arnulfo, Sinaloa, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-20",
+    "ent_num": "fr-2026-10518",
+    "action": "added",
+    "name": "CASTRO ROCHA, Noe de Jesus, Sinaloa, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-20",
+    "ent_num": "fr-2026-10518",
+    "action": "added",
+    "name": "GORDITAS CHIWAS, Chihuahua, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-20",
+    "ent_num": "fr-2026-10518",
+    "action": "added",
+    "name": "GRUPO ESPECIAL MAMBA NEGRA, S. DE R.L. DE C.V., Chihuahua, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-21",
+    "ent_num": "fr-2026-10431",
+    "action": "removed",
+    "name": "BIN MUHAMMAD, Ayadi Chafiq",
+    "program": "SDGT",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-21",
+    "ent_num": "fr-2026-10431",
+    "action": "removed",
+    "name": "LAJNAT AL DAAWA AL ISLAMIYYA",
+    "program": "SDGT",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-21",
+    "ent_num": "fr-2026-10431",
+    "action": "added",
+    "name": "BIN MUHAMMAD, Ayadi Chafiq",
+    "program": "SDGT",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-21",
+    "ent_num": "fr-2026-10431",
+    "action": "added",
+    "name": "LAJNAT AL DAAWA AL ISLAMIYYA",
+    "program": "SDGT",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-10259",
+    "action": "added",
+    "name": "GLOBAL FORTUNE SHIPPING LIMITED, 7 Copperfield Road, West Midlands, Coventry CV2 4AQ, United Kingdom",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-10259",
+    "action": "added",
+    "name": "GREAT SAIL SHIPPING LIMITED, Flat/Rm A 12/F Zj 300, 300 Lockhart Road, Wan Chai, Hong Kong, China",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-10259",
+    "action": "added",
+    "name": "OW MARITIME INCORPORATED, 80 Broad Street, Monrovia, Liberia",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-10259",
+    "action": "added",
+    "name": "SPARKLING COURAGE LIMITED, Road Town, Tortola, Virgin Islands, British",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-10259",
+    "action": "added",
+    "name": "MEKONG LINES INC., Trust Company Complex, Ajeltake Road, Ajeltake Island, Majuro 96960, Marshall Islands",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-10259",
+    "action": "added",
+    "name": "MOZART MARITIME INC., Trust Company Complex, Ajeltake Road, Ajeltake Island, Majuro 96960, Marshall Islands",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-10259",
+    "action": "added",
+    "name": "ROMY LINES INCORPORATED, Cotton Ground, Nevis, Saint Kitts and Nevis",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-10259",
+    "action": "added",
+    "name": "SPLENDID LEXY TRADING COMPANY LTD, Trust Company Complex, Ajeltake Road, Ajeltake Island, Majuro 96960, Marshall Islands",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-10259",
+    "action": "added",
+    "name": "AQUILA WORLDWIDE MARINE DEVELOPMENTS CORP., 21st Floor, Global Plaza, Calle 50, Panama City, Panama",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-10259",
+    "action": "added",
+    "name": "AURORA BUSINESS COMPANY LIMITED, Trust Company Complex, Ajeltake Road, Ajeltake Island, Majuro 96960, Marshall Islands",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-10259",
+    "action": "added",
+    "name": "TAURUS GAS COMPANY LIMITED, Trust Company Complex, Ajeltake Road, Ajeltake Island, Majuro 96960, Marshall Islands",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-10259",
+    "action": "added",
+    "name": "VEINTO GLOBAL MARINE INC., 21st Floor, Global Plaza, Calle 50, Panama City, Panama",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-10259",
+    "action": "added",
+    "name": "GJADES SHIPPING COMPANY LIMITED, Flat C, 23rd Floor, Lucky Plaza, Lockhart Road, Wan Chai, Hong Kong, China",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-10259",
+    "action": "added",
+    "name": "GS CHEMICAL TRANSPORTATION LIMITED, Hong Kong, China",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-10259",
+    "action": "added",
+    "name": "SCIENCE OBEDIENT INTERNATIONAL COMPANY LIMITED, Office 1, Ground Floor 41, Devonshire Street, London W1G7AJ, United Kingdom",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-10259",
+    "action": "added",
+    "name": "SUN OCEAN SHIPPING INCORPORATED, 80 Broad Street, Monrovia, Liberia",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-10259",
+    "action": "added",
+    "name": "BESTFORTUNA COMPANY LIMITED, Unit 1021, Beverley Commercial Centre, 87-105 Chatham Road South, Tsim Sha Tsui, Kowloon, Hong Kong, China",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-10259",
+    "action": "added",
+    "name": "ARDEN ANGEL SHIPPING COMPANY LIMITED, Room 1201, 12th Floor, Tai Sang Bank Building, 130-132, Des Voeux Road Central, Hong Kong, China",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-10259",
+    "action": "added",
+    "name": "OCEAN MARVEL SHIPPING COMPANY LIMITED, Trust Company Complex, Ajeltake Road, Ajeltake Island, Majuro 96960, Marshall Islands",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-10259",
+    "action": "added",
+    "name": "VERDA GAS CO LTD, Unit D, 18th Floor, Golden Sun Centre, 59-67, Bonham Strand West, Sheung Wan, Hong Kong, China",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-10259",
+    "action": "added",
+    "name": "GALA ROSE (VROT2) Chemical/Oil Tanker Hong Kong flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-10259",
+    "action": "added",
+    "name": "GREAT SAIL (8PZW3) LPG Tanker Barbados flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-10259",
+    "action": "added",
+    "name": "LUNA LUSTER (9LS2181) Crude Oil Tanker Sierra Leone flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-10259",
+    "action": "added",
+    "name": "OCEAN WAVE (T8A5483) Products Tanker Palau flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-10259",
+    "action": "added",
+    "name": "DAKUSH (E5U5359) Chemical/Products Tanker Cook Islands flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-10259",
+    "action": "added",
+    "name": "FEADSHIP (YJRK9) Crude Oil Tanker Vanuatu flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-10259",
+    "action": "added",
+    "name": "TEJAS (3E2257) Crude Oil Tanker Panama flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-10259",
+    "action": "added",
+    "name": "VASLATI (TJMA15) Crude Oil Tanker Cameroon flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-10259",
+    "action": "added",
+    "name": "GAS ENDURANCE (TRBS7) LPG Tanker Gabon flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-10259",
+    "action": "added",
+    "name": "GAS STRENGTH (TRBP8) LPG Tanker Gabon flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-10259",
+    "action": "added",
+    "name": "OCEAN RADIANCE (T8A4807) LPG Tanker Palau flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-10259",
+    "action": "added",
+    "name": "QUANTUM STAR (3E5322) LPG Tanker Panama flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-10259",
+    "action": "added",
+    "name": "BRIGHT GOLD (3EEC9) Chemical/Oil Tanker Panama flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-10259",
+    "action": "added",
+    "name": "DOUBLE IN (T7DJ2) LPG Tanker San Marino flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-10259",
+    "action": "added",
+    "name": "G JADES (D6A3797) LPG Tanker Comoros flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-10259",
+    "action": "added",
+    "name": "NARSIS (TJM5238) Chemical/Oil Tanker Cameroon flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-10259",
+    "action": "added",
+    "name": "MIDAS (3E8015) Crude Oil Tanker Panama flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-10259",
+    "action": "added",
+    "name": "MIGHTY NAVIGATOR (VRXQ6) LPG Tanker Hong Kong flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-19",
+    "ent_num": "fr-2026-10259",
+    "action": "added",
+    "name": "SWIFT FALCON (3EMI9) Chemical/Oil Tanker Panama flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-05-08",
+    "ent_num": "fr-2026-09758",
+    "action": "added",
+    "name": "CENTER FOR INNOVATION AND TECHNOLOGY COOPERATION",
+    "program": "NPWMD IFSR",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-24",
+    "ent_num": "fr-2026-09251",
+    "action": "added",
+    "name": "COSTIN SHIPPING LIMITED, Hong Kong, China",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-24",
+    "ent_num": "fr-2026-09251",
+    "action": "added",
+    "name": "MIHIR SHIPPING INC., Trust Company Complex, Ajeltake Road, Ajeltake Island, Majuro 96960, Marshall Islands",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-24",
+    "ent_num": "fr-2026-09251",
+    "action": "added",
+    "name": "NAXOS MARITIME AND TRADING S.A., Panama",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-24",
+    "ent_num": "fr-2026-09251",
+    "action": "added",
+    "name": "PATRIOT INC., Trust Company Complex, Ajeltake Road, Ajeltake Island, Majuro 96960, Marshall Islands",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-24",
+    "ent_num": "fr-2026-09251",
+    "action": "added",
+    "name": "SKYROS MARITIME AND TRADING S.A., Panama",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-24",
+    "ent_num": "fr-2026-09251",
+    "action": "added",
+    "name": "EXTENSIVE SHIPPING LIMITED, Room D07, 8th Floor, Kai Tak Factory Building 99, King Fuk Street, San Po Kong, Hong Kong, China",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-24",
+    "ent_num": "fr-2026-09251",
+    "action": "added",
+    "name": "XIFOIDES GROUP LIMITED, Rm 20, Floor 7, Block B3, Tuen Mun Industrial Centre, 2, San Ping Circuit, Hong Kong, China",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-24",
+    "ent_num": "fr-2026-09251",
+    "action": "added",
+    "name": "ZHOUSHAN YAOHAI SHIPPING CO., LTD., Room 529, Building 2, 29, Wenhua Lu, Dinghai Qu, Zhoushan, Zhejiang, China",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-24",
+    "ent_num": "fr-2026-09251",
+    "action": "added",
+    "name": "ANKA ENERGY AND LOGISTICS COMPANY, Office 3111, Park Lane Tower, Business Bay, Dubai, United ( printed page 25776) Arab Emirates",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-24",
+    "ent_num": "fr-2026-09251",
+    "action": "added",
+    "name": "LISBOA SHIPPING COMPANY LIMITED, Room 1002, 10th Floor, Easey Commercial Building 253-261, Hennessy Road, Wan Chai, Hong Kong, China",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-24",
+    "ent_num": "fr-2026-09251",
+    "action": "added",
+    "name": "THIEN AN HOA BINH COMPANY LIMITED, Xom Thia, Xa Yen Mong, Hoa Binh, Vietnam",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-24",
+    "ent_num": "fr-2026-09251",
+    "action": "added",
+    "name": "TING TAO COMPANY LIMITED, Room 2101, Zhuyuan Building 10, Yangshupu Lu Hongkou Qu, Shanghai 200082, China",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-24",
+    "ent_num": "fr-2026-09251",
+    "action": "added",
+    "name": "NICE GIFT LIMITED, Room D, 10/F, Tower A, Billion Centre, 1 Wang Kwong Road, Kowloon Bay, Hong Kong, China",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-24",
+    "ent_num": "fr-2026-09251",
+    "action": "added",
+    "name": "REAYOU COMPANY LIMITED, Trust Company Complex, Ajeltake Road, Ajeltake Island, Majuro 96960, Marshall Islands",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-24",
+    "ent_num": "fr-2026-09251",
+    "action": "added",
+    "name": "YEGUA TRADING LIMITED, Room 701, Unit 108, 7/F Tower B New Mandarin Plaza, 14 Science Museum Road, Hong Kong, China",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-24",
+    "ent_num": "fr-2026-09251",
+    "action": "added",
+    "name": "DOFA SHIPPING LTD, Room 2604, 357, Songlin Lu, Pudong Qu, Shanghai 200122, China",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-24",
+    "ent_num": "fr-2026-09251",
+    "action": "added",
+    "name": "EVY BLUE LTD, 80 Broad Street, Monrovia, Liberia",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-24",
+    "ent_num": "fr-2026-09251",
+    "action": "added",
+    "name": "LAUREL SHIPPING LTD, 5th Floor, Genesis Building, PO Box 446, Genesis Close, George Town, Cayman Islands",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-24",
+    "ent_num": "fr-2026-09251",
+    "action": "added",
+    "name": "LEPUS NAVIGATION LTD, Office 2207, Prime Tower, Business Bay, Dubai, United Arab Emirates",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-24",
+    "ent_num": "fr-2026-09251",
+    "action": "added",
+    "name": "BANGUS (8PRX) Crude/Oil Products Tanker Barbados flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-24",
+    "ent_num": "fr-2026-09251",
+    "action": "added",
+    "name": "GALVIN (3E2372) LPG Tanker Panama flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-24",
+    "ent_num": "fr-2026-09251",
+    "action": "added",
+    "name": "HH GLORY (3FCJ9) LPG Tanker Panama flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-24",
+    "ent_num": "fr-2026-09251",
+    "action": "added",
+    "name": "LIN 9 (V2YG8) LPG Tanker Antigua & Barbuda flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-24",
+    "ent_num": "fr-2026-09251",
+    "action": "added",
+    "name": "MIRAAN",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-24",
+    "ent_num": "fr-2026-09251",
+    "action": "added",
+    "name": "COVENIO (HOZX) Crude Oil Tanker Panama flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-24",
+    "ent_num": "fr-2026-09251",
+    "action": "added",
+    "name": "GOLDEN SUNRISE (D6A4080) Crude Oil Tanker Comoros flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-24",
+    "ent_num": "fr-2026-09251",
+    "action": "added",
+    "name": "ZHEN ZHU (8POV) Crude Oil Tanker Barbados flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-24",
+    "ent_num": "fr-2026-09251",
+    "action": "added",
+    "name": "GLOBAL VIVIAN (HPLV) LPG Tanker Panama flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-24",
+    "ent_num": "fr-2026-09251",
+    "action": "added",
+    "name": "LISBOA (HPQL) Chemical/Oil Tanker Panama flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-24",
+    "ent_num": "fr-2026-09251",
+    "action": "added",
+    "name": "LPG SEVAN (3E2818) LPG Tanker Panama flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-24",
+    "ent_num": "fr-2026-09251",
+    "action": "added",
+    "name": "LYNN (VRWZ6) Crude Oil Tanker Hong Kong flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-24",
+    "ent_num": "fr-2026-09251",
+    "action": "added",
+    "name": "MAGNOLIA (VRSY6) Crude Oil Tanker Hong Kong flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-24",
+    "ent_num": "fr-2026-09251",
+    "action": "added",
+    "name": "SEEKER 8 (YJRQ9) Crude Oil Tanker Vanuatu flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-24",
+    "ent_num": "fr-2026-09251",
+    "action": "added",
+    "name": "STELLAR BEVERLY Crude Oil Tanker Mozambique (False) flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-24",
+    "ent_num": "fr-2026-09251",
+    "action": "added",
+    "name": "ANSHUN II",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-24",
+    "ent_num": "fr-2026-09251",
+    "action": "added",
+    "name": "BENTLEY (E5U5228) Chemical/Oil Tanker Cook Islands flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-24",
+    "ent_num": "fr-2026-09251",
+    "action": "added",
+    "name": "EDOR (V7A3569) Crude Oil Tanker Marshall Islands flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-24",
+    "ent_num": "fr-2026-09251",
+    "action": "added",
+    "name": "SMD WORLD (3FRT9) Crude Oil Tanker Panama flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-21",
+    "ent_num": "fr-2026-07994",
+    "action": "added",
+    "name": "ATAEI AGHDAM, Gholam Abbas",
+    "program": "SDGT IFSR",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-21",
+    "ent_num": "fr-2026-07994",
+    "action": "added",
+    "name": "BALKHKANLU, Kamal Sabah, Tehran, Iran",
+    "program": "NPWMD IFSR",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-21",
+    "ent_num": "fr-2026-07994",
+    "action": "added",
+    "name": "HOSSEINZADEH, Jamshid",
+    "program": "SDGT IFSR",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-21",
+    "ent_num": "fr-2026-07994",
+    "action": "added",
+    "name": "KHALILI, Danial",
+    "program": "NPWMD IFSR",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-21",
+    "ent_num": "fr-2026-07994",
+    "action": "added",
+    "name": "MAHDIAN, Mohammad Hossein",
+    "program": "SDGT IFSR",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-21",
+    "ent_num": "fr-2026-07994",
+    "action": "added",
+    "name": "ROKNIFARD, Hamidreza",
+    "program": "NPWMD IFSR",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-21",
+    "ent_num": "fr-2026-07994",
+    "action": "added",
+    "name": "ROKNIFARD, Mostafa, Bandar Abbas, Hormozgan, Iran",
+    "program": "NPWMD IFSR",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-21",
+    "ent_num": "fr-2026-07994",
+    "action": "added",
+    "name": "VAHIDI, Mohammad, Dubai, United Arab Emirates",
+    "program": "NPWMD IFSR",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-21",
+    "ent_num": "fr-2026-07994",
+    "action": "added",
+    "name": "CHABOK FZCO",
+    "program": "SDGT IFSR",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-21",
+    "ent_num": "fr-2026-07994",
+    "action": "added",
+    "name": "SAMAN AIR SERVICES COMPANY",
+    "program": "SDGT IFSR",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-21",
+    "ent_num": "fr-2026-07994",
+    "action": "added",
+    "name": "SEPEHR KAVEH KISH INTERNATIONAL TRADING COMPANY, Unit 711, Floor 7, Sarina Market Complex, No. 0, Main Street, Khayyam Street, Kish District, Bandar Lengeh County, Kish, Hormozgan 7941897163, Iran",
+    "program": "SDGT IFSR",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-21",
+    "ent_num": "fr-2026-07994",
+    "action": "added",
+    "name": "EP-MTB",
+    "program": "SDGT NPWMD IFSR",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-21",
+    "ent_num": "fr-2026-07994",
+    "action": "added",
+    "name": "EP-MTE",
+    "program": "SDGT NPWMD IFSR",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-17",
+    "ent_num": "fr-2026-07897",
+    "action": "added",
+    "name": "GARCIA BATTE, Jose Oscar, Calle 64, No. 7-62, Apt 403, Bogota, Colombia",
+    "program": "SUDAN-EO14098",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-17",
+    "ent_num": "fr-2026-07897",
+    "action": "added",
+    "name": "GARCIA BATTE, Omar Fernando, Calle 64, No. 7-62, Apt 403, Bogota, Colombia",
+    "program": "SUDAN-EO14098",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-17",
+    "ent_num": "fr-2026-07897",
+    "action": "added",
+    "name": "QUIJANO TORRES, Jose Libardo, Colombia",
+    "program": "SUDAN-EO14098",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-17",
+    "ent_num": "fr-2026-07897",
+    "action": "added",
+    "name": "FENIX HUMAN RESOURCES S.A.S.",
+    "program": "SUDAN-EO14098",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-17",
+    "ent_num": "fr-2026-07897",
+    "action": "added",
+    "name": "GLOBAL QOWA AL BASHERIA S.A.S.",
+    "program": "SUDAN-EO14098",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-16",
+    "ent_num": "fr-2026-07699",
+    "action": "added",
+    "name": "BERMUDEZ TAPIA, Santiago Hernan, Managua, Nicaragua",
+    "program": "NICARAGUA",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-16",
+    "ent_num": "fr-2026-07699",
+    "action": "added",
+    "name": "SOBALVARRO, NELSON FRANCISCO, Managua, Nicaragua",
+    "program": "NICARAGUA",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-16",
+    "ent_num": "fr-2026-07699",
+    "action": "added",
+    "name": "MATUS TAMARIZ, Lester, Managua, Nicaragua",
+    "program": "NICARAGUA",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-16",
+    "ent_num": "fr-2026-07699",
+    "action": "added",
+    "name": "MATUS BUITRAGO, Anibal Vladimir, Managua, Nicaragua",
+    "program": "NICARAGUA",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-16",
+    "ent_num": "fr-2026-07699",
+    "action": "added",
+    "name": "ORTEGA MURILLO, Daniel Edmundo, Managua, Nicaragua",
+    "program": "NICARAGUA",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-16",
+    "ent_num": "fr-2026-07699",
+    "action": "added",
+    "name": "ORTEGA MURILLO, Maurice Facundo, Managua, Nicaragua",
+    "program": "NICARAGUA",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-16",
+    "ent_num": "fr-2026-07699",
+    "action": "added",
+    "name": "BROTHER METAL S.A., Managua, Nicaragua",
+    "program": "NICARAGUA",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-16",
+    "ent_num": "fr-2026-07699",
+    "action": "added",
+    "name": "GRUPO MINERO XILOA S.A.",
+    "program": "NICARAGUA",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-16",
+    "ent_num": "fr-2026-07699",
+    "action": "added",
+    "name": "NICARAGUA XINXIN LINZE MINERIA GROUP S.A., Managua, Nicaragua",
+    "program": "NICARAGUA",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-16",
+    "ent_num": "fr-2026-07699",
+    "action": "added",
+    "name": "SANTA RITA MINING COMPANY S.A., Managua, Nicaragua",
+    "program": "NICARAGUA",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-16",
+    "ent_num": "fr-2026-07699",
+    "action": "added",
+    "name": "THOMAS METAL S.A., Managua, Nicaragua",
+    "program": "NICARAGUA",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-16",
+    "ent_num": "fr-2026-07699",
+    "action": "added",
+    "name": "ZHONG FU DEVELOPMENT S.A., Managua, Nicaragua",
+    "program": "NICARAGUA",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-16",
+    "ent_num": "fr-2026-07699",
+    "action": "added",
+    "name": "EXPORTADORA DE METALES SOCIEDAD ANONIMA",
+    "program": "NICARAGUA",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-14",
+    "ent_num": "fr-2026-07425",
+    "action": "added",
+    "name": "RAMOS VAZQUEZ, Jesus Reymundo",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-14",
+    "ent_num": "fr-2026-07425",
+    "action": "added",
+    "name": "ISLAS VALDEZ, Eduardo Javier",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-14",
+    "ent_num": "fr-2026-07425",
+    "action": "added",
+    "name": "PENILLA RODRIGUEZ, Juan Pablo, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-14",
+    "ent_num": "fr-2026-07425",
+    "action": "added",
+    "name": "CASINO CENTENARIO, Nuevo Laredo, Tamaulipas, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-14",
+    "ent_num": "fr-2026-07425",
+    "action": "added",
+    "name": "COMERCIALIZADORA Y ARRENDADORA DE MEXICO, S.A. DE C.V., Ciudad Madero, Tamaulipas, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-04-14",
+    "ent_num": "fr-2026-07425",
+    "action": "added",
+    "name": "DIAMANTE CASINO, Tampico, Tamaulipas, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-03-12",
+    "ent_num": "fr-2026-05454",
+    "action": "added",
+    "name": "KOMITE NASIONAL UNTUK RAKYAT PALESTINA",
+    "program": "SDGT",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-03-12",
+    "ent_num": "fr-2026-05454",
+    "action": "added",
+    "name": "GHAZI DESTEK DERNEGI",
+    "program": "SDGT",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-03-12",
+    "ent_num": "fr-2026-05454",
+    "action": "added",
+    "name": "PALESTINIAN WHITE HANDS ASSISTANCE AND SOLIDARITY ASSOCIATION",
+    "program": "SDGT",
+    "sdn_type": ""
+  },
+  {
+    "date": "2025-08-14",
+    "ent_num": "fr-2026-05225",
+    "action": "added",
+    "name": "BARRAGAN CHAVEZ, Luis Enrique",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2025-08-14",
+    "ent_num": "fr-2026-05225",
+    "action": "added",
+    "name": "FARIAS ALVAREZ, Juan Jose",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2025-08-14",
+    "ent_num": "fr-2026-05225",
+    "action": "added",
+    "name": "FERNANDEZ MAGALLON, Alfonso",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2025-08-14",
+    "ent_num": "fr-2026-05225",
+    "action": "added",
+    "name": "OROZCO CABADAS, Edgar Valeriano",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2025-08-14",
+    "ent_num": "fr-2026-05225",
+    "action": "added",
+    "name": "CISNEROS FLORES, Heladio",
+    "program": "ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2025-08-14",
+    "ent_num": "fr-2026-05225",
+    "action": "added",
+    "name": "SEPULVEDA ARELLANO, Cesar Alejandro",
+    "program": "ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2025-08-14",
+    "ent_num": "fr-2026-05225",
+    "action": "added",
+    "name": "SIERRA SANTANA, Nicolas",
+    "program": "ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2025-08-14",
+    "ent_num": "fr-2026-05225",
+    "action": "added",
+    "name": "CARTELES UNIDOS",
+    "program": "FTO SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2025-08-14",
+    "ent_num": "fr-2026-05225",
+    "action": "added",
+    "name": "LOS VIAGRAS",
+    "program": "ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-03-12",
+    "ent_num": "fr-2026-05114",
+    "action": "added",
+    "name": "DO, Phi Khanh, Hanoi, Vietnam",
+    "program": "NPWMD",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-03-12",
+    "ent_num": "fr-2026-05114",
+    "action": "added",
+    "name": "HOANG, Van Nguyen, Vietnam",
+    "program": "NPWMD",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-03-12",
+    "ent_num": "fr-2026-05114",
+    "action": "added",
+    "name": "NGUYEN, Quang Viet, Vietnam",
+    "program": "DPRK4",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-03-12",
+    "ent_num": "fr-2026-05114",
+    "action": "added",
+    "name": "CELESTINO HERRERA, York Louis, Barcelona, Spain",
+    "program": "DPRK4",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-03-12",
+    "ent_num": "fr-2026-05114",
+    "action": "added",
+    "name": "HOANG, Minh Quang, Hanoi, Vietnam",
+    "program": "DPRK4",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-03-12",
+    "ent_num": "fr-2026-05114",
+    "action": "added",
+    "name": "YUN, Song Guk",
+    "program": "DPRK4",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-03-12",
+    "ent_num": "fr-2026-05114",
+    "action": "added",
+    "name": "QUANGVIETDNBG INTERNATIONAL SERVICES COMPANY LIMITED",
+    "program": "DPRK4 NPWMD",
+    "sdn_type": ""
+  },
+  {
+    "date": "2025-11-12",
+    "ent_num": "fr-2026-04652",
+    "action": "added",
+    "name": "AUNG, Saw San",
+    "program": "BURMA-EO14014 CYBER4",
+    "sdn_type": ""
+  },
+  {
+    "date": "2025-11-12",
+    "ent_num": "fr-2026-04652",
+    "action": "added",
+    "name": "HLA, Sai Kyaw",
+    "program": "BURMA-EO14014 CYBER4",
+    "sdn_type": ""
+  },
+  {
+    "date": "2025-11-12",
+    "ent_num": "fr-2026-04652",
+    "action": "added",
+    "name": "SAWANG, Chamu",
+    "program": "BURMA-EO14014 CYBER4",
+    "sdn_type": ""
+  },
+  {
+    "date": "2025-11-12",
+    "ent_num": "fr-2026-04652",
+    "action": "added",
+    "name": "STEEL, Saw, Burma",
+    "program": "BURMA-EO14014 CYBER4",
+    "sdn_type": ""
+  },
+  {
+    "date": "2025-11-12",
+    "ent_num": "fr-2026-04652",
+    "action": "added",
+    "name": "WIN, Saw Sein",
+    "program": "BURMA-EO14014 CYBER4",
+    "sdn_type": ""
+  },
+  {
+    "date": "2025-11-12",
+    "ent_num": "fr-2026-04652",
+    "action": "added",
+    "name": "DEMOCRATIC KAREN BENEVOLENT ARMY",
+    "program": "BURMA-EO14014 CYBER4",
+    "sdn_type": ""
+  },
+  {
+    "date": "2025-11-12",
+    "ent_num": "fr-2026-04652",
+    "action": "added",
+    "name": "TRANS ASIA INTERNATIONAL HOLDING GROUP THAILAND COMPANY LIMITED",
+    "program": "BURMA-EO14014 CYBER4",
+    "sdn_type": ""
+  },
+  {
+    "date": "2025-11-12",
+    "ent_num": "fr-2026-04652",
+    "action": "added",
+    "name": "TROTH STAR COMPANY LIMITED",
+    "program": "BURMA-EO14014 CYBER4",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-03-02",
+    "ent_num": "fr-2026-04349",
+    "action": "added",
+    "name": "GASHUGI, Stanislas, Kigali, Rwanda",
+    "program": "DRCONGO",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-03-02",
+    "ent_num": "fr-2026-04349",
+    "action": "added",
+    "name": "KARUSISI, Ruki, Kigali, Rwanda",
+    "program": "DRCONGO",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-03-02",
+    "ent_num": "fr-2026-04349",
+    "action": "added",
+    "name": "MUGANGA, Mubarakh",
+    "program": "DRCONGO",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-03-02",
+    "ent_num": "fr-2026-04349",
+    "action": "added",
+    "name": "NYAKARUNDI, Vincent, Kigali, Rwanda",
+    "program": "DRCONGO",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-03-02",
+    "ent_num": "fr-2026-04349",
+    "action": "added",
+    "name": "RWANDA DEFENCE FORCE",
+    "program": "DRCONGO",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-24",
+    "ent_num": "fr-2026-04217",
+    "action": "added",
+    "name": "KUCHEROV, Oleg Vyacheslavovich",
+    "program": "CAATSA-RUSSIA CYBER4",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-24",
+    "ent_num": "fr-2026-04217",
+    "action": "added",
+    "name": "MAMASHOYEV, Azizjon Makhmudovich",
+    "program": "CAATSA-RUSSIA CYBER4",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-24",
+    "ent_num": "fr-2026-04217",
+    "action": "added",
+    "name": "ADVANCE SECURITY SOLUTIONS",
+    "program": "CAATSA-RUSSIA CYBER4",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-24",
+    "ent_num": "fr-2026-04217",
+    "action": "added",
+    "name": "SPECIAL TECHNOLOGY SERVICES LLC FZ, Meydan Grandstand, 6th Floor, Meydan Road, Nad Al Sheba, Dubai, United Arab Emirates",
+    "program": "CAATSA-RUSSIA CYBER4 PAIPA",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-26",
+    "ent_num": "fr-2026-04102",
+    "action": "added",
+    "name": "MEMBRENO RIVAS, Denis, Managua, Nicaragua",
+    "program": "NICARAGUA",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-26",
+    "ent_num": "fr-2026-04102",
+    "action": "added",
+    "name": "FLORES JIMENEZ, Johana Vanessa, Managua, Nicaragua",
+    "program": "NICARAGUA",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-26",
+    "ent_num": "fr-2026-04102",
+    "action": "added",
+    "name": "GUTIERREZ LOPEZ, Leonel Jose, Managua, Nicaragua",
+    "program": "NICARAGUA",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-26",
+    "ent_num": "fr-2026-04102",
+    "action": "added",
+    "name": "REYES OCHOA, Celia Margarita",
+    "program": "NICARAGUA",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-26",
+    "ent_num": "fr-2026-04102",
+    "action": "added",
+    "name": "SAENZ ULLOA, Aldo Martin, Nindiri, Masaya, Nicaragua",
+    "program": "NICARAGUA",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-25",
+    "ent_num": "fr-2026-03988",
+    "action": "added",
+    "name": "PAROS MARITIME S.A., Panama City, Panama",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-25",
+    "ent_num": "fr-2026-03988",
+    "action": "added",
+    "name": "WANSA GAS SHIPPING CO., Trust Company Complex, Ajeltake Road, Majuro, Ajeltake Island 96960, Marshall Islands",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-25",
+    "ent_num": "fr-2026-03988",
+    "action": "added",
+    "name": "MISTRAL FLEET CO LTD",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-25",
+    "ent_num": "fr-2026-03988",
+    "action": "added",
+    "name": "OCEAN KUDOS SHIPPING COMPANY LIMITED, Trust Company Complex, Ajeltake Road, Majuro, Ajeltake Island 96960, Marshall Islands",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-25",
+    "ent_num": "fr-2026-03988",
+    "action": "added",
+    "name": "POROS MARITIME VENTURES S.A., 21st Floor, Global Plaza, Calle 50, Panama City, Panama",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-25",
+    "ent_num": "fr-2026-03988",
+    "action": "added",
+    "name": "VAST MARINE INC",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-25",
+    "ent_num": "fr-2026-03988",
+    "action": "added",
+    "name": "GOLDWAVE MARITIME SERVICES INC, Trust Company Complex, Ajeltake Road, Majuro, Ajeltake Island 96960, Marshall Islands",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-25",
+    "ent_num": "fr-2026-03988",
+    "action": "added",
+    "name": "ITHAKI MARITIME AND TRADING S.A., Global Plaza Tower, Calle 50, Panama City, Panama",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-25",
+    "ent_num": "fr-2026-03988",
+    "action": "added",
+    "name": "KAITO NAVIGATION SA, 80 Broad Street, Monrovia, Liberia",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-25",
+    "ent_num": "fr-2026-03988",
+    "action": "added",
+    "name": "NYR SHIPPING CO., Trust Company Complex, Ajeltake Road, Majuro, Ajeltake Island 96960, Marshall Islands",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-25",
+    "ent_num": "fr-2026-03988",
+    "action": "added",
+    "name": "ALTIS TEKSTIL MAKINA TICARET LIMITED SIRKETI",
+    "program": "NPWMD IFSR",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-25",
+    "ent_num": "fr-2026-03988",
+    "action": "added",
+    "name": "ARYA GLOBAL GIDA SANAYI VE TICARET LIMITED SIRKETI, 198, No:22-1 Atakoy 7-8-9-10, Kisim Mahallesi, Cobancesme E-5 Yan Yol Caddesi, Bakirkoy, Istanbul 34158, Turkey",
+    "program": "NPWMD IFSR",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-25",
+    "ent_num": "fr-2026-03988",
+    "action": "added",
+    "name": "UTUS GUMRUKLEME GIDA TEKSTIL ITHALAT IHRACAT DIS TICARET VE SANAYI LIMITED SIRKETI, 198, No:22-1 Atakoy 7-8-9-10, Kisim Mahallesi, Cobancesme, E-5 Yan Yol Caddesi, Bakirkoy, Istanbul 34158, Turkey",
+    "program": "NPWMD IFSR",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-25",
+    "ent_num": "fr-2026-03988",
+    "action": "added",
+    "name": "ADAK PARGAS PARS TRADING COMPANY, Bandar Abbas, Hormozgan, Iran",
+    "program": "NPWMD IFSR",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-25",
+    "ent_num": "fr-2026-03988",
+    "action": "added",
+    "name": "MOSTAFA ROKNIFARD PRIME CHOICE GENERAL TRADING LLC",
+    "program": "NPWMD IFSR",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-25",
+    "ent_num": "fr-2026-03988",
+    "action": "added",
+    "name": "LUMA (YJQY4) LPG Tanker Vanuatu flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-25",
+    "ent_num": "fr-2026-03988",
+    "action": "added",
+    "name": "NIBA (T8A4992) LPG Tanker Palau flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-25",
+    "ent_num": "fr-2026-03988",
+    "action": "added",
+    "name": "FELICITA (D6A3040) Crude Oil Tanker Comoros flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-25",
+    "ent_num": "fr-2026-03988",
+    "action": "added",
+    "name": "HOOT (3FIQ9) LPG Tanker Panama flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-25",
+    "ent_num": "fr-2026-03988",
+    "action": "added",
+    "name": "NORTH STAR (8PPB) Crude Oil Tanker Barbados flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-25",
+    "ent_num": "fr-2026-03988",
+    "action": "added",
+    "name": "OCEAN KOI (8P2574) Crude Oil Tanker Barbados flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-25",
+    "ent_num": "fr-2026-03988",
+    "action": "added",
+    "name": "ATEELA 1 (EPCF9) Products Tanker Iran flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-25",
+    "ent_num": "fr-2026-03988",
+    "action": "added",
+    "name": "ATEELA 2 (EPCG2) Products Tanker Iran flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-25",
+    "ent_num": "fr-2026-03988",
+    "action": "added",
+    "name": "ALAA (T8A5128) LPG Tanker Palau flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-25",
+    "ent_num": "fr-2026-03988",
+    "action": "added",
+    "name": "DANUTA I (T8A4990) LPG Tanker Palau flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-25",
+    "ent_num": "fr-2026-03988",
+    "action": "added",
+    "name": "GAS FATE (3E6859) LPG Tanker Panama flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-25",
+    "ent_num": "fr-2026-03988",
+    "action": "added",
+    "name": "REMIZ (3E8793) Crude Oil Tanker Panama flag",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-19",
+    "ent_num": "fr-2026-03966",
+    "action": "added",
+    "name": "ADAM, Elfateh Abdullah Idris",
+    "program": "SUDAN-EO14098",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-19",
+    "ent_num": "fr-2026-03966",
+    "action": "added",
+    "name": "MOHAMED, Tijani Ibrahim Moussa",
+    "program": "SUDAN-EO14098",
+    "sdn_type": ""
+  },
+  {
+    "date": "2025-09-18",
+    "ent_num": "fr-2026-03941",
+    "action": "added",
+    "name": "PONCE FELIX, Juan Jose",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2025-09-18",
+    "ent_num": "fr-2026-03941",
+    "action": "added",
+    "name": "ARCEGA AGUIRRE, Candelario",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2025-09-18",
+    "ent_num": "fr-2026-03941",
+    "action": "added",
+    "name": "BROWN FIGUEREDO, Hilda Araceli",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2025-09-18",
+    "ent_num": "fr-2026-03941",
+    "action": "added",
+    "name": "GONZALEZ LOMELI, Jesus, Playas de Rosarito, Baja California, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2025-09-18",
+    "ent_num": "fr-2026-03941",
+    "action": "added",
+    "name": "HERRERA SANCHEZ, Karlo Omar",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2025-09-18",
+    "ent_num": "fr-2026-03941",
+    "action": "added",
+    "name": "HERRERA SANCHEZ, Mario Alberto, Rosarito, Baja California, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2025-09-18",
+    "ent_num": "fr-2026-03941",
+    "action": "added",
+    "name": "PAEZ PEREDA, Carlos Alberto, Laguna Colorada, Sinaloa, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2025-09-18",
+    "ent_num": "fr-2026-03941",
+    "action": "added",
+    "name": "LOS MAYOS",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2025-09-18",
+    "ent_num": "fr-2026-03941",
+    "action": "added",
+    "name": "GRUPO JRCP, S. DE R.L.",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2025-09-18",
+    "ent_num": "fr-2026-03941",
+    "action": "added",
+    "name": "SABOR TAPATIO, S. DE R.L. DE C.V., Playas de Rosarito, Baja California, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2025-09-18",
+    "ent_num": "fr-2026-03941",
+    "action": "added",
+    "name": "GOTOCO ALIMENTOS PROCESADOS S. DE R.L. DE C.V.",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2025-09-18",
+    "ent_num": "fr-2026-03941",
+    "action": "added",
+    "name": "ALIMENTOS Y DIVERSION INSURGENTES, S. DE R.L. DE C.V., Playas de Rosarito, Baja California, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2025-09-18",
+    "ent_num": "fr-2026-03941",
+    "action": "added",
+    "name": "COMPLEJO TURISTICO JJJ, S.A. DE C.V., Tijuana, Baja California, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2025-09-18",
+    "ent_num": "fr-2026-03941",
+    "action": "added",
+    "name": "OPERADORA DE ESPECTACULOS, ALIMENTOS Y BEBIDAS J AND R S.A. DE C.V.",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2025-09-18",
+    "ent_num": "fr-2026-03941",
+    "action": "added",
+    "name": "SUNSET SERVICIOS GASTRONOMICOS S. DE R.L. DE C.V., Tijuana, Baja California, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2025-09-18",
+    "ent_num": "fr-2026-03941",
+    "action": "added",
+    "name": "JJ GONVER S. DE R.L. DE C.V., Tijuana, Baja California, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2025-09-18",
+    "ent_num": "fr-2026-03941",
+    "action": "added",
+    "name": "OPERADORA DE ALIMENTOS CON ORIGENES DE MEXICO, S. DE R.L. DE C.V., Playas de Rosarito, Baja California, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2025-09-18",
+    "ent_num": "fr-2026-03941",
+    "action": "added",
+    "name": "VEINTIUNO MEXICALI, S. DE R.L. DE C.V., Guadalajara, Jalisco, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2025-09-18",
+    "ent_num": "fr-2026-03941",
+    "action": "added",
+    "name": "COCO BEACH BAR, S. DE R.L. DE C.V.",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2025-09-18",
+    "ent_num": "fr-2026-03941",
+    "action": "added",
+    "name": "CAVALLY ANTRO AND BAR",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2025-09-18",
+    "ent_num": "fr-2026-03941",
+    "action": "added",
+    "name": "GRUPO HOTELERO JJJ, S.A. DE C.V., Tijuana, Baja California, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2025-09-18",
+    "ent_num": "fr-2026-03941",
+    "action": "added",
+    "name": "JR ALIMENTOS DEL MAR, S. DE R.L. DE C.V.",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2025-09-18",
+    "ent_num": "fr-2026-03941",
+    "action": "added",
+    "name": "TRANSPORTE URBANO Y SUBURBANO DEL V MUNICIPIO S.A. DE C.V., Playas de Rosarito, Baja California, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-19",
+    "ent_num": "fr-2026-03803",
+    "action": "added",
+    "name": "GUTIERREZ OCHOA, Jose Luis",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-19",
+    "ent_num": "fr-2026-03803",
+    "action": "added",
+    "name": "JIMENEZ TAPIA, Oscar Enrique",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-19",
+    "ent_num": "fr-2026-03803",
+    "action": "added",
+    "name": "PALACIOS RODRIGUEZ, Jose Eduardo, Puerto Vallarta, Jalisco, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-19",
+    "ent_num": "fr-2026-03803",
+    "action": "added",
+    "name": "RIOS GONZALEZ, Jonathan Faustino",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-19",
+    "ent_num": "fr-2026-03803",
+    "action": "added",
+    "name": "RIVERA MIRAMONTES, Carlos Humberto, Guadalajara, Jalisco, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-19",
+    "ent_num": "fr-2026-03803",
+    "action": "added",
+    "name": "ADMINISTRADORA Y COMERCIALIZADORA DEL MAR, S.A. DE C.V., Bahia de Banderas, Nayarit, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-19",
+    "ent_num": "fr-2026-03803",
+    "action": "added",
+    "name": "AGENCIA DE SERVICIOS TURISTICOS INTERNACIONALES G8, S.A. DE C.V., Guadalajara, Jalisco, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-19",
+    "ent_num": "fr-2026-03803",
+    "action": "added",
+    "name": "ASESORIA Y SERVICIOS IMPORTADORES, S.A. DE C.V., Guadalajara, Jalisco, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-19",
+    "ent_num": "fr-2026-03803",
+    "action": "added",
+    "name": "CLUB DEPORTIVO DE FORMACION AL FUTBOL GMX, S.DE R.L. DE C.V., Bahia de Banderas, Nayarit, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-19",
+    "ent_num": "fr-2026-03803",
+    "action": "added",
+    "name": "COLINAS PROYECTOS Y CONSTRUCCIONES, S.A. DE C.V., Guadalajara, Jalisco, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-19",
+    "ent_num": "fr-2026-03803",
+    "action": "added",
+    "name": "CONSTRUCTORA PALACIOS PV, S.A. DE C.V., Puerto Vallarta, Jalisco, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-19",
+    "ent_num": "fr-2026-03803",
+    "action": "added",
+    "name": "CORPORATIVO CONTROLADOR EXPLORA, S.A. DE C.V., Guadalajara, Jalisco, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-19",
+    "ent_num": "fr-2026-03803",
+    "action": "added",
+    "name": "CORPORATIVO DE TRANSFERENCIAS INTERNACIONALES DE BIENES RAICES, S.A. DE C.V., Guadalajara, Jalisco, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-19",
+    "ent_num": "fr-2026-03803",
+    "action": "added",
+    "name": "DEEP BLUE DESARROLLOS, S. DE R.L. DE C.V., Guadalajara, Jalisco, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-19",
+    "ent_num": "fr-2026-03803",
+    "action": "added",
+    "name": "DEEP BLUE SERVICIOS, S.A. DE C.V., Guadalajara, Jalisco, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-19",
+    "ent_num": "fr-2026-03803",
+    "action": "added",
+    "name": "ESTRATEGIA PVR, S. DE R.L. DE C.V., Guadalajara, Jalisco, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-19",
+    "ent_num": "fr-2026-03803",
+    "action": "added",
+    "name": "HIGH LAND PARK, S.A. DE C.V., Guadalajara, Jalisco, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-19",
+    "ent_num": "fr-2026-03803",
+    "action": "added",
+    "name": "HOTEL MANAGEMENT INTERNATIONAL, LLC",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-19",
+    "ent_num": "fr-2026-03803",
+    "action": "added",
+    "name": "KOVAY GARDENS",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-19",
+    "ent_num": "fr-2026-03803",
+    "action": "added",
+    "name": "ORNITORRINCO INMOBILIARIA, S.A. DE C.V., Guadalajara, Jalisco, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-19",
+    "ent_num": "fr-2026-03803",
+    "action": "added",
+    "name": "PUNTO 54, S.A. DE C.V., Guadalajara, Jalisco, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-19",
+    "ent_num": "fr-2026-03803",
+    "action": "added",
+    "name": "REEF ADMINISTRACION AVANZADA, S. DE R.L. DE C.V., Guadalajara, Jalisco, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-19",
+    "ent_num": "fr-2026-03803",
+    "action": "added",
+    "name": "SOLUGAS SOLUCIONES EN GASOLINERAS, S.A. DE C.V., Zapopan, Jalisco, Mexico",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-02-19",
+    "ent_num": "fr-2026-03803",
+    "action": "added",
+    "name": "VG DESARROLLOS DE LA BAHIA, S.A. DE C.V.",
+    "program": "SDGT ILLICIT-DRUGS-EO14059",
+    "sdn_type": ""
+  }
+]
