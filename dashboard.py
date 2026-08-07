@@ -2896,7 +2896,7 @@ def sdn_panel(today, days=30, cap=200):
         body = f'{search}<div class="sdnlist">{rows}</div>{note}'
 
     return (
-        '<details class="panel p-sdn foldable">'
+        '<details class="panel p-sdn foldable" open>'
         f'<summary><h2>OFAC SDN list changes <span style="float:right;'
         f'text-transform:none;letter-spacing:0">last {days} days</span></h2></summary>'
         '<p class="sdnintro">Day-over-day changes to OFAC\'s Specially '
