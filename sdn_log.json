@@ -8126,5 +8126,213 @@
     "name": "MOSQUERA SERRANO, Giovanni Vicente",
     "program": "SDGT TCO",
     "sdn_type": ""
+  },
+  {
+    "date": "2026-08-07",
+    "ent_num": "58239",
+    "action": "added",
+    "name": "ABAN TETHER EXCHANGE",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-07",
+    "ent_num": "58258",
+    "action": "added",
+    "name": "CRYPTO HOME DMCC",
+    "program": "SDGT",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-07",
+    "ent_num": "58259",
+    "action": "added",
+    "name": "NFT HOME DMCC",
+    "program": "SDGT",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-07",
+    "ent_num": "58266",
+    "action": "added",
+    "name": "SHARIFI, Shima",
+    "program": "IRAN-EO13902",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-07",
+    "ent_num": "58267",
+    "action": "added",
+    "name": "GHASEMPOUR, Saeed",
+    "program": "IRAN-EO13902",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-07",
+    "ent_num": "58268",
+    "action": "added",
+    "name": "ALPS INTERNATIONAL L.L.C-FZ",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-07",
+    "ent_num": "58269",
+    "action": "added",
+    "name": "MOHAMMAD, Peivand",
+    "program": "IRAN-EO13902",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-07",
+    "ent_num": "58270",
+    "action": "added",
+    "name": "OVIEDO OVERSEAS COMPANY LIMITED",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-07",
+    "ent_num": "58271",
+    "action": "added",
+    "name": "CAILAFANG PTE. LTD.",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-07",
+    "ent_num": "58272",
+    "action": "added",
+    "name": "TITAN EXCHANGE",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-07",
+    "ent_num": "58274",
+    "action": "added",
+    "name": "AYDENIZ GENERAL TRADING L.L.C",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-07",
+    "ent_num": "58275",
+    "action": "added",
+    "name": "BLUE DASH GENERAL TRADING COMPANY LIMITED",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-07",
+    "ent_num": "58276",
+    "action": "added",
+    "name": "GLEAMING HK TRADING LIMITED",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-07",
+    "ent_num": "58277",
+    "action": "added",
+    "name": "HENDI, Amir",
+    "program": "IRAN-EO13902",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-07",
+    "ent_num": "58284",
+    "action": "added",
+    "name": "KAYVANPOUR, Siavash",
+    "program": "SDGT] [IRGC",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-07",
+    "ent_num": "58285",
+    "action": "added",
+    "name": "SHELBIT GENERAL TRADING LLC",
+    "program": "SDGT",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-07",
+    "ent_num": "58287",
+    "action": "added",
+    "name": "SHPS SHELBIT",
+    "program": "SDGT",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-07",
+    "ent_num": "58288",
+    "action": "added",
+    "name": "SHELBIT TECHNOLOGIES LTD SPOLKA Z OGRANICZONA ODPOWIEDZIALNOSCIA W LIKWIDACJI",
+    "program": "SDGT",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-07",
+    "ent_num": "11753",
+    "action": "removed",
+    "name": "SATIZABAL RENGIFO, Mario German",
+    "program": "SDNT",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-07",
+    "ent_num": "11812",
+    "action": "removed",
+    "name": "AYALA BARRERA, Rubi Yiceth",
+    "program": "SDNTK",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-07",
+    "ent_num": "16580",
+    "action": "removed",
+    "name": "ZAZUETA GODOY, Heriberto",
+    "program": "SDNTK",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-07",
+    "ent_num": "16581",
+    "action": "removed",
+    "name": "ZAZUETA GOMEZ, Leopoldo",
+    "program": "SDNTK",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-07",
+    "ent_num": "16582",
+    "action": "removed",
+    "name": "ROMERO ZEVADA, Demetrio",
+    "program": "SDNTK",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-07",
+    "ent_num": "16607",
+    "action": "removed",
+    "name": "PRODUCCION PESQUERA DONA MARIELA, S.A. DE C.V.",
+    "program": "SDNTK",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-07",
+    "ent_num": "16608",
+    "action": "removed",
+    "name": "TAIPEN, S.A. DE C.V.",
+    "program": "SDNTK",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-07",
+    "ent_num": "16643",
+    "action": "removed",
+    "name": "COMERCIALIZADORA Y FRIGORIFICOS DE LA PERLA DEL PACIFICO, S.A. DE C.V.",
+    "program": "SDNTK",
+    "sdn_type": ""
   }
 ]
