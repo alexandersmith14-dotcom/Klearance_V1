@@ -948,7 +948,7 @@ header.krheader{animation-delay:.08s}
 .badge.t-Proposed{color:#fff;background:var(--warn)}
 .badge.t-Guidance{color:#fff;background:var(--brand)}
 .badge.t-Enforcement{color:#fff;background:var(--neutral)}
-.p-sdn .sdnintro{font-size:12.5px;color:var(--ink-muted);margin:2px 0 20px}
+.p-sdn .sdnintro{font-size:12.5px;color:var(--ink-muted);margin:2px 0 28px}
 .p-sdn .sdnlist{display:flex;flex-direction:column;gap:2px}
 .sdnrow{display:flex;align-items:center;gap:10px;padding:6px 0;
   border-bottom:1px solid var(--rule);flex-wrap:wrap}
@@ -977,7 +977,6 @@ header.krheader{animation-delay:.08s}
 .sdnmini summary::-webkit-details-marker{display:none}
 .sdnmini summary::before{content:"▸ ";color:var(--ink-muted);font-size:12px}
 .sdnmini[open] summary::before{content:"▾ "}
-.sdnmini .sdnminisearch{margin:10px 0}
 /* Long entity names (some run 60+ chars) wrapped inconsistently against
    short ones when name+meta shared a row with flex-wrap — some rows one
    line, some two, reading as cramped/uneven. Every row now always stacks
@@ -988,7 +987,7 @@ header.krheader{animation-delay:.08s}
 .sdnhighlights .sdnlist{gap:0}
 @media (max-width:900px){.sdnhighlights{grid-template-columns:1fr 1fr}}
 @media (max-width:480px){.sdnhighlights{grid-template-columns:1fr}}
-.sdnactivity{margin-top:28px;padding-top:16px;border-top:1px solid var(--rule)}
+.sdnactivity{margin-top:32px;padding-top:18px;border-top:1px solid var(--rule)}
 .sdnactivity summary{cursor:pointer;font-size:13px;font-weight:600;
   color:var(--ink-2)}
 .sdnactivity[open] summary{margin-bottom:4px}
@@ -2063,25 +2062,6 @@ if (dlMoreBtn) dlMoreBtn.addEventListener('click', () => {
   dlMoreBtn.hidden = true;
 });
 
-// Per-mini-list filter (additions/removals/modifications) — each has at
-// most 5 rows, so this is a plain substring match over an already-tiny DOM,
-// same `hidden`-toggle mechanism as everywhere else on this page.
-document.querySelectorAll('.sdnminisearch input').forEach(input => {
-  const mini = input.closest('.sdnmini');
-  const rows = [...mini.querySelectorAll('.sdnrow')];
-  const count = input.closest('.sdnminisearch').querySelector('.sdncount');
-  input.addEventListener('input', () => {
-    const query = input.value.trim().toLowerCase();
-    let shown = 0;
-    rows.forEach(row => {
-      const match = !query || row.textContent.toLowerCase().includes(query);
-      row.hidden = !match;
-      if (match) shown++;
-    });
-    if (count) count.textContent = query ? `${shown} of ${rows.length} match` : '';
-  });
-});
-
 // Full-list SDN search — looks up a name against the CURRENT ~19k-entry list,
 // not just recent changes. sdn_index.json isn't fetched until the reader
 // actually types something, so a page load that never touches this box never
@@ -2962,18 +2942,8 @@ def sdn_panel(today):
         # or a short list must not be mistaken for missing data.
         note = (f'<p class="sdnnote">All {len(matching)} recorded.</p>'
                 if len(matching) < 5 else '')
-        # Own search box per list, filtering just its own up-to-5 rows —
-        # cheap given the size, but keeps each list self-contained rather
-        # than reaching for a shared filter across three different lists
-        # of different types.
-        search = (
-            f'<div class="sdnsearch sdnminisearch">'
-            f'<input type="search" autocomplete="off" '
-            f'placeholder="Filter by name or program…" aria-label="Filter {hesc(title.lower())}">'
-            f'<span class="sdncount"></span></div>'
-        )
         return (f'<details class="sdnmini"><summary><h3>{title}</h3></summary>'
-                f'{search}{rows}{note}</details>')
+                f'{rows}{note}</details>')
 
     highlights = (
         '<div class="sdnhighlights">'
