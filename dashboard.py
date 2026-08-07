@@ -2857,7 +2857,7 @@ def coverage_panel(store):
         + '. History depth varies by source — some publish archives going back '
         'years, others only their most recent items.')
     return (
-        '<details class="coverage" open><summary>What this covers, and what it does not'
+        '<details class="coverage"><summary>What this covers, and what it does not'
         '</summary><div class="body">'
         f'<p><strong>Tracked:</strong> {tracked_intro}</p>'
         f'<div class="grid">{"".join(rows)}</div>'
