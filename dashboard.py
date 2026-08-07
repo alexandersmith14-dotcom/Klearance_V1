@@ -951,10 +951,20 @@ header.krheader{animation-delay:.08s}
 .p-sdn .sdnlist{display:flex;flex-direction:column;gap:2px}
 .sdnrow{display:flex;align-items:center;gap:10px;padding:6px 0;
   border-bottom:1px solid var(--rule);flex-wrap:wrap}
+.sdnrow[hidden]{display:none}
 .sdnrow .badge{flex:none}
 .sdnname{font-size:13px;font-weight:600;flex:1 1 auto;min-width:180px}
 .sdnmeta{font-size:12px;color:var(--ink-muted);white-space:nowrap}
 .sdnempty,.sdnnote{font-size:12.5px;color:var(--ink-muted)}
+.sdnsearch{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.sdnsearch input{flex:1 1 320px;max-width:420px;appearance:none;-webkit-appearance:none;
+  font-family:var(--ui-font);font-size:14px;padding:8px 12px;
+  color:var(--ink);background:var(--surface);border:1px solid var(--border);
+  border-radius:10px}
+.sdnsearch input:focus{outline:2px solid var(--brand);outline-offset:1px;
+  border-color:var(--brand)}
+.sdnsearch input::-webkit-search-cancel-button{display:none}
+.sdncount{font-size:12.5px;color:var(--ink-muted)}
 .card .agency{font-size:12px;color:var(--ink-muted)}
 .card h3{font-size:14.5px;margin:0 0 5px;font-weight:600;line-height:1.35;
   text-align:justify;text-align-last:left}
@@ -2025,6 +2035,28 @@ if (dlMoreBtn) dlMoreBtn.addEventListener('click', () => {
   dlMoreBtn.hidden = true;
 });
 
+// OFAC SDN panel search — a small standalone filter, independent of the main
+// card search/filter pipeline above. The SDN list has no agency/view/relevant
+// dimensions to combine with, just a name/program to match, so it doesn't need
+// that machinery — plain substring match against each row's own text, toggling
+// `hidden` the same way the card list's own pagination does.
+const sdnq = document.getElementById('sdnq');
+if (sdnq) {
+  const sdnRows = [...document.querySelectorAll('.sdnrow')];
+  const sdnCount = document.getElementById('sdncount');
+  sdnq.addEventListener('input', () => {
+    const query = sdnq.value.trim().toLowerCase();
+    let shown = 0;
+    sdnRows.forEach(row => {
+      const match = !query || row.textContent.toLowerCase().includes(query);
+      row.hidden = !match;
+      if (match) shown++;
+    });
+    if (sdnCount) sdnCount.textContent =
+      query ? `${shown} of ${sdnRows.length} match` : '';
+  });
+}
+
 // "Add to calendar" — delegated on document rather than any one list, since
 // .cal buttons now render in three places that each re-render independently
 // (sidebar deadlines, update cards, "also found" cards) and re-binding a
@@ -2788,6 +2820,15 @@ def coverage_panel(store):
         'Federal Register record could be matched, and taken from that record\'s '
         'structured fields. An item showing no deadline has no match — that does '
         'not mean no deadline exists.</p>'
+        # A separate mechanism from everything above — full-list diff against
+        # OFAC's own SDN.CSV, not the classified/relevance-filtered feed — so
+        # it needs its own line here or its coverage is invisible next to the
+        # agency list above, same principle as the rest of this panel.
+        '<p><strong>OFAC SDN list:</strong> tracked separately from the agency '
+        'feed above — the full <a href="https://sanctionslist.ofac.treas.gov/Home/SdnList" '
+        'target="_blank" rel="noopener">Specially Designated Nationals list</a> is '
+        'downloaded and diffed against the previous day\'s list, not classified or '
+        'filtered for relevance the way the rest of this page is.</p>'
         # One honest scope line instead of an enumerated "not tracked" list. The
         # enumeration named specific agencies (which read as tracked) and kept
         # inviting the question of why NYDFS — followed only by personal email
@@ -2845,7 +2886,14 @@ def sdn_panel(today, days=30, cap=200):
         omitted = len(recent) - len(shown)
         note = (f'<p class="sdnnote">{omitted} more not shown — see the full '
                 f'log.</p>' if omitted > 0 else "")
-        body = f'<div class="sdnlist">{rows}</div>{note}'
+        search = (
+            '<div class="sdnsearch">'
+            '<input id="sdnq" type="search" autocomplete="off" '
+            'placeholder="Search by name or program…" aria-label="Search SDN list changes">'
+            '<span id="sdncount" class="sdncount"></span>'
+            '</div>'
+        )
+        body = f'{search}<div class="sdnlist">{rows}</div>{note}'
 
     return (
         '<details class="panel p-sdn foldable">'
