@@ -53,6 +53,9 @@ jobs:
       - name: Match Federal Register deadlines
         run: python deadlines.py
 
+      - name: Check OFAC SDN list for changes
+        run: python sdn_monitor.py
+
       - name: Build dashboard
         run: python dashboard.py
 
@@ -82,7 +85,7 @@ jobs:
         run: |
           git config user.name "regwatch-bot"
           git config user.email "actions@github.com"
-          git add store.json dashboard.html
+          git add store.json dashboard.html sdn_log.json
           # Nothing to do when no new items were published that day.
           if git diff --staged --quiet; then
             echo "No changes to publish."

@@ -118,6 +118,11 @@ OUT_PATH = "dashboard.html"
 # Derived output, never committed (see .gitignore).
 ICS_PATH = "deadlines.ics"
 
+# Cumulative log of OFAC SDN list changes, written by sdn_monitor.py. Read-only
+# here — this file's lifecycle (fetch, diff, snapshot) lives entirely in that
+# script, not in the dashboard build.
+SDN_LOG_PATH = "sdn_log.json"
+
 # Absolute URL of the published site. Social scrapers require absolute URLs for
 # og:image and og:url — a relative path silently produces no preview.
 SITE_URL = "https://alexandersmith14-dotcom.github.io/Klearance_V1/"
@@ -939,6 +944,17 @@ header.krheader{animation-delay:.08s}
 .badge.t-Proposed{color:#fff;background:var(--warn)}
 .badge.t-Guidance{color:#fff;background:var(--brand)}
 .badge.t-Enforcement{color:#fff;background:var(--neutral)}
+.badge.sdn-added{color:#fff;background:var(--ok)}
+.badge.sdn-removed{color:#fff;background:var(--crit)}
+.badge.sdn-modified{color:#fff;background:var(--warn)}
+.p-sdn .sdnintro{font-size:12.5px;color:var(--ink-muted);margin:2px 0 12px}
+.p-sdn .sdnlist{display:flex;flex-direction:column;gap:2px}
+.sdnrow{display:flex;align-items:center;gap:10px;padding:6px 0;
+  border-bottom:1px solid var(--rule);flex-wrap:wrap}
+.sdnrow .badge{flex:none}
+.sdnname{font-size:13px;font-weight:600;flex:1 1 auto;min-width:180px}
+.sdnmeta{font-size:12px;color:var(--ink-muted);white-space:nowrap}
+.sdnempty,.sdnnote{font-size:12.5px;color:var(--ink-muted)}
 .card .agency{font-size:12px;color:var(--ink-muted)}
 .card h3{font-size:14.5px;margin:0 0 5px;font-weight:600;line-height:1.35;
   text-align:justify;text-align-last:left}
@@ -2793,6 +2809,57 @@ def coverage_panel(store):
     )
 
 
+ACTION_LABEL = {"added": "Added", "removed": "Removed", "modified": "Modified"}
+
+
+def sdn_panel(today, days=30, cap=200):
+    """OFAC SDN list changes from the last `days` days, written by
+    sdn_monitor.py into SDN_LOG_PATH. Server-rendered, not JS-templated like
+    the main card feed — volume here is naturally small (usually single
+    digits a day), so there's no pagination-vs-crawlability tradeoff to
+    make; everything just renders.
+    """
+    if not os.path.exists(SDN_LOG_PATH):
+        return ""
+    with open(SDN_LOG_PATH, encoding="utf-8") as f:
+        log = json.load(f)
+
+    cutoff = (today - timedelta(days=days)).isoformat()
+    recent = [e for e in log if e["date"] >= cutoff]
+    recent.sort(key=lambda e: e["date"], reverse=True)
+    shown = recent[:cap]
+
+    if not shown:
+        body = ('<p class="sdnempty">No SDN list changes recorded in the last '
+                f'{days} days.</p>')
+    else:
+        rows = "".join(
+            f'<div class="sdnrow">'
+            f'<span class="badge sdn-{e["action"]}">{ACTION_LABEL[e["action"]]}</span>'
+            f'<span class="sdnname">{hesc(e["name"] or "(unnamed entry)")}</span>'
+            f'<span class="sdnmeta">{hesc(e["program"] or "—")}'
+            f'{" · " + hesc(e["sdn_type"]) if e["sdn_type"] else ""} · {hesc(e["date"])}</span>'
+            f'</div>'
+            for e in shown
+        )
+        omitted = len(recent) - len(shown)
+        note = (f'<p class="sdnnote">{omitted} more not shown — see the full '
+                f'log.</p>' if omitted > 0 else "")
+        body = f'<div class="sdnlist">{rows}</div>{note}'
+
+    return (
+        '<details class="panel p-sdn foldable">'
+        f'<summary><h2>OFAC SDN list changes <span style="float:right;'
+        f'text-transform:none;letter-spacing:0">last {days} days</span></h2></summary>'
+        '<p class="sdnintro">Day-over-day changes to OFAC\'s Specially '
+        'Designated Nationals list — additions, removals and edits, '
+        'diffed against the previous day\'s full list. Not classified or '
+        'summarized; a name and program tag speaks for itself.</p>'
+        f'{body}'
+        '</details>'
+    )
+
+
 # ----------------------------------------------------------- calendar feed (.ics)
 # One VEVENT per upcoming deadline, each an all-day event carrying two DISPLAY
 # alarms (7 days and 1 day before). The same event structure is built client-side
@@ -2929,6 +2996,7 @@ def main():
 
     coverage_html = coverage_panel(store)
     regref_html = regref_panel()
+    sdn_html = sdn_panel(today)
 
 
     # Tiles are clickable when they count something — clicking filters the list to
@@ -3307,6 +3375,8 @@ def main():
     </details>
   </div>
 </div>
+
+<div style="margin-top:18px">{sdn_html}</div>
 
 </div>
 
