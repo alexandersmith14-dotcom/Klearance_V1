@@ -200,3 +200,85 @@ jobs:
                        "The site published normally; these sources are missing from it.")
           print(f"All sources healthy ({len(quiet)} quiet).")
           PY
+
+  # A red run relies on GitHub's own email notification, which depends on
+  # per-user settings that can be off or missed. This is a second, explicit
+  # channel: one open issue per failure, reused across repeat failures rather
+  # than piling up duplicates, so it's impossible to miss on the repo's own
+  # front page even if email notifications are muted.
+  notify-failure:
+    needs: [update, deploy, health-gate]
+    if: failure()
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const runUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const body = [
+              `Run [${context.runId}](${runUrl}) failed.`,
+              '',
+              `- update: ${{ needs.update.result }}`,
+              `- deploy: ${{ needs.deploy.result }}`,
+              `- health-gate: ${{ needs.health-gate.result }}`,
+            ].join('\n');
+
+            const open = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'workflow-failure',
+            });
+
+            if (open.data.length) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: open.data[0].number,
+                body,
+              });
+            } else {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: 'Update tracker run failed',
+                body,
+                labels: ['workflow-failure'],
+              });
+            }
+
+  # Closes whatever notify-failure opened once a run goes fully green again,
+  # so a fixed problem doesn't sit open indefinitely.
+  close-failure-issue:
+    needs: [update, deploy, health-gate]
+    if: success()
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const runUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const open = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'workflow-failure',
+            });
+            for (const issue of open.data) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                body: `Resolved by [${context.runId}](${runUrl}) — all jobs succeeded.`,
+              });
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                state: 'closed',
+              });
+            }
