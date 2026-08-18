@@ -619,7 +619,7 @@ SOURCES = (
     + [(s, fetch_dob) for s in DOB_PAGES]
 )
 
-def fetch_with_retry(fetch, source, attempts=3, pause=3):
+def fetch_with_retry(fetch, source, attempts=5, pause=5):
     # health.py marks a source BROKEN on a single failed run, no averaging like
     # the QUIET threshold gets, so one dropped connection reads the same as a
     # genuinely dead source. In one day: CFPB Rules hit IncompleteRead twice,
@@ -629,13 +629,17 @@ def fetch_with_retry(fetch, source, attempts=3, pause=3):
     # fetched all three clean immediately after. That pattern is the runner's
     # network, not the sources, so the retry belongs at the call site shared
     # by every fetcher rather than duplicated inside each one.
+    #
+    # 3 attempts / 3s still let OCC through as BROKEN in 2 of 12 runs (2026-08-18)
+    # — bumped to 5 attempts with exponential backoff (5s, 10s, 20s, 40s) so a
+    # longer transient block has room to clear before the run gives up.
     for attempt in range(attempts):
         try:
             return fetch(source)
         except Exception:
             if attempt == attempts - 1:
                 raise
-            time.sleep(pause)
+            time.sleep(pause * (2 ** attempt))
 
 
 def main():
