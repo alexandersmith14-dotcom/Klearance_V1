@@ -17553,5 +17553,1623 @@
     "first_seen": "2026-07-25",
     "last_seen": "2026-08-18",
     "fr_checked": true
+  },
+  "7837b09b191408e4": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Notice",
+    "urgency": "Medium",
+    "plain_english": "The FDIC announced a new two-phase deposit insurance application process for de novo banks, offering contingent authorization within 120 days and final approval within 12 months. This is intended to speed up and clarify the chartering process, encouraging new bank formation\u2014especially relevant to community bank entrants and fintech groups seeking de novo bank charters.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "FDIC",
+      "de novo",
+      "deposit insurance",
+      "bank formation",
+      "chartering"
+    ],
+    "key": "7837b09b191408e4",
+    "title": "FDIC Announces New Review Process for Deposit Insurance Applications",
+    "date": "2026-08-10",
+    "sources": [
+      "FDIC"
+    ],
+    "url": "https://content.govdelivery.com/accounts/USFDIC/bulletins/42448d0",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": true
+  },
+  "8eb6abeab950db7d": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Notice",
+    "urgency": "Low",
+    "plain_english": "The FDIC published its routine monthly list of state nonmember banks that received CRA evaluation ratings in May 2026. This is a standard public-disclosure release with no rule change; institutions can look up their published ratings.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "CRA",
+      "FDIC",
+      "routine disclosure",
+      "state nonmember banks"
+    ],
+    "key": "8eb6abeab950db7d",
+    "title": "FDIC Issues List of Banks Examined for CRA Compliance",
+    "date": "2026-08-05",
+    "sources": [
+      "FDIC"
+    ],
+    "url": "https://content.govdelivery.com/accounts/USFDIC/bulletins/421aaa6",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": true
+  },
+  "704eb983b6ced900": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Notice",
+    "urgency": "Low",
+    "plain_english": "The FDIC launched a standalone Office of Supervisory Appeals to hear appeals of material supervisory determinations, replacing the Supervision Appeals Review Committee, along with amendments to its appeals guidelines that are now effective. This affects how FDIC-supervised banks can challenge exam findings and ratings.",
+    "effective_or_comment_date": "Effective now that OSA is operational (guidelines approved Jan 22, 2026)",
+    "tags": [
+      "FDIC",
+      "supervisory appeals",
+      "bank supervision",
+      "examinations"
+    ],
+    "key": "704eb983b6ced900",
+    "title": "FDIC Office of Supervisory Appeals Is Operational",
+    "date": "2026-08-04",
+    "sources": [
+      "FDIC",
+      "FDIC FILs"
+    ],
+    "url": "https://content.govdelivery.com/accounts/USFDIC/bulletins/423929b",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": true
+  },
+  "7ff3dd39a63622e3": {
+    "relevant": true,
+    "fintech_specific": true,
+    "credit_union": false,
+    "update_type": "Notice",
+    "urgency": "Medium",
+    "plain_english": "The FDIC approved deposit insurance for Augustus National Bank, a newly chartered OCC national bank serving digital asset firms, that plans to issue a stablecoin (pending GENIUS Act approval) and use FBO and correspondent accounts. This signals regulators are approving crypto/stablecoin-focused bank charters, a notable data point for BaaS, stablecoin, and digital-asset banking business models.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "stablecoin",
+      "GENIUS Act",
+      "digital assets",
+      "deposit insurance",
+      "FBO accounts",
+      "de novo charter",
+      "payments"
+    ],
+    "key": "7ff3dd39a63622e3",
+    "title": "FDIC Approves the Deposit Insurance Application for Augustus National Bank, N.A., Dallas, Texas",
+    "date": "2026-08-04",
+    "sources": [
+      "FDIC"
+    ],
+    "url": "https://content.govdelivery.com/accounts/USFDIC/bulletins/4238e4a",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": true
+  },
+  "c8c3ae042dc072b8": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Guidance",
+    "urgency": "Low",
+    "plain_english": "The Fed, FDIC, NCUA, and OCC issued a joint enforcement-policy statement (paralleling FinCEN) offering supervisory forbearance for institutions facilitating humanitarian aid and reconstruction financing tied to Venezuela's recent earthquakes. It aims to reduce regulatory uncertainty (e.g., BSA/AML and sanctions concerns) for banks and credit unions that provide such services. Applies broadly to all supervised institutions; not specific to fintechs or credit unions.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "BSA/AML",
+      "sanctions",
+      "enforcement policy",
+      "interagency",
+      "Venezuela",
+      "humanitarian"
+    ],
+    "key": "c8c3ae042dc072b8",
+    "title": "Joint Statement of Enforcement Policy in support of Venezuela\u2019s Economic Recovery and Earthquake Relief Efforts",
+    "date": "2026-07-31",
+    "sources": [
+      "FDIC",
+      "NCUA Press"
+    ],
+    "url": "https://content.govdelivery.com/accounts/USFDIC/bulletins/42305d8",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": false
+  },
+  "47ef56ad583e4046": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Proposed Rule",
+    "urgency": "Medium",
+    "plain_english": "The FDIC Board approved two notices of proposed rulemaking: one revising Community Reinvestment Act regulations and one on extensions of credit to insiders (Reg O-type rules). Both affect FDIC-supervised banks, including community banks, and are open for comment.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "FDIC",
+      "CRA",
+      "Community Reinvestment Act",
+      "insider lending",
+      "Regulation O",
+      "proposed rule"
+    ],
+    "key": "47ef56ad583e4046",
+    "title": "FDIC Board of Directors Approve New Actions",
+    "date": "2026-07-31",
+    "sources": [
+      "FDIC"
+    ],
+    "url": "https://content.govdelivery.com/accounts/USFDIC/bulletins/422e02c",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": true
+  },
+  "00676b0c15383d83": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Enforcement Action",
+    "urgency": "Low",
+    "plain_english": "The FDIC published its monthly list of June 2026 enforcement actions, including civil money penalties, consent orders, prohibitions, and several insurance terminations against community banks and individuals. Notable insurance terminations hit Prime Meridian Bank, Marine Bank & Trust, Gold Coast Bank, Heritage Bank of St Tammany, and Meadows Bank. Routine monthly disclosure with no rule change.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "FDIC",
+      "enforcement",
+      "consent order",
+      "civil money penalty",
+      "community banks"
+    ],
+    "key": "00676b0c15383d83",
+    "title": "FDIC Publishes Enforcement Orders for June 2026",
+    "date": "2026-07-31",
+    "sources": [
+      "FDIC"
+    ],
+    "url": "https://content.govdelivery.com/accounts/USFDIC/bulletins/421a8b4",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": false
+  },
+  "2927f40818deb180": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Guidance",
+    "urgency": "Low",
+    "plain_english": "Federal bank regulators issued a joint statement on enhanced procedures for handling highly sensitive bank information during examinations, favoring on-site review over transferring data to agency systems. The agencies committed to notify affected banks of any material data breach involving confidential supervisory information within 72 hours of discovery. Applies to examined banks generally; largely a supervisory-process assurance rather than a new compliance obligation for institutions.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "examinations",
+      "cybersecurity",
+      "confidential supervisory information",
+      "interagency",
+      "data breach"
+    ],
+    "key": "2927f40818deb180",
+    "title": "Agencies Issue Joint Statement on Handling of Highly Sensitive Information During Bank Examinations",
+    "date": "2026-07-16",
+    "sources": [
+      "FDIC",
+      "Federal Reserve",
+      "FDIC FILs"
+    ],
+    "url": "https://content.govdelivery.com/accounts/USFDIC/bulletins/420cf8d",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": false
+  },
+  "4a1d8c8376138ecb": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Guidance",
+    "urgency": "Medium",
+    "plain_english": "The OCC, FDIC, and NCUA jointly issued guidance reminding institutions of existing credit-risk-management obligations when lending to borrowers not legally authorized to work in the US, citing elevated repayment uncertainty and pointing to the CFPB's June 8, 2026 statement on ability-to-repay and immigration status under Reg Z and Reg B. It advises sound underwriting to assess willingness and capacity to repay. Applies broadly to consumer and other lenders across banks and credit unions.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "credit risk",
+      "underwriting",
+      "consumer lending",
+      "interagency guidance",
+      "Regulation Z",
+      "Regulation B",
+      "CFPB"
+    ],
+    "key": "4a1d8c8376138ecb",
+    "title": "Agencies Issue Guidance on Lending to Individuals Not Legally Authorized to Work in the United States",
+    "date": "2026-07-13",
+    "sources": [
+      "FDIC",
+      "NCUA Press",
+      "FDIC FILs"
+    ],
+    "url": "https://content.govdelivery.com/accounts/USFDIC/bulletins/4204ca6",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": false
+  },
+  "dadebed8b5dc2545": {
+    "relevant": false,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Enforcement Action",
+    "urgency": "Low",
+    "plain_english": "The Fed issued an enforcement action against a former individual employee of Regions Bank, a large institution. This is a personnel-specific action with no rulemaking or broad supervisory implications for community banks, credit unions, or fintechs.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "enforcement action",
+      "Federal Reserve",
+      "individual"
+    ],
+    "key": "dadebed8b5dc2545",
+    "title": "Federal Reserve Board issues enforcement action with former employee of Regions Bank",
+    "date": "2026-08-13",
+    "sources": [
+      "Federal Reserve"
+    ],
+    "url": "https://www.federalreserve.gov/newsevents/pressreleases/enforcement20260813a.htm",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": false
+  },
+  "c46667f6e384f927": {
+    "relevant": false,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Notice",
+    "urgency": "Low",
+    "plain_english": "The Fed approved a bank holding company application by Coastal Bend Bancshares. This is a routine individual application approval with no rule change or broad supervisory implication.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "bank holding company",
+      "application approval",
+      "Federal Reserve"
+    ],
+    "key": "c46667f6e384f927",
+    "title": "Federal Reserve Board announces approval of the application by Coastal Bend Bancshares, Inc.",
+    "date": "2026-08-04",
+    "sources": [
+      "Federal Reserve"
+    ],
+    "url": "https://www.federalreserve.gov/newsevents/pressreleases/orders20260804c.htm",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": false
+  },
+  "987cb7dcb75d8843": {
+    "relevant": false,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Notice",
+    "urgency": "Low",
+    "plain_english": "The Federal Reserve approved an application by FS Bancorp, Inc., a routine bank holding company application approval with no stated details on the transaction. This is an administrative order affecting a single institution and carries no rule change or broad implications.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "Federal Reserve",
+      "holding company application",
+      "bank M&A"
+    ],
+    "key": "987cb7dcb75d8843",
+    "title": "Federal Reserve Board announces approval of the application by FS Bancorp, Inc.",
+    "date": "2026-08-04",
+    "sources": [
+      "Federal Reserve"
+    ],
+    "url": "https://www.federalreserve.gov/newsevents/pressreleases/orders20260804b.htm",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": false
+  },
+  "55a7bba0601d0551": {
+    "relevant": false,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Notice",
+    "urgency": "Low",
+    "plain_english": "The Fed approved an application by Banco Santander and its US holding company. This is a large-bank M&A/application approval that doesn't affect community banks, credit unions, or fintech-specific rules.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "Federal Reserve",
+      "bank application",
+      "large bank"
+    ],
+    "key": "55a7bba0601d0551",
+    "title": "Federal Reserve Board announces approval of the application by Banco Santander, S.A. and Santander Holdings USA, Inc.",
+    "date": "2026-08-04",
+    "sources": [
+      "Federal Reserve"
+    ],
+    "url": "https://www.federalreserve.gov/newsevents/pressreleases/orders20260804a.htm",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": false
+  },
+  "a385ced6d8ddd816": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Proposed Rule",
+    "urgency": "Medium",
+    "plain_english": "The Fed is proposing to modernize Regulation O, which governs loans banks make to their own insiders (executives, directors, major shareholders). Community banks would need to reassess insider-lending policies and compliance controls if the changes are finalized.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "Regulation O",
+      "insider lending",
+      "Federal Reserve",
+      "proposed rule",
+      "corporate governance"
+    ],
+    "key": "a385ced6d8ddd816",
+    "title": "Federal Reserve Board requests comment on a proposal to modernize its rule governing the extension of credit to bank \"insiders\"\u2014bank executives, board members and major shareholders who could potentially influence a bank's lending decisions",
+    "date": "2026-07-31",
+    "sources": [
+      "Federal Reserve"
+    ],
+    "url": "https://www.federalreserve.gov/newsevents/pressreleases/bcreg20260731b.htm",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": true
+  },
+  "2f138cb36a3c4c3c": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Proposed Rule",
+    "urgency": "Low",
+    "plain_english": "The Fed is proposing to modernize its rules governing mutual banking organizations. Mutual savings banks and mutual holding companies would be the primary affected institutions; other community banks are not directly touched.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "Federal Reserve",
+      "mutual banks",
+      "proposed rule",
+      "governance"
+    ],
+    "key": "2f138cb36a3c4c3c",
+    "title": "Federal Reserve Board requests comment on a proposal to modernize rules for mutual banking organizations",
+    "date": "2026-07-31",
+    "sources": [
+      "Federal Reserve"
+    ],
+    "url": "https://www.federalreserve.gov/newsevents/pressreleases/bcreg20260731a.htm",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": true
+  },
+  "69680d8c47af1b95": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Enforcement Action",
+    "urgency": "Low",
+    "plain_english": "The Federal Reserve issued an enforcement action against Iuka Bancshares and The Iuka State Bank, a small community banking organization. Details of the underlying conduct aren't specified, but this is an institution-specific supervisory matter relevant mainly to that bank and as a general community-bank enforcement data point.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "enforcement action",
+      "community bank",
+      "Federal Reserve"
+    ],
+    "key": "69680d8c47af1b95",
+    "title": "Federal Reserve Board issues enforcement action with Iuka Bancshares, Inc. and The Iuka State Bank",
+    "date": "2026-07-30",
+    "sources": [
+      "Federal Reserve"
+    ],
+    "url": "https://www.federalreserve.gov/newsevents/pressreleases/enforcement20260730b.htm",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": false
+  },
+  "94cf903de7c0d227": {
+    "relevant": false,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Enforcement Action",
+    "urgency": "Low",
+    "plain_english": "The Federal Reserve issued enforcement actions against two former individual bank employees (Regions Bank and First Interstate Bank). These are individual-level actions with no rule change or systemic policy implication for community banks, credit unions, or fintechs.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "enforcement action",
+      "Federal Reserve",
+      "individual"
+    ],
+    "key": "94cf903de7c0d227",
+    "title": "Federal Reserve Board issues enforcement actions with former employee of Regions Bank and former employee of First Interstate Bank",
+    "date": "2026-07-30",
+    "sources": [
+      "Federal Reserve"
+    ],
+    "url": "https://www.federalreserve.gov/newsevents/pressreleases/enforcement20260730a.htm",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": false
+  },
+  "b04abfad08449fd8": {
+    "relevant": false,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Notice",
+    "urgency": "Low",
+    "plain_english": "The FOMC issued its routine monetary-policy statement. This is a macroeconomic/interest-rate announcement, not a regulatory development affecting supervision, compliance, or licensing.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "FOMC",
+      "monetary policy",
+      "Federal Reserve"
+    ],
+    "key": "b04abfad08449fd8",
+    "title": "Federal Reserve issues FOMC statement",
+    "date": "2026-07-29",
+    "sources": [
+      "Federal Reserve"
+    ],
+    "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260729a.htm",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": false
+  },
+  "3bb4456de80a96b8": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Guidance",
+    "urgency": "Medium",
+    "plain_english": "The Fed issued supervisory guidance addressing lending to individuals not legally authorized to work in the US, affecting how banks assess and underwrite such consumer credit. This touches consumer lending and credit-risk practices for supervised institutions.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "consumer lending",
+      "credit risk",
+      "Fed guidance",
+      "SR letter"
+    ],
+    "key": "3bb4456de80a96b8",
+    "title": "SR 26-4",
+    "date": "2026-08-13",
+    "sources": [
+      "Fed SR/CA Letters"
+    ],
+    "url": "https://www.federalreserve.gov/supervisionreg/srletters/SR2604.htm",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": false
+  },
+  "6727790e3b4672c9": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Notice",
+    "urgency": "Low",
+    "plain_english": "The CFPB will stop its discretionary publication of consumer complaint narratives and visualizations in its public complaint database. This reduces public exposure of complaint details for all supervised institutions, though the underlying complaint-handling obligations are unchanged.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "CFPB",
+      "consumer complaints",
+      "transparency",
+      "complaint database"
+    ],
+    "key": "6727790e3b4672c9",
+    "title": "The CFPB to Cease Discretionary Publication of Complaint Narratives and Visualizations",
+    "date": "2026-08-14",
+    "sources": [
+      "CFPB"
+    ],
+    "url": "https://www.consumerfinance.gov/about-us/newsroom/the-cfpb-to-cease-discretionary-publication-of-complaint-narratives-and-visualizations/",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": true
+  },
+  "9ceac27cdfdb4375": {
+    "relevant": false,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Notice",
+    "urgency": "Low",
+    "plain_english": "CFPB Deputy Director gave remarks to the Financial Literacy and Education Commission. This is a speech with no regulatory change or new requirements.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "CFPB",
+      "speech",
+      "financial-literacy"
+    ],
+    "key": "9ceac27cdfdb4375",
+    "title": "Deputy Director Mark Paoletta\u2019s Remarks to the Financial Literacy and Education Commission",
+    "date": "2026-07-27",
+    "sources": [
+      "CFPB"
+    ],
+    "url": "https://www.consumerfinance.gov/about-us/newsroom/deputy-director-mark-paolettas-remarks-to-the-financial-literacy-and-education-commission/",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": false
+  },
+  "e2dec76cb56c9192": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Final Rule",
+    "urgency": "Medium",
+    "plain_english": "",
+    "effective_or_comment_date": "",
+    "tags": [],
+    "key": "e2dec76cb56c9192",
+    "title": "Joint Rule Establishing Data Standards under the Financial Data Transparency Act of 2022",
+    "date": "2026-06-08",
+    "sources": [
+      "CFPB Rules",
+      "FDIC FILs"
+    ],
+    "url": "https://www.consumerfinance.gov/rules-policy/final-rules/financial-data-transparency-act-joint-data-standards/",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": true,
+    "fr_url": "https://www.federalregister.gov/documents/2026/06/25/2026-12787/financial-data-transparency-act-joint-data-standards",
+    "fr_title": "Financial Data Transparency Act Joint Data Standards",
+    "fr_match_score": 0.6,
+    "comments_close_on": null,
+    "effective_on": "2026-10-01",
+    "fr_dates_text": "Effective date: The joint rule is effective on October 1, 2026. At the effective date, the joint rule will not change any reporting requirements without further action by the agencies."
+  },
+  "aa07624f1ef06260": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Final Rule",
+    "urgency": "Medium",
+    "plain_english": "FinCEN finalized its narrowed CTA beneficial ownership reporting rule, permanently exempting U.S. persons and domestic reporting companies from most BOI reporting, including company-applicant reporting and FinCEN ID update obligations for U.S. persons. This reduces the BOI universe that banks may reference during CDD, though it does not change banks' own customer due diligence obligations.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "FinCEN",
+      "BSA/AML",
+      "Beneficial Ownership",
+      "Corporate Transparency Act",
+      "BOI"
+    ],
+    "key": "aa07624f1ef06260",
+    "title": "Beneficial Ownership Information Reporting Requirement Revision",
+    "date": "2026-08-14",
+    "sources": [
+      "FinCEN"
+    ],
+    "url": "https://www.federalregister.gov/documents/2026/08/14/2026-16576/beneficial-ownership-information-reporting-requirement-revision",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": true,
+    "fr_url": "https://www.federalregister.gov/documents/2026/08/14/2026-16576/beneficial-ownership-information-reporting-requirement-revision",
+    "fr_title": "Beneficial Ownership Information Reporting Requirement Revision",
+    "fr_match_score": 1.0,
+    "comments_close_on": null,
+    "effective_on": "2026-08-14",
+    "fr_dates_text": "This rule is effective August 14, 2026."
+  },
+  "a3220ce147a8c943": {
+    "relevant": true,
+    "fintech_specific": true,
+    "credit_union": false,
+    "update_type": "Notice",
+    "urgency": "High",
+    "plain_english": "FinCEN issued a Geographic Targeting Order requiring banks and money transmitters in Hennepin and Ramsey Counties, Minnesota to retain and report records of certain payments of $3,000 or more. Affected institutions in those counties must implement enhanced recordkeeping and reporting for covered transactions.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "FinCEN",
+      "GTO",
+      "BSA/AML",
+      "money transmitters",
+      "Minnesota",
+      "recordkeeping"
+    ],
+    "key": "a3220ce147a8c943",
+    "title": "Geographic Targeting Order Imposing Recordkeeping and Reporting Requirements on Certain Financial Institutions in Minnesota",
+    "date": "2026-08-11",
+    "sources": [
+      "FinCEN"
+    ],
+    "url": "https://www.federalregister.gov/documents/2026/08/11/2026-16365/geographic-targeting-order-imposing-recordkeeping-and-reporting-requirements-on-certain-financial",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": true,
+    "fr_url": "https://www.federalregister.gov/documents/2026/08/11/2026-16365/geographic-targeting-order-imposing-recordkeeping-and-reporting-requirements-on-certain-financial",
+    "fr_title": "Geographic Targeting Order Imposing Recordkeeping and Reporting Requirements on Certain Financial Institutions in Minnesota",
+    "fr_match_score": 1.0,
+    "comments_close_on": null,
+    "effective_on": "2026-08-11",
+    "fr_dates_text": "Effective date: This action is effective on August 11, 2026."
+  },
+  "f81adcf6d84da1a4": {
+    "relevant": false,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Notice",
+    "urgency": "Low",
+    "plain_english": "FinCEN is renewing, without change, a generic Paperwork Reduction Act clearance to collect qualitative feedback on its own service delivery. This is a routine administrative PRA notice with no substantive regulatory impact.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "FinCEN",
+      "PRA",
+      "administrative",
+      "information collection"
+    ],
+    "key": "f81adcf6d84da1a4",
+    "title": "Agency Information Collection Activities: Proposed Renewal; Comment Request; Renewal Without Change of the Generic Clearance for the Collection of Qualitative Feedback on Agency Service Delivery",
+    "date": "2026-07-29",
+    "sources": [
+      "FinCEN"
+    ],
+    "url": "https://www.federalregister.gov/documents/2026/07/29/2026-15318/agency-information-collection-activities-proposed-renewal-comment-request-renewal-without-change-of",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": false
+  },
+  "a1761323b2c84063": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": true,
+    "update_type": "Final Rule",
+    "urgency": "Low",
+    "plain_english": "NCUA is deleting its regulatory provisions governing approval and policies for credit unions lending to other credit unions. Federal credit unions still must follow the underlying statutory requirements, and state-chartered credit unions remain subject to applicable NCUA and state law. This is a deregulatory cleanup affecting credit-union-to-credit-union lending.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "NCUA",
+      "credit unions",
+      "lending",
+      "deregulation",
+      "final rule"
+    ],
+    "key": "a1761323b2c84063",
+    "title": "Limits on Loans to Other Credit Unions",
+    "date": "2026-08-06",
+    "sources": [
+      "NCUA"
+    ],
+    "url": "https://www.federalregister.gov/documents/2026/08/06/2026-16035/limits-on-loans-to-other-credit-unions",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": true,
+    "fr_url": "https://www.federalregister.gov/documents/2026/08/06/2026-16035/limits-on-loans-to-other-credit-unions",
+    "fr_title": "Limits on Loans to Other Credit Unions",
+    "fr_match_score": 1.0,
+    "comments_close_on": null,
+    "effective_on": "2026-09-08",
+    "fr_dates_text": "This final rule is effective on September 8, 2026."
+  },
+  "b33e1f07d1c6443e": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": true,
+    "update_type": "Final Rule",
+    "urgency": "Low",
+    "plain_english": "NCUA is rescinding IRPS 08-2 on adding underserved areas to federal credit union fields of membership, since the Chartering Manual already contains the current requirements. This is a cleanup that reduces the number of sources FCUs must consult, with no substantive change to underserved-area rules.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "NCUA",
+      "field of membership",
+      "chartering",
+      "underserved areas",
+      "credit unions"
+    ],
+    "key": "b33e1f07d1c6443e",
+    "title": "Chartering and Field of Membership for Federal Credit Unions-Interpretive Ruling and Policy Statement 08-2",
+    "date": "2026-08-06",
+    "sources": [
+      "NCUA"
+    ],
+    "url": "https://www.federalregister.gov/documents/2026/08/06/2026-16031/chartering-and-field-of-membership-for-federal-credit-unions-interpretive-ruling-and-policy",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": true,
+    "fr_url": "https://www.federalregister.gov/documents/2026/08/06/2026-16031/chartering-and-field-of-membership-for-federal-credit-unions-interpretive-ruling-and-policy",
+    "fr_title": "Chartering and Field of Membership for Federal Credit Unions-Interpretive Ruling and Policy Statement 08-2",
+    "fr_match_score": 1.0,
+    "comments_close_on": null,
+    "effective_on": "2026-09-08",
+    "fr_dates_text": "This final rule is effective on September 8, 2026."
+  },
+  "757f6efe7255eedc": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": true,
+    "update_type": "Final Rule",
+    "urgency": "Low",
+    "plain_english": "NCUA finalized a rule streamlining regulations on how federal credit unions purchase, sell, and pledge eligible obligations. It removes prescriptive written-policy checklists and detailed conflict-of-interest/compensation requirements in favor of a principles-based approach, relying on existing bylaws and fiduciary duties. This reduces regulatory burden for FCUs engaged in loan purchase/sale activity.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "NCUA",
+      "credit unions",
+      "eligible obligations",
+      "deregulation",
+      "final rule"
+    ],
+    "key": "757f6efe7255eedc",
+    "title": "Purchase, Sale, and Pledge Of Eligible Obligations",
+    "date": "2026-08-06",
+    "sources": [
+      "NCUA"
+    ],
+    "url": "https://www.federalregister.gov/documents/2026/08/06/2026-16030/purchase-sale-and-pledge-of-eligible-obligations",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": true,
+    "fr_url": "https://www.federalregister.gov/documents/2026/02/25/2026-03755/purchase-sale-and-pledge-of-eligible-obligations",
+    "fr_title": "Purchase, Sale, and Pledge of Eligible Obligations",
+    "fr_match_score": 1.0,
+    "comments_close_on": "2026-04-27",
+    "effective_on": null,
+    "fr_dates_text": "Comments must be received by April 27, 2026."
+  },
+  "fd7ab9d66fcb183a": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": true,
+    "update_type": "Final Rule",
+    "urgency": "Medium",
+    "plain_english": "NCUA finalized a rule removing prescriptive requirements around third-party servicing of indirect vehicle loans, shifting to a principles-based approach. Federally insured credit unions gain operational flexibility and reduced compliance burden in how they structure and oversee indirect auto lending servicing arrangements.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "NCUA",
+      "credit unions",
+      "indirect lending",
+      "auto loans",
+      "third-party servicing",
+      "deregulation"
+    ],
+    "key": "fd7ab9d66fcb183a",
+    "title": "Third-Party Servicing of Indirect Vehicle Loans",
+    "date": "2026-08-06",
+    "sources": [
+      "NCUA"
+    ],
+    "url": "https://www.federalregister.gov/documents/2026/08/06/2026-16029/third-party-servicing-of-indirect-vehicle-loans",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": true,
+    "fr_url": "https://www.federalregister.gov/documents/2026/08/06/2026-16029/third-party-servicing-of-indirect-vehicle-loans",
+    "fr_title": "Third-Party Servicing of Indirect Vehicle Loans",
+    "fr_match_score": 1.0,
+    "comments_close_on": null,
+    "effective_on": "2026-09-08",
+    "fr_dates_text": "This final rule is effective on September 8, 2026."
+  },
+  "6f46a7c34da51d4b": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": true,
+    "update_type": "Final Rule",
+    "urgency": "Low",
+    "plain_english": "NCUA is rescinding IRPS 06-1 because the Chartering and Field of Membership Manual already incorporates the current requirements for adding underserved areas. This is a burden-reduction cleanup for federal credit unions, cutting the number of sources they must consult to verify compliance\u2014no substantive change to the underlying rules.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "NCUA",
+      "field of membership",
+      "chartering",
+      "credit unions",
+      "underserved areas",
+      "burden reduction"
+    ],
+    "key": "6f46a7c34da51d4b",
+    "title": "Chartering and Field of Membership for Federal Credit Unions-Interpretive Ruling and Policy Statement 06-1",
+    "date": "2026-08-06",
+    "sources": [
+      "NCUA"
+    ],
+    "url": "https://www.federalregister.gov/documents/2026/08/06/2026-16028/chartering-and-field-of-membership-for-federal-credit-unions-interpretive-ruling-and-policy",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": true,
+    "fr_url": "https://www.federalregister.gov/documents/2026/08/06/2026-16028/chartering-and-field-of-membership-for-federal-credit-unions-interpretive-ruling-and-policy",
+    "fr_title": "Chartering and Field of Membership for Federal Credit Unions-Interpretive Ruling and Policy Statement 06-1",
+    "fr_match_score": 1.0,
+    "comments_close_on": null,
+    "effective_on": "2026-09-08",
+    "fr_dates_text": "This final actionis effective on September 8, 2026."
+  },
+  "fb08dcc44afef70e": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": true,
+    "update_type": "Final Rule",
+    "urgency": "Low",
+    "plain_english": "NCUA finalized a rule removing prescriptive segregated deposit and collateral requirements for suretyship and guaranty agreements, giving federally insured credit unions more flexibility to design surety/guaranty products while still subject to lending regulations and safety-and-soundness standards. FISCUs can act as sureties/guarantors only where state law permits.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "NCUA",
+      "credit unions",
+      "suretyship",
+      "guaranty",
+      "lending"
+    ],
+    "key": "fb08dcc44afef70e",
+    "title": "Suretyship and Guaranty; Segregated Deposit and Collateral",
+    "date": "2026-08-06",
+    "sources": [
+      "NCUA"
+    ],
+    "url": "https://www.federalregister.gov/documents/2026/08/06/2026-16027/suretyship-and-guaranty-segregated-deposit-and-collateral",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": true,
+    "fr_url": "https://www.federalregister.gov/documents/2026/08/06/2026-16027/suretyship-and-guaranty-segregated-deposit-and-collateral",
+    "fr_title": "Suretyship and Guaranty; Segregated Deposit and Collateral",
+    "fr_match_score": 1.0,
+    "comments_close_on": null,
+    "effective_on": "2026-09-08",
+    "fr_dates_text": "This final rule is effective on September 8, 2026."
+  },
+  "4d18bdf9fcb71b76": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": true,
+    "update_type": "Final Rule",
+    "urgency": "Low",
+    "plain_english": "NCUA finalized an amendment to its federal share insurance rules governing the timing of prior notice credit unions must give members before terminating excess non-federal insurance coverage. The change aims to reduce regulatory burden and applies to all federally insured credit unions.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "NCUA",
+      "share insurance",
+      "NCUSIF",
+      "credit unions",
+      "final rule"
+    ],
+    "key": "4d18bdf9fcb71b76",
+    "title": "Termination of Excess Insurance Coverage",
+    "date": "2026-08-06",
+    "sources": [
+      "NCUA"
+    ],
+    "url": "https://www.federalregister.gov/documents/2026/08/06/2026-16026/termination-of-excess-insurance-coverage",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": true,
+    "fr_url": "https://www.federalregister.gov/documents/2026/08/06/2026-16026/termination-of-excess-insurance-coverage",
+    "fr_title": "Termination of Excess Insurance Coverage",
+    "fr_match_score": 1.0,
+    "comments_close_on": null,
+    "effective_on": "2026-09-08",
+    "fr_dates_text": "This final rule is effective on September 8, 2026."
+  },
+  "f8e4188999cf2d9f": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": true,
+    "update_type": "Final Rule",
+    "urgency": "Low",
+    "plain_english": "NCUA is rescinding IRPS 10-1 on chartering and field of membership because its requirements are already captured in the current Chartering Manual. This is a housekeeping cleanup that reduces redundant sources FCUs must consult; no substantive chartering rules change.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "NCUA",
+      "credit unions",
+      "field of membership",
+      "chartering",
+      "IRPS 10-1"
+    ],
+    "key": "f8e4188999cf2d9f",
+    "title": "Chartering and Field of Membership for Federal Credit Unions-Interpretive Ruling and Policy Statement 10-1",
+    "date": "2026-08-06",
+    "sources": [
+      "NCUA"
+    ],
+    "url": "https://www.federalregister.gov/documents/2026/08/06/2026-16024/chartering-and-field-of-membership-for-federal-credit-unions-interpretive-ruling-and-policy",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": true,
+    "fr_url": "https://www.federalregister.gov/documents/2026/08/06/2026-16024/chartering-and-field-of-membership-for-federal-credit-unions-interpretive-ruling-and-policy",
+    "fr_title": "Chartering and Field of Membership for Federal Credit Unions-Interpretive Ruling and Policy Statement 10-1",
+    "fr_match_score": 1.0,
+    "comments_close_on": null,
+    "effective_on": "2026-09-08",
+    "fr_dates_text": "This action is effective on September 8, 2026."
+  },
+  "b59d5a47dc216d67": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": true,
+    "update_type": "Final Rule",
+    "urgency": "Low",
+    "plain_english": "NCUA amended its federal share insurance requirements (Part 745) to eliminate redundant disclosure rules about nonmember accounts not being covered by NCUSIF. This reduces regulatory burden for all federally insured credit unions.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "NCUA",
+      "share insurance",
+      "NCUSIF",
+      "credit unions",
+      "regulatory burden"
+    ],
+    "key": "b59d5a47dc216d67",
+    "title": "Requirements for Insurance",
+    "date": "2026-08-06",
+    "sources": [
+      "NCUA"
+    ],
+    "url": "https://www.federalregister.gov/documents/2026/08/06/2026-16023/requirements-for-insurance",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": true,
+    "fr_url": "https://www.federalregister.gov/documents/2026/08/06/2026-16023/requirements-for-insurance",
+    "fr_title": "Requirements for Insurance",
+    "fr_match_score": 1.0,
+    "comments_close_on": null,
+    "effective_on": "2026-09-08",
+    "fr_dates_text": "This final rule is effective on September 8, 2026."
+  },
+  "89d1f64905da26e2": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": true,
+    "update_type": "Final Rule",
+    "urgency": "Low",
+    "plain_english": "NCUA is rescinding IRPS 11-02 on chartering corporate credit unions because it duplicates the Federal Corporate Credit Union Chartering Manual. This is a cleanup action affecting corporate credit unions with no substantive change to chartering requirements.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "NCUA",
+      "corporate credit unions",
+      "chartering",
+      "rescission"
+    ],
+    "key": "89d1f64905da26e2",
+    "title": "Corporate Credit Unions",
+    "date": "2026-08-06",
+    "sources": [
+      "NCUA"
+    ],
+    "url": "https://www.federalregister.gov/documents/2026/08/06/2026-16022/corporate-credit-unions",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": true,
+    "fr_url": "https://www.federalregister.gov/documents/2026/08/06/2026-16022/corporate-credit-unions",
+    "fr_title": "Corporate Credit Unions",
+    "fr_match_score": 1.0,
+    "comments_close_on": null,
+    "effective_on": "2026-09-08",
+    "fr_dates_text": "This action is effective on September 8, 2026."
+  },
+  "8b59958f17bc4c67": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": true,
+    "update_type": "Final Rule",
+    "urgency": "Low",
+    "plain_english": "NCUA is amending its FCU operating regulations to eliminate a provision governing credit union service contracts, aiming to cut administrative costs and compliance complexity. This affects federal credit unions, easing a chartering/operational rule.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "NCUA",
+      "credit unions",
+      "service contracts",
+      "deregulation"
+    ],
+    "key": "8b59958f17bc4c67",
+    "title": "Credit Union Service Contracts",
+    "date": "2026-08-06",
+    "sources": [
+      "NCUA"
+    ],
+    "url": "https://www.federalregister.gov/documents/2026/08/06/2026-16021/credit-union-service-contracts",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": true,
+    "fr_url": "https://www.federalregister.gov/documents/2026/08/06/2026-16021/credit-union-service-contracts",
+    "fr_title": "Credit Union Service Contracts",
+    "fr_match_score": 1.0,
+    "comments_close_on": null,
+    "effective_on": "2026-09-08",
+    "fr_dates_text": "This final rule is effective on September 8, 2026."
+  },
+  "b3a5029e2a597a8c": {
+    "relevant": false,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Notice",
+    "urgency": "Low",
+    "plain_english": "NCUA is submitting routine renewals and revisions of previously approved information collections to OMB under the Paperwork Reduction Act and requesting comment. This is an administrative PRA notice with no substantive change to credit-union rules.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "NCUA",
+      "PRA",
+      "information collection",
+      "administrative"
+    ],
+    "key": "b3a5029e2a597a8c",
+    "title": "Renewal of Agency Information Collection of a Previously Approved Collection; Request for Comments",
+    "date": "2026-07-28",
+    "sources": [
+      "NCUA"
+    ],
+    "url": "https://www.federalregister.gov/documents/2026/07/28/2026-15196/renewal-of-agency-information-collection-of-a-previously-approved-collection-request-for-comments",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": false
+  },
+  "1b3ecef3a8c05f1b": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": true,
+    "update_type": "Notice",
+    "urgency": "Low",
+    "plain_english": "NCUA announced the closure/liquidation of African Diaspora Federal Credit Union. This is a credit-union-specific liquidation event affecting that institution's members and share insurance coverage.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "NCUA",
+      "credit union",
+      "liquidation",
+      "closure",
+      "share insurance"
+    ],
+    "key": "1b3ecef3a8c05f1b",
+    "title": "African Diaspora Federal Credit Union Closes",
+    "date": "2026-08-06",
+    "sources": [
+      "NCUA Press"
+    ],
+    "url": "https://ncua.gov/newsroom/press-release/2026/african-diaspora-federal-credit-union-closes",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": true
+  },
+  "aae2a4babf26e36d": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": true,
+    "update_type": "Final Rule",
+    "urgency": "Medium",
+    "plain_english": "The NCUA Board approved 11 final rules as part of a deregulation initiative aimed at reducing regulatory burden on federally-insured credit unions. Specific provisions aren't detailed here, but this directly affects credit-union compliance obligations across multiple rule areas.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "NCUA",
+      "credit unions",
+      "deregulation",
+      "final rule"
+    ],
+    "key": "aae2a4babf26e36d",
+    "title": "NCUA Board Approves 11 Final Rules for Deregulation Project",
+    "date": "2026-08-05",
+    "sources": [
+      "NCUA Press"
+    ],
+    "url": "https://ncua.gov/newsroom/press-release/2026/ncua-board-approves-11-final-rules-deregulation-project",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": true
+  },
+  "f437452fbdbeda1c": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": true,
+    "update_type": "Enforcement Action",
+    "urgency": "Low",
+    "plain_english": "NCUA issued a prohibition order barring an individual from participating in the affairs of any federally insured depository institution. This is a routine individual enforcement action from the NCUA and has no broad rule impact.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "NCUA",
+      "enforcement",
+      "prohibition order",
+      "credit unions"
+    ],
+    "key": "f437452fbdbeda1c",
+    "title": "NCUA Prohibits One Individual from Participating in the Affairs of Any Federally Insured Depository Institution",
+    "date": "2026-07-31",
+    "sources": [
+      "NCUA Press"
+    ],
+    "url": "https://ncua.gov/newsroom/press-release/2026/ncua-prohibits-one-individual-participating-affairs-any-federally-insured-depository-institution",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": false
+  },
+  "19aeab1a3074b896": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Guidance",
+    "urgency": "Low",
+    "plain_english": "FDIC issued supervisory relief for institutions in West Virginia areas hit by severe storms, easing regulatory expectations to support recovery and lending in affected communities. Standard disaster-relief guidance affecting banks operating in the impacted areas.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "disaster relief",
+      "FDIC",
+      "supervisory relief",
+      "West Virginia"
+    ],
+    "key": "19aeab1a3074b896",
+    "title": "Supervisory Relief to Help Financial Institutions and Facilitate Recovery in Areas of West Virginia Affected by Severe Storms",
+    "date": "2026-08-17",
+    "sources": [
+      "FDIC FILs"
+    ],
+    "url": "https://www.fdic.gov/news/financial-institution-letters/2026/supervisory-relief-help-financial-institutions-and-11",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": false
+  },
+  "6741a79267efe1f0": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Guidance",
+    "urgency": "Low",
+    "plain_english": "FDIC issued supervisory relief for institutions in Mississippi areas hit by Tropical Storm Arthur, offering flexibility on regulatory requirements to support recovery. Applies to affected banks in the disaster zone.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "FDIC",
+      "disaster relief",
+      "supervisory relief",
+      "Mississippi"
+    ],
+    "key": "6741a79267efe1f0",
+    "title": "Supervisory Relief to Help Financial Institutions and Facilitate Recovery in Areas of Mississippi Affected by Tropical Storm Arthur",
+    "date": "2026-08-17",
+    "sources": [
+      "FDIC FILs"
+    ],
+    "url": "https://www.fdic.gov/news/financial-institution-letters/2026/supervisory-relief-help-financial-institutions-and-10",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": false
+  },
+  "07da7e82b26b0b89": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Guidance",
+    "urgency": "Medium",
+    "plain_english": "The FDIC revised its procedures for processing federal deposit insurance applications. This affects entities seeking deposit insurance, including de novo banks and any new charter applicants, potentially changing timelines and requirements for the application process.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "FDIC",
+      "deposit insurance",
+      "applications",
+      "de novo",
+      "chartering"
+    ],
+    "key": "07da7e82b26b0b89",
+    "title": "Revised Procedures for Processing Federal Deposit Insurance Applications",
+    "date": "2026-08-10",
+    "sources": [
+      "FDIC FILs"
+    ],
+    "url": "https://www.fdic.gov/news/financial-institution-letters/2026/revised-procedures-processing-federal-deposit-insurance",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": false
+  },
+  "7ce688b89326247d": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Guidance",
+    "urgency": "Low",
+    "plain_english": "The FDIC issued standard disaster-relief guidance encouraging institutions in storm/tornado/flood-affected areas of Michigan to work with affected borrowers, offering regulatory flexibility on things like extending repayment terms and CRA consideration. This is routine relief targeted at institutions in the affected region.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "disaster relief",
+      "FDIC",
+      "Michigan",
+      "regulatory relief"
+    ],
+    "key": "7ce688b89326247d",
+    "title": "Supervisory Relief to Help Financial Institutions and Facilitate Recovery in Areas of Michigan Affected by Severe Storms, Tornadoes, and Flooding",
+    "date": "2026-08-04",
+    "sources": [
+      "FDIC FILs"
+    ],
+    "url": "https://www.fdic.gov/news/financial-institution-letters/2026/supervisory-relief-help-financial-institutions-and-9",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": false
+  },
+  "fe9447e84d6492c1": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Proposed Rule",
+    "urgency": "Medium",
+    "plain_english": "The FDIC proposes to amend rules (Regulation O-related) governing extensions of credit to bank insiders \u2014 directors, officers and principal shareholders. This affects all FDIC-supervised banks, including community banks, that must manage insider-lending limits and compliance.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "FDIC",
+      "Regulation O",
+      "insider lending",
+      "proposed rule",
+      "compliance"
+    ],
+    "key": "fe9447e84d6492c1",
+    "title": "Notice of Proposed Rulemaking: Extensions of Credit to Insiders",
+    "date": "2026-07-31",
+    "sources": [
+      "FDIC FILs"
+    ],
+    "url": "https://www.fdic.gov/news/financial-institution-letters/2026/notice-proposed-rulemaking-extensions-credit-insiders",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": true,
+    "fr_url": "https://www.federalregister.gov/documents/2026/08/06/2026-15995/extensions-of-credit-to-insiders",
+    "fr_title": "Extensions of Credit to Insiders",
+    "fr_match_score": 0.5,
+    "comments_close_on": "2026-10-05",
+    "effective_on": null,
+    "fr_dates_text": "Comments must be received on or before October 5, 2026."
+  },
+  "05a45ac6c9700509": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Proposed Rule",
+    "urgency": "Medium",
+    "plain_english": "The FDIC and OCC are jointly proposing to amend their Community Reinvestment Act regulations and are seeking public comment. This affects how community banks are evaluated on meeting local credit needs; the exact changes require review of the NPRM text.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "CRA",
+      "FDIC",
+      "OCC",
+      "proposed rule",
+      "community banks"
+    ],
+    "key": "05a45ac6c9700509",
+    "title": "FDIC and OCC Seek Public Comment on Joint Notice of Proposed Rulemaking to Amend Community Reinvestment Act (CRA) Regulations",
+    "date": "2026-07-31",
+    "sources": [
+      "FDIC FILs"
+    ],
+    "url": "https://www.fdic.gov/news/financial-institution-letters/2026/fdic-and-occ-seek-public-comment-joint-notice-proposed",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": true
+  },
+  "eabfb4b3cf260fe3": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Guidance",
+    "urgency": "Low",
+    "plain_english": "The FDIC updated its Community Bank Compliance Guide for the Community Bank Leverage Ratio (CBLR) framework, which lets qualifying banks under ~$10B use a simplified capital measure instead of risk-based ratios. This is a refresh of guidance for banks that already use or may opt into CBLR.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "FDIC",
+      "capital",
+      "CBLR",
+      "community banks"
+    ],
+    "key": "eabfb4b3cf260fe3",
+    "title": "Community Bank Leverage Ratio Framework: Community Bank Compliance Guide Update",
+    "date": "2026-07-30",
+    "sources": [
+      "FDIC FILs"
+    ],
+    "url": "https://www.fdic.gov/news/financial-institution-letters/2026/community-bank-leverage-ratio-framework-community-bank",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": false
+  },
+  "d5aa80a3881e0e3e": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Guidance",
+    "urgency": "Low",
+    "plain_english": "The FDIC issued standard disaster-relief guidance for institutions serving areas of Wisconsin hit by severe storms, tornadoes, and flooding, encouraging supervisory flexibility on lending, reporting, and CRA consideration for affected communities. This applies to banks operating in the affected areas but imposes no new requirements.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "disaster relief",
+      "FDIC",
+      "supervisory flexibility",
+      "Wisconsin"
+    ],
+    "key": "d5aa80a3881e0e3e",
+    "title": "Supervisory Relief to Help Financial Institutions and Facilitate Recovery in Areas of Wisconsin Affected by Severe Storms, Tornadoes, and Flooding",
+    "date": "2026-07-27",
+    "sources": [
+      "FDIC FILs"
+    ],
+    "url": "https://www.fdic.gov/news/financial-institution-letters/2026/supervisory-relief-help-financial-institutions-and-8",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": false
+  },
+  "7e381443a7ab035c": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Notice",
+    "urgency": "Low",
+    "plain_english": "OFAC updated its sanctions lists with new ICC-related and Venezuela-related designations and issued a related general license. Institutions must screen against updated SDN entries and observe the general license terms, but this is routine sanctions maintenance affecting all financial institutions.",
+    "effective_or_comment_date": "2026-08-18",
+    "tags": [
+      "OFAC",
+      "Sanctions",
+      "SDN",
+      "BSA/AML"
+    ],
+    "key": "7e381443a7ab035c",
+    "title": "International Criminal Court-related Designations; Venezuela-related Designation; Issuance of International Criminal Court-related General License",
+    "date": "2026-08-18",
+    "sources": [
+      "OFAC"
+    ],
+    "url": "https://ofac.treasury.gov/recent-actions/20260818",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": true
+  },
+  "f01673606c76cdad": {
+    "relevant": false,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Enforcement Action",
+    "urgency": "Low",
+    "plain_english": "OFAC settled a sanctions violation case with Rice Lake Weighing Systems, a non-financial manufacturer. This is a routine sanctions enforcement action against a private company that does not not bearing on community banks, credit unions, or fintechs.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "OFAC",
+      "sanctions",
+      "enforcement"
+    ],
+    "key": "f01673606c76cdad",
+    "title": "Settlement Agreement between the U.S. Department of the Treasury's Office of Foreign Assets Control and Rice Lake Weighing Systems, Inc.",
+    "date": "2026-08-12",
+    "sources": [
+      "OFAC"
+    ],
+    "url": "https://ofac.treasury.gov/recent-actions/20260812",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": false
+  },
+  "5a541e438e78ffe2": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Notice",
+    "urgency": "Medium",
+    "plain_english": "OFAC updated its sanctions lists with new counter-terrorism and Iran-related designations, removed certain counter-narcotics designations, and amended an Iran-related FAQ. Institutions must screen against the updated SDN list and adjust compliance controls accordingly.",
+    "effective_or_comment_date": "2026-08-07",
+    "tags": [
+      "OFAC",
+      "sanctions",
+      "Iran",
+      "counter-terrorism",
+      "BSA/AML",
+      "SDN"
+    ],
+    "key": "5a541e438e78ffe2",
+    "title": "Counter Terrorism and Iran-related Designations; Counter Narcotics Designations Removals; Issuance of Amended Iran-related Frequently Asked Question",
+    "date": "2026-08-07",
+    "sources": [
+      "OFAC"
+    ],
+    "url": "https://ofac.treasury.gov/recent-actions/20260807",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": true
+  },
+  "1ba719ed9b38cf6d": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Notice",
+    "urgency": "Low",
+    "plain_english": "OFAC added Cuba-related designations to its sanctions list and issued a related FAQ. All financial institutions must screen against updated SDN entries, but this is a routine sanctions list update, not a rule change.",
+    "effective_or_comment_date": "2026-08-06",
+    "tags": [
+      "OFAC",
+      "sanctions",
+      "Cuba",
+      "SDN"
+    ],
+    "key": "1ba719ed9b38cf6d",
+    "title": "Cuba-related Designations; Issuance of Cuba-related Frequently Asked Question",
+    "date": "2026-08-06",
+    "sources": [
+      "OFAC"
+    ],
+    "url": "https://ofac.treasury.gov/recent-actions/20260806",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": true
+  },
+  "28588fed9519ab77": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Notice",
+    "urgency": "Low",
+    "plain_english": "OFAC updated its sanctions list, removing and revising certain counter-terrorism designations. All financial institutions must screen against the current SDN list, so compliance teams should ingest the updated entries into their OFAC screening systems.",
+    "effective_or_comment_date": "2026-08-05",
+    "tags": [
+      "OFAC",
+      "sanctions",
+      "SDN list",
+      "BSA/AML",
+      "counter-terrorism"
+    ],
+    "key": "28588fed9519ab77",
+    "title": "Counter Terrorism Designations Removals and Update",
+    "date": "2026-08-05",
+    "sources": [
+      "OFAC"
+    ],
+    "url": "https://ofac.treasury.gov/recent-actions/20260805",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": true
+  },
+  "daf9cb4e93c3ee82": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Guidance",
+    "urgency": "Low",
+    "plain_english": "OFAC amended a Venezuela-related general license and updated an associated FAQ. Institutions with Venezuela exposure should update sanctions screening and transaction filtering to reflect the revised authorization scope.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "OFAC",
+      "sanctions",
+      "Venezuela",
+      "BSA/AML"
+    ],
+    "key": "daf9cb4e93c3ee82",
+    "title": "Issuance of Amended Venezuela-related General License and Frequently Asked Question",
+    "date": "2026-08-03",
+    "sources": [
+      "OFAC"
+    ],
+    "url": "https://ofac.treasury.gov/recent-actions/20260803",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": false
+  },
+  "402f875e63116df5": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Notice",
+    "urgency": "Low",
+    "plain_english": "OFAC updated its sanctions list with new counter-terrorism designations and a non-proliferation update. All financial institutions must screen against the updated SDN list and block or reject transactions involving designated parties.",
+    "effective_or_comment_date": "2026-07-30",
+    "tags": [
+      "OFAC",
+      "sanctions",
+      "SDN",
+      "BSA/AML"
+    ],
+    "key": "402f875e63116df5",
+    "title": "Counter Terrorism Designations; Non-Proliferation Designation Update",
+    "date": "2026-07-30",
+    "sources": [
+      "OFAC"
+    ],
+    "url": "https://ofac.treasury.gov/recent-actions/20260730",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": true
+  },
+  "133ac23a816d2e21": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Notice",
+    "urgency": "Low",
+    "plain_english": "OFAC updated its sanctions list with new Iran-related designations. All financial institutions must screen customers and transactions against the updated SDN list, but this is routine sanctions maintenance rather than a rule change.",
+    "effective_or_comment_date": "2026-07-29",
+    "tags": [
+      "OFAC",
+      "sanctions",
+      "Iran",
+      "BSA/AML"
+    ],
+    "key": "133ac23a816d2e21",
+    "title": "Iran-related Designations",
+    "date": "2026-07-29",
+    "sources": [
+      "OFAC"
+    ],
+    "url": "https://ofac.treasury.gov/recent-actions/20260729",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": true
+  },
+  "53638e11dff62c17": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Notice",
+    "urgency": "Low",
+    "plain_english": "OFAC updated and removed entries on its sanctions lists. All financial institutions must screen against the current SDN/sanctions lists, so compliance teams should refresh their screening data.",
+    "effective_or_comment_date": "2026-07-27",
+    "tags": [
+      "OFAC",
+      "sanctions",
+      "BSA/AML",
+      "screening"
+    ],
+    "key": "53638e11dff62c17",
+    "title": "Sanctions List Removals; Sanctions List Updates",
+    "date": "2026-07-27",
+    "sources": [
+      "OFAC"
+    ],
+    "url": "https://ofac.treasury.gov/recent-actions/20260727",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": true
+  },
+  "ed37aa1f6ea16f00": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Enforcement Action",
+    "urgency": "Medium",
+    "plain_english": "State financial regulators reached a $15.5 million multistate settlement with a mortgage servicer that improperly charged customers for force-placed insurance. This signals continued state-level scrutiny of servicing practices and force-placed insurance abuses, relevant to any institution servicing mortgages.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "mortgage servicing",
+      "force-placed insurance",
+      "enforcement",
+      "CSBS",
+      "consumer protection"
+    ],
+    "key": "ed37aa1f6ea16f00",
+    "title": "State Financial Regulators Reach $15.5 Million Settlement with Mortgage Servicer: Company Wrongly Charged Customers Force-Placed Insurance",
+    "date": "2026-08-12",
+    "sources": [
+      "CSBS"
+    ],
+    "url": "https://www.csbs.org/newsroom/state-financial-regulators-reach-155-million-settlement-mortgage-servicer-company-wrongly",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": false
+  },
+  "cdb6cc6d4f4befc1": {
+    "relevant": false,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Other",
+    "urgency": "Low",
+    "plain_english": "A CSBS podcast episode discussing mortgage compliance and AI in the mortgage industry. It's informational content, not a regulatory development or rule change.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "podcast",
+      "mortgage",
+      "AI",
+      "CSBS"
+    ],
+    "key": "cdb6cc6d4f4befc1",
+    "title": "In The Loop | Episode 2: Mortgage Compliance and AI in Today\u2019s Mortgage Industry",
+    "date": "2026-08-05",
+    "sources": [
+      "CSBS"
+    ],
+    "url": "https://www.csbs.org/newsroom/loop-episode-2-mortgage-compliance-and-ai-todays-mortgage-industry",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": false
+  },
+  "b99174364e9f352c": {
+    "relevant": false,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Notice",
+    "urgency": "Low",
+    "plain_english": "This is a consumer-facing financial education webinar on digital money management hosted by the Texas Department of Banking. It carries no regulatory change or supervisory expectation for institutions.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "financial education",
+      "webinar",
+      "consumer outreach"
+    ],
+    "key": "b99174364e9f352c",
+    "title": "Financial Education Webinar: Digital Finance: Modern Money Management",
+    "date": "2026-08-05",
+    "sources": [
+      "TX Dept of Banking"
+    ],
+    "url": "https://www.dob.texas.gov/sites/default/files/files/news/industrynotices/in2026-04.pdf",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": false
   }
 }
