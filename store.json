@@ -18838,7 +18838,8 @@
     "title": "Community Bank Leverage Ratio Framework: Community Bank Compliance Guide Update",
     "date": "2026-07-30",
     "sources": [
-      "FDIC FILs"
+      "FDIC FILs",
+      "OCC Bulletins"
     ],
     "url": "https://www.fdic.gov/news/financial-institution-letters/2026/community-bank-leverage-ratio-framework-community-bank",
     "first_seen": "2026-08-18",
@@ -19171,5 +19172,307 @@
     "first_seen": "2026-08-18",
     "last_seen": "2026-08-18",
     "fr_checked": false
+  },
+  "9cf48484ff000af7": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Guidance",
+    "urgency": "Low",
+    "plain_english": "Federal banking regulators (Fed, FDIC, NCUA, OCC) issued a joint enforcement-policy statement giving supervised institutions comfort to facilitate humanitarian and reconstruction-related financial services to Venezuela following June 2026 earthquakes, mirroring a FinCEN statement. It reduces BSA/AML and sanctions-related regulatory uncertainty for banks handling Venezuela relief flows. Applies broadly to all supervised institutions, not specifically to fintechs or credit unions.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "BSA/AML",
+      "sanctions",
+      "enforcement policy",
+      "interagency",
+      "humanitarian"
+    ],
+    "key": "9cf48484ff000af7",
+    "title": "Notification: Statement of Enforcement Policy in Support of Venezuela\u2019s Economic Recovery and Earthquake Relief Efforts",
+    "date": "2026-07-31",
+    "sources": [
+      "FDIC",
+      "OCC Bulletins",
+      "NCUA Press"
+    ],
+    "url": "https://content.govdelivery.com/accounts/USFDIC/bulletins/42305d8",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": false
+  },
+  "cfe7b2a9b29878ee": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Guidance",
+    "urgency": "Low",
+    "plain_english": "The OCC released the 2026 edition of its Bank Accounting Advisory Series, updated staff Q&A on accounting and regulatory reporting topics. It affects all national banks' accounting and reporting staff but is a routine annual refresh rather than a new requirement.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "accounting",
+      "regulatory reporting",
+      "OCC",
+      "BAAS"
+    ],
+    "key": "cfe7b2a9b29878ee",
+    "title": "Accounting: Bank Accounting Advisory Series Updated",
+    "date": "2026-08-14",
+    "sources": [
+      "OCC",
+      "OCC Bulletins"
+    ],
+    "url": "https://www.occ.gov/news-issuances/bulletins/2026/bulletin-2026-38.html",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": false
+  },
+  "97549af8cd9daf2f": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Notice",
+    "urgency": "Low",
+    "plain_english": "The OCC is publicly reiterating its priority to make de novo bank chartering easier and commended the FDIC's related reform efforts. This signals a friendlier regulatory posture toward new bank formation, but it announces no specific rule change or new process yet.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "OCC",
+      "de novo chartering",
+      "bank formation",
+      "FDIC",
+      "policy priority"
+    ],
+    "key": "97549af8cd9daf2f",
+    "title": "OCC Commends FDIC Reform, Advances Priority to Reinvigorate De Novo Chartering",
+    "date": "2026-08-11",
+    "sources": [
+      "OCC"
+    ],
+    "url": "https://www.occ.gov/news-issuances/news-releases/2026/nr-occ-2026-67.html",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": true
+  },
+  "82a5263499202ba7": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Notice",
+    "urgency": "Low",
+    "plain_english": "Treasury Secretary Bessent and Comptroller Gould gave speeches touting the administration's push to reduce regulatory burden on community banks and support economic growth. This is a policy-signaling event, not a rule change, so no immediate action is required.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "community banks",
+      "regulatory burden",
+      "OCC",
+      "Treasury",
+      "policy speech"
+    ],
+    "key": "82a5263499202ba7",
+    "title": "Secretary of the Treasury Scott Bessent, Comptroller of the Currency Jonathan Gould Highlight Community Bank Comeback at Arizona Bankers Association Roundtable",
+    "date": "2026-08-06",
+    "sources": [
+      "OCC"
+    ],
+    "url": "https://www.occ.gov/news-issuances/news-releases/2026/nr-occ-2026-66.html",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": true
+  },
+  "608e4cf18a610a7f": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Proposed Rule",
+    "urgency": "Low",
+    "plain_english": "The OCC proposed structural and substantive changes to its rules on when and how it discloses OCC information (e.g., supervisory records, Touhy-type requests). This is a procedural/administrative matter affecting national banks and federal savings associations rather than a substantive supervisory or consumer-protection change.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "OCC",
+      "proposed rule",
+      "disclosure of information",
+      "administrative"
+    ],
+    "key": "608e4cf18a610a7f",
+    "title": "OCC Requests Comment on Proposed Rulemaking on the OCC Rules Regarding the Availability of OCC Information",
+    "date": "2026-08-03",
+    "sources": [
+      "OCC"
+    ],
+    "url": "https://www.occ.gov/news-issuances/news-releases/2026/nr-occ-2026-65.html",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": true,
+    "fr_url": "https://www.federalregister.gov/documents/2026/08/05/2026-15867/occ-rules-regarding-the-availability-of-occ-information",
+    "fr_title": "OCC Rules Regarding the Availability of OCC Information",
+    "fr_match_score": 0.556,
+    "comments_close_on": "2026-10-05",
+    "effective_on": null,
+    "fr_dates_text": "Comments must be received on or before October 5, 2026."
+  },
+  "0b7ee57cba6229f4": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Proposed Rule",
+    "urgency": "Medium",
+    "plain_english": "The OCC and FDIC proposed targeted amendments to their CRA rules, aiming to reduce compliance burden for banks (especially community banks), better direct community development grants, and clarify how banks earn CRA consideration. Community banks should watch the comment period and assess how the changes affect their CRA assessment and reporting obligations.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "CRA",
+      "OCC",
+      "FDIC",
+      "community banks",
+      "proposed rule"
+    ],
+    "key": "0b7ee57cba6229f4",
+    "title": "Agencies Issue Joint Proposal Amending the Community Reinvestment Act Rules",
+    "date": "2026-07-31",
+    "sources": [
+      "OCC"
+    ],
+    "url": "https://www.occ.gov/news-issuances/news-releases/2026/nr-ia-2026-64.html",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": true
+  },
+  "b96dd08d9c4ec842": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Notice",
+    "urgency": "Low",
+    "plain_english": "The OCC released its routine monthly list of CRA performance evaluations made public for 14 national banks and federal savings associations. This is a standard disclosure of ratings, not a rule change or new requirement.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "OCC",
+      "CRA",
+      "performance evaluation",
+      "disclosure"
+    ],
+    "key": "b96dd08d9c4ec842",
+    "title": "OCC Releases CRA Performance Evaluations for 14 National Banks and Federal Savings Associations",
+    "date": "2026-07-30",
+    "sources": [
+      "OCC"
+    ],
+    "url": "https://www.occ.gov/news-issuances/news-releases/2026/nr-occ-2026-63.html",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": true
+  },
+  "9cca3934a5b31890": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Guidance",
+    "urgency": "Low",
+    "plain_english": "The OCC released a revised compliance guide for the community bank leverage ratio (CBLR) framework, part of ongoing regulatory relief efforts. This affects community banks that opt into the CBLR as a simplified alternative to full risk-based capital calculations; it's a guide update rather than a rule change.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "OCC",
+      "CBLR",
+      "capital",
+      "community banks",
+      "regulatory relief"
+    ],
+    "key": "9cca3934a5b31890",
+    "title": "OCC Continues Community Bank Comeback with Revised CBLR Framework",
+    "date": "2026-07-30",
+    "sources": [
+      "OCC"
+    ],
+    "url": "https://www.occ.gov/news-issuances/news-releases/2026/nr-occ-2026-62.html",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": false
+  },
+  "7da0d3cdbc26b1be": {
+    "relevant": false,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Notice",
+    "urgency": "Low",
+    "plain_english": "The Comptroller gave remarks promoting the OCC's financial literacy and education efforts. This is a speech/promotional notice with no rule change or new requirement.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "OCC",
+      "financial literacy",
+      "speech"
+    ],
+    "key": "7da0d3cdbc26b1be",
+    "title": "Comptroller Gould Highlights OCC\u2019s Financial Literacy Efforts at Financial Literacy and Education Commission Meeting",
+    "date": "2026-07-27",
+    "sources": [
+      "OCC"
+    ],
+    "url": "https://www.occ.gov/news-issuances/news-releases/2026/nr-occ-2026-61.html",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": false
+  },
+  "8ea427e60563895b": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Proposed Rule",
+    "urgency": "Low",
+    "plain_english": "The OCC proposed structural and substantive changes to its rules governing when and how OCC information (including supervisory material) may be disclosed. This affects national banks and federal savings associations that handle or seek OCC records, but is a procedural/disclosure matter rather than a substantive supervisory obligation.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "OCC",
+      "disclosure",
+      "proposed rule",
+      "information access"
+    ],
+    "key": "8ea427e60563895b",
+    "title": "Bank Supervision: OCC Rules Regarding the Availability of OCC Information",
+    "date": "2026-08-03",
+    "sources": [
+      "OCC Bulletins"
+    ],
+    "url": "https://www.occ.gov/news-issuances/bulletins/2026/bulletin-2026-37.html",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": true,
+    "fr_url": "https://www.federalregister.gov/documents/2026/08/05/2026-15867/occ-rules-regarding-the-availability-of-occ-information",
+    "fr_title": "OCC Rules Regarding the Availability of OCC Information",
+    "fr_match_score": 0.714,
+    "comments_close_on": "2026-10-05",
+    "effective_on": null,
+    "fr_dates_text": "Comments must be received on or before October 5, 2026."
+  },
+  "979f5bd0d831b3f3": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Proposed Rule",
+    "urgency": "Medium",
+    "plain_english": "The OCC and FDIC propose amending their CRA rules with substantive, technical, and process changes aimed at refocusing on meeting community credit needs, better targeting community development grants, and reducing burden \u2014 explicitly for community banks. This is a proposed rule, so it sets the direction for future CRA obligations and community banks should weigh in during the comment period.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "CRA",
+      "community banks",
+      "OCC",
+      "FDIC",
+      "proposed rule",
+      "community development"
+    ],
+    "key": "979f5bd0d831b3f3",
+    "title": "Community Reinvestment Act: Interagency Notice of Proposed Rulemaking",
+    "date": "2026-07-31",
+    "sources": [
+      "OCC Bulletins"
+    ],
+    "url": "https://www.occ.gov/news-issuances/bulletins/2026/bulletin-2026-35.html",
+    "first_seen": "2026-08-18",
+    "last_seen": "2026-08-18",
+    "fr_checked": true,
+    "fr_url": "https://www.federalregister.gov/documents/2024/02/01/2023-25797/community-reinvestment-act",
+    "fr_title": "Community Reinvestment Act",
+    "fr_match_score": 0.429,
+    "comments_close_on": null,
+    "effective_on": "2024-04-01",
+    "fr_dates_text": "Effective date: This rule is effective on April 1, 2024, except for amendment nos. 29, 52, and 75, which are effective April 1, 2024, through January 1, 2031, and amendment nos. 7, 11, 18, 20, 25, 35, 39, 43, 45, 49, 58, 62, 66, 68, and 72, which are delayed indefinitely. The agencies will publish a document in the Federal Register announcing an effective date for the delayed amendments."
   }
 }
