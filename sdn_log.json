@@ -8334,5 +8334,29 @@
     "name": "COMERCIALIZADORA Y FRIGORIFICOS DE LA PERLA DEL PACIFICO, S.A. DE C.V.",
     "program": "SDNTK",
     "sdn_type": ""
+  },
+  {
+    "date": "2026-08-18",
+    "ent_num": "58278",
+    "action": "added",
+    "name": "BLUWAVES PROPERTIES LIMITED",
+    "program": "VENEZUELA-EO13850",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-18",
+    "ent_num": "58410",
+    "action": "added",
+    "name": "AKANE, Tomoko",
+    "program": "ICC-EO14203",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-18",
+    "ent_num": "58411",
+    "action": "added",
+    "name": "SEYE, Abdoulaye",
+    "program": "ICC-EO14203",
+    "sdn_type": "individual"
   }
 ]
