@@ -14,3 +14,8 @@ python-dotenv>=1.0.0
 # chain. Usually present transitively (via anthropic/httpx); pinned so CI never
 # depends on that by accident.
 certifi>=2024.2.2
+# dashboard.py's zoneinfo lookup ("America/New_York" for the Updated stamp)
+# needs an IANA tz database. The Ubuntu Action runner has one system-wide, but
+# pinning this package means the lookup doesn't depend on that being true --
+# same reasoning as certifi above.
+tzdata>=2024.1

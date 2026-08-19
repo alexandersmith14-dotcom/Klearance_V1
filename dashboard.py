@@ -26,9 +26,15 @@ import re
 import webbrowser
 from collections import Counter
 from datetime import date, datetime, timedelta, timezone
+from zoneinfo import ZoneInfo
 
 import fetcher
 import regref
+
+# Kaufman Rossin is Florida-based; the "Updated" stamp reads in the firm's
+# own time zone rather than UTC. ZoneInfo (not a fixed UTC-4/-5 offset) so it
+# tracks EST/EDT automatically across the DST boundary.
+EASTERN = ZoneInfo("America/New_York")
 
 # "Ask" is parked. Nothing is broken and nothing was deleted — set ASK_ENABLED
 # back to True and the box returns exactly as it was.
@@ -1254,6 +1260,14 @@ footer.sitefoot{margin-top:22px;background:var(--brand-bg)}
      desktop. The short-format .krcrumb-updated-mobile below replaces it on
      its own deliberate full-width row instead of an accidental wrap. */
   .krcrumb-updated{display:none}
+  /* align-items:center (set on .krcrumbwrap for the desktop single-line
+     layout) vertically centers the path text inside the 36px-tall icon
+     buttons' row height, leaving visible padding above and below it before
+     the wrapped line below even starts. flex-end anchors the path to the
+     row's bottom edge instead, so the gap down to .krcrumb-updated-mobile is
+     just row-gap — tightened here since column-gap (path-to-icons spacing on
+     the row above) doesn't need to match it. */
+  .krcrumbwrap{align-items:flex-end;row-gap:4px}
   .krcrumb-updated-mobile{display:block;order:3;flex-basis:100%;
     color:#6c757d;font-size:12.5px;text-align:left}
   /* Stays at readable body size on purpose — see the .notice comment above; a
@@ -3334,8 +3348,8 @@ def main():
          all three items across the row instead of bunching Updated and the
          buttons together on one side. -->
     <span class="krcrumb-updated">Updated
-      {datetime.now(timezone.utc).strftime('%B %-d, %Y %H:%M UTC') if os.name != 'nt'
-       else datetime.now(timezone.utc).strftime('%B %d, %Y %H:%M UTC')}</span>
+      {datetime.now(EASTERN).strftime('%B %-d, %Y %H:%M %Z') if os.name != 'nt'
+       else datetime.now(EASTERN).strftime('%B %d, %Y %H:%M %Z')}</span>
     <!-- Mobile-only counterpart, hidden on desktop. Full-format above was
          dropped entirely on phones because "Updated [full date/time]" won the
          path row's one remaining slot over the icon toolbar every time and
@@ -3344,8 +3358,8 @@ def main():
          it's short enough to fit that row without repeating the wrap
          problem. -->
     <span class="krcrumb-updated-mobile">Updated
-      {datetime.now(timezone.utc).strftime('%b %-d, %H:%M UTC') if os.name != 'nt'
-       else datetime.now(timezone.utc).strftime('%b %d, %H:%M UTC')}</span>
+      {datetime.now(EASTERN).strftime('%b %-d, %H:%M %Z') if os.name != 'nt'
+       else datetime.now(EASTERN).strftime('%b %d, %H:%M %Z')}</span>
     <!-- Share and install are mobile-first actions, so unlike the old lone
          Export CSV button they stay visible on a phone; see the media query.
          Export CSV moves into the overflow menu — it's still desktop-only,
