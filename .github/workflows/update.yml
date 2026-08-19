@@ -85,7 +85,7 @@ jobs:
         run: |
           git config user.name "regwatch-bot"
           git config user.email "actions@github.com"
-          git add store.json dashboard.html sdn_log.json sdn_snapshot.json
+          git add store.json dashboard.html sdn_log.json sdn_snapshot.json audit_log.jsonl
           # Nothing to do when no new items were published that day.
           if git diff --staged --quiet; then
             echo "No changes to publish."

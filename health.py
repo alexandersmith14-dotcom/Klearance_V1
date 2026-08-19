@@ -19,6 +19,17 @@ it.
   BROKEN  fetch error     fetcher.py could not retrieve the source this run
   BROKEN  not delivered   fetch ran, but nothing from this source reached the store
   QUIET   gone quiet      still delivering, but has published nothing in unusually long
+  BROKEN  reconciliation  records_in_store for a source dropped since the last run
+
+health.json is a point-in-time snapshot, uploaded as a 90-day build artifact —
+useless for "how many updates did we have as of two months ago" or "did we ever
+lose data." audit_log.jsonl is the persistent answer: committed to the repo like
+store.json, one line appended per source per run, never overwritten. It also
+backs the one invariant nothing else checks: records_in_store is additive
+(pipeline.py never removes a record), so it must never shrink run over run. A
+drop means store.json itself lost data — a bad merge, a bad manual edit — which
+is a different failure than a source going quiet or erroring, and worth its own
+loud signal rather than being read as just another BROKEN fetch.
 """
 import argparse
 import collections
@@ -33,6 +44,8 @@ import fetcher
 STORE_PATH = "store.json"
 FETCH_REPORT_PATH = "fetch_report.json"
 HEALTH_PATH = "health.json"
+AUDIT_LOG_PATH = "audit_log.jsonl"
+TOTAL_ROW = "_TOTAL"
 
 # A source is "gone quiet" when its silence exceeds twice its own 90th-percentile
 # publication gap. Per-source, because the sources are nothing like each other:
@@ -108,6 +121,57 @@ def quiet_threshold(dates):
     gaps = sorted((ordered[i] - ordered[i + 1]).days for i in range(len(ordered) - 1))
     p90 = gaps[max(0, int(len(gaps) * 0.9) - 1)]
     return max(p90 * QUIET_MULTIPLIER, QUIET_FLOOR_DAYS)
+
+
+def load_previous_counts(path):
+    """Last known records_in_store per source, from the audit log.
+
+    Reads the whole file rather than seeking to the end — audit_log.jsonl is
+    one line per source per day, so even a year of history is a few thousand
+    short lines. A later line for the same source always overwrites an earlier
+    one, so the loop naturally ends up on the most recent count.
+    """
+    counts = {}
+    if not os.path.exists(path):
+        return counts
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            rec = json.loads(line)
+            counts[rec["source"]] = rec["records_in_store"]
+    return counts
+
+
+def reconcile(audit_rows, previous_counts):
+    """Flag any source whose records_in_store fell since the last run.
+
+    The store is additive (pipeline.py:5 — a record already in the store is
+    never removed), so this count should only ever hold steady or grow. A drop
+    means store.json lost data between runs, which a fetch-delivery check like
+    `assess` above cannot see: the fetch can succeed today and the count can
+    still be lower than yesterday if something upstream (a bad merge, a manual
+    edit) dropped records from the file itself.
+    """
+    failures = []
+    for row in audit_rows:
+        prev = previous_counts.get(row["source"])
+        current = row.get("records_in_store")
+        if prev is not None and current is not None and current < prev:
+            failures.append({
+                "source": row["source"],
+                "previous_records": prev,
+                "current_records": current,
+                "detail": f"records_in_store dropped from {prev} to {current}",
+            })
+    return failures
+
+
+def append_audit_log(path, rows):
+    with open(path, "a", encoding="utf-8") as f:
+        for row in rows:
+            f.write(json.dumps(row) + "\n")
 
 
 def assess(store, fetch_report):
@@ -209,7 +273,48 @@ def main():
               f"not included. Staleness checks below are still valid.\n")
 
     run_date, findings = assess(store, fetch_report)
+
+    # One audit row per source this run, plus a running total across all
+    # sources — the persistent answer to "as of day X there were Y updates,"
+    # committed alongside store.json instead of living only in a 90-day
+    # build artifact.
+    audit_rows = [
+        {
+            "run_date": run_date.isoformat(),
+            "source": f["source"],
+            "items_this_run": f.get("items_this_run"),
+            "records_in_store": f.get("records_in_store"),
+            "status": f["status"],
+        }
+        for f in findings
+    ]
+    audit_rows.append({
+        "run_date": run_date.isoformat(),
+        "source": TOTAL_ROW,
+        "items_this_run": None,
+        "records_in_store": len(store),
+        "status": "OK",
+    })
+
+    previous_counts = load_previous_counts(AUDIT_LOG_PATH)
+    reconciliation_failures = reconcile(audit_rows, previous_counts)
+
+    # Fold reconciliation failures into `findings` as BROKEN, rather than
+    # tracking them as a side channel: the workflow's health-gate job already
+    # fails the run on any BROKEN entry in health.json's `sources` list, so a
+    # dropped record count fails the gate for free, no separate check to keep
+    # in sync in update.yml.
+    by_source = {f["source"]: f for f in findings}
+    for rf in reconciliation_failures:
+        target = by_source.get(rf["source"])
+        if target is None:
+            target = {"source": rf["source"]}
+            findings.append(target)
+        target.update(status="BROKEN", reason="reconciliation", detail=rf["detail"])
+
     broken, quiet = report(run_date, findings)
+
+    append_audit_log(AUDIT_LOG_PATH, audit_rows)
 
     with open(HEALTH_PATH, "w", encoding="utf-8") as f:
         json.dump({
@@ -217,6 +322,7 @@ def main():
             "status": "BROKEN" if broken else ("QUIET" if quiet else "OK"),
             "broken": len(broken),
             "quiet": len(quiet),
+            "total_records": len(store),
             "sources": findings,
         }, f, indent=2)
 
