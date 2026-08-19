@@ -351,6 +351,7 @@ header.krheader{background:#fff;border-bottom:1px solid var(--border)}
 .krcrumb-path span[aria-hidden]{color:#6c757d;margin:0 8px}
 .krcrumb-path span:last-child{color:#6c757d}
 .krcrumb-updated{color:#6c757d;font-size:12.5px}
+.krcrumb-updated-mobile{display:none}
 /* Page-specific title card — everything the real corporate header doesn't
    carry (Klearance's own name, audience, freshness stamp, share/export
    actions). Sits below the replicated chrome above, inside .wrap like the
@@ -1244,16 +1245,17 @@ footer.sitefoot{margin-top:22px;background:var(--brand-bg)}
      longer costs the title its width the way the old always-visible button
      did. Only the button's own inline placement was the phone problem;
      tucking it behind a menu keeps it reachable without that cost. */
-  /* Was wrapping to its own left-aligned line below the breadcrumb path --
-     the row only has width for path + one more item, and "Updated
-     [full date/time]" was winning that slot over the icons every time.
-     Dropping the timestamp here (it's not essential on a phone; the freshest
-     regulatory data is still one tap away via any update's own date) lets
-     path + icon-toolbar share the single row that justify-content:
-     space-between on .krcrumbwrap already wants to give them -- landing the
-     icons in the upper-right corner, same relative position as desktop,
-     instead of a disconnected-looking second row. */
+  /* Full-format stamp was wrapping to its own left-aligned line below the
+     breadcrumb path -- the row only has width for path + one more item, and
+     "Updated [full date/time]" was winning that slot over the icons every
+     time. Hiding it here lets path + icon-toolbar share the single row that
+     justify-content: space-between on .krcrumbwrap already wants to give
+     them -- icons land in the upper-right corner, same relative position as
+     desktop. The short-format .krcrumb-updated-mobile below replaces it on
+     its own deliberate full-width row instead of an accidental wrap. */
   .krcrumb-updated{display:none}
+  .krcrumb-updated-mobile{display:block;order:3;flex-basis:100%;
+    color:#6c757d;font-size:12.5px;text-align:left}
   /* Stays at readable body size on purpose — see the .notice comment above; a
      public tool cannot put its caveats in the footer. Only the padding and the
      leading tighten here, and the deadline explanation moved into the coverage
@@ -3334,6 +3336,16 @@ def main():
     <span class="krcrumb-updated">Updated
       {datetime.now(timezone.utc).strftime('%B %-d, %Y %H:%M UTC') if os.name != 'nt'
        else datetime.now(timezone.utc).strftime('%B %d, %Y %H:%M UTC')}</span>
+    <!-- Mobile-only counterpart, hidden on desktop. Full-format above was
+         dropped entirely on phones because "Updated [full date/time]" won the
+         path row's one remaining slot over the icon toolbar every time and
+         forced an ugly disconnected wrap. This one gets its own full-width
+         row below the breadcrumb instead (see the mobile media query), so
+         it's short enough to fit that row without repeating the wrap
+         problem. -->
+    <span class="krcrumb-updated-mobile">Updated
+      {datetime.now(timezone.utc).strftime('%b %-d, %H:%M UTC') if os.name != 'nt'
+       else datetime.now(timezone.utc).strftime('%b %d, %H:%M UTC')}</span>
     <!-- Share and install are mobile-first actions, so unlike the old lone
          Export CSV button they stay visible on a phone; see the media query.
          Export CSV moves into the overflow menu — it's still desktop-only,
