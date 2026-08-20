@@ -91,7 +91,12 @@ jobs:
             echo "No changes to publish."
           else
             git commit -m "Update tracker data ($(date -u +%Y-%m-%d))"
-            git push
+            # main can move while this job runs (long pipeline steps above).
+            # Rebase onto the latest and retry once before giving up.
+            for i in 1 2 3; do
+              git push && break
+              git pull --rebase origin main
+            done
           fi
 
       - name: Assemble the published site
