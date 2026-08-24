@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://alexandersmith14-dotcom.github.io/Klearance_V1/sitemap.xml
+Sitemap: https://kaufman2699.github.io/Klearance_V1/sitemap.xml

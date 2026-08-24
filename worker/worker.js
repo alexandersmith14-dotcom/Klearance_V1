@@ -33,7 +33,7 @@
  */
 
 const ALLOWED_ORIGINS = [
-  "https://alexandersmith14-dotcom.github.io",
+  "https://kaufman2699.github.io",
   "http://127.0.0.1:8800",
   "http://localhost:8800",
 ];

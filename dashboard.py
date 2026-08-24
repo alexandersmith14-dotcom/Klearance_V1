@@ -137,7 +137,7 @@ SDN_SNAPSHOT_PATH = "sdn_snapshot.json"
 
 # Absolute URL of the published site. Social scrapers require absolute URLs for
 # og:image and og:url — a relative path silently produces no preview.
-SITE_URL = "https://alexandersmith14-dotcom.github.io/Klearance_V1/"
+SITE_URL = "https://kaufman2699.github.io/Klearance_V1/"
 
 # One permalink page per relevant update, so each plain-English summary gets
 # its own indexable URL instead of living only inside a client-side "show
