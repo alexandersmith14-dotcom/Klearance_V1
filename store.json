@@ -19699,5 +19699,55 @@
     "first_seen": "2026-08-24",
     "last_seen": "2026-08-24",
     "fr_checked": false
+  },
+  "bea27d3c3aca1f95": {
+    "relevant": false,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Notice",
+    "urgency": "Low",
+    "plain_english": "President Trump designated John Crews as Chairman of the NCUA Board. This is a routine personnel/leadership announcement with no rule or supervisory change attached.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "NCUA",
+      "personnel",
+      "leadership"
+    ],
+    "key": "bea27d3c3aca1f95",
+    "title": "President Trump Designates John Crews as Chairman of the NCUA Board",
+    "date": "2026-08-24",
+    "sources": [
+      "NCUA Press"
+    ],
+    "url": "https://ncua.gov/newsroom/press-release/2026/president-trump-designates-john-crews-chairman-ncua-board",
+    "first_seen": "2026-08-24",
+    "last_seen": "2026-08-24",
+    "fr_checked": false
+  },
+  "596659a4a445aa6e": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Notice",
+    "urgency": "Medium",
+    "plain_english": "OFAC removed Syria's State Sponsor of Terrorism designation with associated SDN list changes, added Iran-related designations, and updated Iran general licenses. Any institution running sanctions screening must refresh watchlists and reassess Syria- and Iran-related exposure accordingly.",
+    "effective_or_comment_date": "2026-08-24",
+    "tags": [
+      "OFAC",
+      "sanctions",
+      "Syria",
+      "Iran",
+      "BSA/AML"
+    ],
+    "key": "596659a4a445aa6e",
+    "title": "Removal of Syria's designation as a State Sponsor of Terrorism and Associated Sanctions List Updates; Iran-related Designations; Updates to Iran-related General Licenses",
+    "date": "2026-08-24",
+    "sources": [
+      "OFAC"
+    ],
+    "url": "https://ofac.treasury.gov/recent-actions/20260824",
+    "first_seen": "2026-08-24",
+    "last_seen": "2026-08-24",
+    "fr_checked": true
   }
 }

@@ -8742,5 +8742,821 @@
     "name": "HIZBALLAH",
     "program": "FTO] [SDGT] [IRGC] [IFSR",
     "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "57061",
+    "action": "added",
+    "name": "BLAGH, Keyvan Fayyaz Gareh",
+    "program": "CYBER4",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "57062",
+    "action": "added",
+    "name": "BALUJEH, Saber Shahbazi",
+    "program": "CYBER4",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "57063",
+    "action": "added",
+    "name": "KADKHODA'I, Mohammad Reza",
+    "program": "CYBER4",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "57064",
+    "action": "added",
+    "name": "GHAL'EH-KUHI, Mojtaba",
+    "program": "CYBER4",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "57065",
+    "action": "added",
+    "name": "KAHZADIAN, Arman",
+    "program": "CYBER4",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58310",
+    "action": "added",
+    "name": "SIFRA SHIPPING COMPANY",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58311",
+    "action": "added",
+    "name": "SIFRA",
+    "program": "IRAN-EO13902",
+    "sdn_type": "vessel"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58312",
+    "action": "added",
+    "name": "VIENNA SHIPPING CO., LIMITED",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58313",
+    "action": "added",
+    "name": "G SILVER",
+    "program": "IRAN-EO13902",
+    "sdn_type": "vessel"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58315",
+    "action": "added",
+    "name": "AMDEH SHIP MANAGEMENT AND OPERATION CO. L.L.C",
+    "program": "SDGT",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58316",
+    "action": "added",
+    "name": "RIQUEZA GROUP LTD",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58317",
+    "action": "added",
+    "name": "LILIMOON NAVIGATION INC",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58319",
+    "action": "added",
+    "name": "ESTANICA TRADING LTD",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58320",
+    "action": "added",
+    "name": "QUANTUM HOPE",
+    "program": "IRAN-EO13902",
+    "sdn_type": "vessel"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58321",
+    "action": "added",
+    "name": "VOYAGE ELITE",
+    "program": "IRAN-EO13902",
+    "sdn_type": "vessel"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58323",
+    "action": "added",
+    "name": "TELA",
+    "program": "IRAN-EO13902",
+    "sdn_type": "vessel"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58324",
+    "action": "added",
+    "name": "FATTOUH, Mohammad Ahmed Suhil",
+    "program": "SDGT] [IFSR",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58325",
+    "action": "added",
+    "name": "FOSCOM FZE",
+    "program": "SDGT",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58326",
+    "action": "added",
+    "name": "OBUKHOV, Ivan",
+    "program": "SDGT] [IFSR",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58327",
+    "action": "added",
+    "name": "FEILI CO LIMITED",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58328",
+    "action": "added",
+    "name": "MINVUR LIMITED",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58329",
+    "action": "added",
+    "name": "FEISU LIMITED",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58330",
+    "action": "added",
+    "name": "GUSKA CO LIMITED",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58331",
+    "action": "added",
+    "name": "SWEET OCEAN INDUSTRIAL LIMITED",
+    "program": "NPWMD] [IFSR",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58332",
+    "action": "added",
+    "name": "LI, Na",
+    "program": "NPWMD] [IFSR",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58333",
+    "action": "added",
+    "name": "TIAN, Jianbai",
+    "program": "NPWMD] [IFSR",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58334",
+    "action": "added",
+    "name": "SHENZHEN SWEET OCEAN TECHNOLOGY LIMITED",
+    "program": "NPWMD] [IFSR",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58336",
+    "action": "added",
+    "name": "TIANY TECHNOLOGY LIMITED",
+    "program": "NPWMD] [IFSR",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58337",
+    "action": "added",
+    "name": "MT TRADING AND LOGISTICS HK LIMITED",
+    "program": "NPWMD] [IFSR",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58339",
+    "action": "added",
+    "name": "NOAVARAN AXIS PRIVATE JOINT STOCK COMPANY",
+    "program": "NPWMD] [IFSR",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58340",
+    "action": "added",
+    "name": "MOGHADDAM, Mohammad Hossein Aslani",
+    "program": "NPWMD] [IFSR",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58341",
+    "action": "added",
+    "name": "BRE INTERNATIONAL LOGISTICS CORPORATION HK LIMITED",
+    "program": "NPWMD] [IFSR",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58342",
+    "action": "added",
+    "name": "SHENZHEN HUAMEI LIANYUN INTERNATIONAL LOGISTICS CO LTD",
+    "program": "NPWMD] [IFSR",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58343",
+    "action": "added",
+    "name": "QIU, Xingyu",
+    "program": "NPWMD] [IFSR",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58344",
+    "action": "added",
+    "name": "SHENZHEN BOSITONG LOGISTICS CO LTD",
+    "program": "NPWMD] [IFSR",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58346",
+    "action": "added",
+    "name": "BOSITONG SUPPLY CHAIN SHENZHEN CO LTD",
+    "program": "NPWMD] [IFSR",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58347",
+    "action": "added",
+    "name": "DEC PHOTONICS LIMITED",
+    "program": "NPWMD] [IFSR",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58348",
+    "action": "added",
+    "name": "RPT TECHNOLOGY LIMITED",
+    "program": "NPWMD] [IFSR",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58349",
+    "action": "added",
+    "name": "ZHANG, Limei",
+    "program": "NPWMD] [IFSR",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58350",
+    "action": "added",
+    "name": "AZURE SHIPPING PTE. LTD.",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58351",
+    "action": "added",
+    "name": "ARC CHARTERING PTE. LTD.",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58352",
+    "action": "added",
+    "name": "SKY OIL AND GAS ASIA LIMITED",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58359",
+    "action": "added",
+    "name": "VAST MART SDN BHD",
+    "program": "NPWMD] [IFSR",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58360",
+    "action": "added",
+    "name": "HK JIATAI TECHNOLOGY LIMITED",
+    "program": "NPWMD] [IFSR",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58388",
+    "action": "added",
+    "name": "HUZUR PLASTIK KIMYEVI MADDELER ITHALAT IHRACAT SANAYI VE TICARET LIMITED SIRKETI",
+    "program": "IRAN-EO13846",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58389",
+    "action": "added",
+    "name": "BEKGOZ, Cengiz",
+    "program": "IRAN-EO13846",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58392",
+    "action": "added",
+    "name": "PRAKRUTEES INFRA IMPEX INDIA PRIVATE LIMITED",
+    "program": "IRAN-EO13846",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58393",
+    "action": "added",
+    "name": "PP SOFTTECH PRIVATE LIMITED",
+    "program": "IRAN-EO13846",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58394",
+    "action": "added",
+    "name": "SADASHIVA OVERSEAS LIMITED",
+    "program": "IRAN-EO13846",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58395",
+    "action": "added",
+    "name": "GARG, Prashant",
+    "program": "IRAN-EO13846",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58396",
+    "action": "added",
+    "name": "UNIQUE OASIS SHIPPING SERVICES LLC",
+    "program": "NPWMD] [IFSR",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58397",
+    "action": "added",
+    "name": "SHIP FUELS AND TRADE DMCC",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58398",
+    "action": "added",
+    "name": "SHIPOIL FZCO",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58399",
+    "action": "added",
+    "name": "GOOD LUCK SHIPPING LLC",
+    "program": "NPWMD] [IFSR",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58400",
+    "action": "added",
+    "name": "SHIPOIL LIMITED",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58401",
+    "action": "added",
+    "name": "TARGET HORIZON SHIPPING LLC",
+    "program": "NPWMD] [IFSR",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58402",
+    "action": "added",
+    "name": "STARPLAS KIMYA SANAYI VE TICARET ANONIM SIRKET",
+    "program": "IRAN-EO13846",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58403",
+    "action": "added",
+    "name": "PORTEASE PARTNERS LLP",
+    "program": "IRAN-EO13846",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58404",
+    "action": "added",
+    "name": "SELFPLAST PLASTIK AMBALAJ SANAYI DIS TICARET LIMITED SIRKETI",
+    "program": "IRAN-EO13846",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58405",
+    "action": "added",
+    "name": "SELENIUM RESOURCES LIMITED",
+    "program": "IRAN-EO13846",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58406",
+    "action": "added",
+    "name": "ABHAR POLYMER COMPOUNDS CO.",
+    "program": "IRAN-EO13846",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58408",
+    "action": "added",
+    "name": "TSORIS, Georgios",
+    "program": "NPWMD] [IFSR",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58409",
+    "action": "added",
+    "name": "TSORIS, Almpertos",
+    "program": "IRAN-EO13902",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58412",
+    "action": "added",
+    "name": "TALAEI NIK, Reza",
+    "program": "IRAN-CON-ARMS-EO",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58413",
+    "action": "added",
+    "name": "HATAMI, Amir",
+    "program": "IRAN-CON-ARMS-EO",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58414",
+    "action": "added",
+    "name": "ZOLQADR, Mohammad Baqer",
+    "program": "IRAN-CON-ARMS-EO",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58431",
+    "action": "added",
+    "name": "WELLBRED CAPITAL PTE. LTD.",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58432",
+    "action": "added",
+    "name": "WELLBRED TRADING FZCO",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58433",
+    "action": "added",
+    "name": "WELLBRED TRADING SA",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58434",
+    "action": "added",
+    "name": "LA NIVERNAISE DE RAFFINAGE SAS",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58435",
+    "action": "added",
+    "name": "FARAHI, Mohsen",
+    "program": "IRAN-EO13846",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58436",
+    "action": "added",
+    "name": "OSHIDA PETROKIMYA URUNLERI SANAYI VE TICARET ANONIM SIRKETI",
+    "program": "IRAN-EO13846",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58437",
+    "action": "added",
+    "name": "CLEVER SHIPPING LIMITED",
+    "program": "IRAN-EO13846",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58438",
+    "action": "added",
+    "name": "STAR PIONE",
+    "program": "IRAN-EO13846",
+    "sdn_type": "vessel"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58439",
+    "action": "added",
+    "name": "DADASHOVA, Narmina",
+    "program": "IRAN-EO13846",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58440",
+    "action": "added",
+    "name": "RANGI, Harish Ramchandra",
+    "program": "IRAN-EO13846",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58441",
+    "action": "added",
+    "name": "SHEKH, Indrismiya Asharafmiya",
+    "program": "IRAN-EO13846",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58442",
+    "action": "added",
+    "name": "GANDHI, Mansoor Tayabbhai",
+    "program": "IRAN-EO13902",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "16937",
+    "action": "removed",
+    "name": "AL-NUSRAH FRONT",
+    "program": "SDGT",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "17174",
+    "action": "removed",
+    "name": "AL-AJMI, Shafi Sultan Mohammed",
+    "program": "SDGT",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "17175",
+    "action": "removed",
+    "name": "AL-'AJMI, Hajjaj Fahd Hajjaj Muhammad Shabib",
+    "program": "SDGT",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "17208",
+    "action": "removed",
+    "name": "AL-SHARIKH, Abdul Mohsen Abdullah Ibrahim",
+    "program": "SDGT",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "19809",
+    "action": "removed",
+    "name": "AL-MUTAYRI, Abd al-Muhsin Zabin Mutib Naif",
+    "program": "SDGT",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "19869",
+    "action": "removed",
+    "name": "MAHAMED, Mostafa",
+    "program": "SDGT",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "20880",
+    "action": "removed",
+    "name": "AL-MUHAYSINI, 'Abdallah Muhammad Bin-Sulayman",
+    "program": "SDGT",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "20881",
+    "action": "removed",
+    "name": "AL-'ALLAK, Ashraf Ahmad Fari'",
+    "program": "SDGT",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "20882",
+    "action": "removed",
+    "name": "JASHARI, Abdul",
+    "program": "SDGT",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "21265",
+    "action": "removed",
+    "name": "AL-HASRI, Bassam Ahmad",
+    "program": "SDGT",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "21266",
+    "action": "removed",
+    "name": "KHALIL, Iyad Nazmi Salih",
+    "program": "SDGT",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "31811",
+    "action": "removed",
+    "name": "FAYZIMATOV, Farrukh Furkatovitch",
+    "program": "SDGT",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "42478",
+    "action": "removed",
+    "name": "ALSHEAK, Omar",
+    "program": "SDGT",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "12060",
+    "action": "modified",
+    "name": "VAHIDI, Ahmad",
+    "program": "NPWMD] [IFSR] [IRAN-HR] [IRAN-CON-ARMS-EO",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "18047",
+    "action": "modified",
+    "name": "AL-KA'BI, Sa'd bin Sa'd Muhammad Shariyan",
+    "program": "SDGT",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "19230",
+    "action": "modified",
+    "name": "FARAHI, Seyyed Mahdi",
+    "program": "NPWMD] [IFSR] [IRAN-CON-ARMS-EO",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "19811",
+    "action": "modified",
+    "name": "AL-'ANIZI, 'Abdallah Hadi 'Abd al-Rahman Fayhan Sharban",
+    "program": "SDGT",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "20883",
+    "action": "modified",
+    "name": "ZAYNIYAH, Jamal Husayn",
+    "program": "SDGT",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "21667",
+    "action": "modified",
+    "name": "AL-'ANZI, Muhammad Hadi 'Abd-al-Rahman Fayhan Sharban",
+    "program": "SDGT",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "23475",
+    "action": "modified",
+    "name": "IRANIAN ISLAMIC REVOLUTIONARY GUARD CORPS CYBER-ELECTRONIC COMMAND",
+    "program": "SDGT] [IRGC] [IFSR] [HRIT-IR] [IRAN-CON-ARMS-EO",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "24003",
+    "action": "modified",
+    "name": "MESRI, Behzad",
+    "program": "HRIT-IR] [CYBER2",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "27856",
+    "action": "modified",
+    "name": "ABDOLLAHI, Ali",
+    "program": "IRAN-EO13876] [IRAN-CON-ARMS-EO",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "50588",
+    "action": "modified",
+    "name": "EFTEKHARI, Sayyed Hosein Majid Musavi",
+    "program": "NPWMD] [IRGC] [IFSR] [IRAN-CON-ARMS-EO",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-24",
+    "ent_num": "58173",
+    "action": "modified",
+    "name": "DADENEGAR STARTUP STUDIO",
+    "program": "SDGT] [IRAN-CON-ARMS-EO",
+    "sdn_type": ""
   }
 ]
