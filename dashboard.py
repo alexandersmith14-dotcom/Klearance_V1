@@ -694,12 +694,12 @@ button:hover{background:var(--raised)}
    the cascade reads as one sequence, top to bottom, not simultaneous
    blocks popping in at once. `backwards` holds the 0%-frame state (opacity
    0) during the animation-delay so nothing flashes visible-then-hidden
-   before its turn starts. Animated on .colmain/.colside individually, not
-   .cols itself: an element with a transform-animation (this keyframe lifts
-   via translateY) becomes a new containing block for its descendants for
-   as long as the `animation` property is set, which silences .colside's
-   own position:sticky if the animation sits on its ancestor instead. */
-.krtop,header.krheader,.krcrumb,.herowrap,.notice,.kpis,.colmain,.colside{
+   before its turn starts. Animated on the panels themselves
+   (.p-updates/.p-deadlines/.quickcontact), not .colmain/.colside: under the
+   640px breakpoint those wrappers become display:contents (boxless), and
+   animating a boxless element is a no-op — the panels stay real boxes at
+   every width, mobile included. */
+.krtop,header.krheader,.krcrumb,.herowrap,.notice,.kpis,.p-updates,.p-deadlines,.quickcontact{
   animation:noticeIn .5s cubic-bezier(.25,.6,.4,1) backwards}
 .krtop{animation-delay:0s}
 header.krheader{animation-delay:.08s}
@@ -707,9 +707,9 @@ header.krheader{animation-delay:.08s}
 .herowrap{animation-delay:.24s}
 .notice{animation-delay:.32s}
 .kpis{animation-delay:.4s}
-.colmain,.colside{animation-delay:.48s}
+.p-updates,.p-deadlines,.quickcontact{animation-delay:.48s}
 @media (prefers-reduced-motion:reduce){
-  .krtop,header.krheader,.krcrumb,.herowrap,.notice,.kpis,.colmain,.colside{animation:none}
+  .krtop,header.krheader,.krcrumb,.herowrap,.notice,.kpis,.p-updates,.p-deadlines,.quickcontact{animation:none}
 }
 
 .coverage{font-size:12.5px;color:var(--ink-2)}
