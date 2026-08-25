@@ -521,8 +521,12 @@ button:hover{background:var(--raised)}
    the cascade reads as one sequence, top to bottom, not simultaneous
    blocks popping in at once. `backwards` holds the 0%-frame state (opacity
    0) during the animation-delay so nothing flashes visible-then-hidden
-   before its turn starts. */
-.krtop,header.krheader,.krcrumb,.herowrap,.notice,.kpis,.cols{
+   before its turn starts. Animated on .colmain/.colside individually, not
+   .cols itself: an element with a transform-animation (this keyframe lifts
+   via translateY) becomes a new containing block for its descendants for
+   as long as the `animation` property is set, which silences .colside's
+   own position:sticky if the animation sits on its ancestor instead. */
+.krtop,header.krheader,.krcrumb,.herowrap,.notice,.kpis,.colmain,.colside{
   animation:noticeIn .5s cubic-bezier(.25,.6,.4,1) backwards}
 .krtop{animation-delay:0s}
 header.krheader{animation-delay:.08s}
@@ -530,9 +534,9 @@ header.krheader{animation-delay:.08s}
 .herowrap{animation-delay:.24s}
 .notice{animation-delay:.32s}
 .kpis{animation-delay:.4s}
-.cols{animation-delay:.48s}
+.colmain,.colside{animation-delay:.48s}
 @media (prefers-reduced-motion:reduce){
-  .krtop,header.krheader,.krcrumb,.herowrap,.notice,.kpis,.cols{animation:none}
+  .krtop,header.krheader,.krcrumb,.herowrap,.notice,.kpis,.colmain,.colside{animation:none}
 }
 
 .coverage{font-size:12.5px;color:var(--ink-2)}
@@ -731,18 +735,21 @@ header.krheader{animation-delay:.08s}
 
 #filters summary{display:none}          /* desktop: always expanded, no control */
 #filters>.pillgroup:last-of-type{margin-bottom:18px}
-.cols{display:grid;grid-template-columns:1fr 400px;gap:18px;align-items:stretch}
-/* Both lists are capped at 8 (dlLimit, cardLimit) with their own "Show more"
-   button, so colside — just the one deadlines panel — is now routinely
-   shorter than colmain, which carries the update cards plus quickcontact
-   below them. Stretch only colside's panel to close that gap: its
-   background matches the page, so the extra height blends in rather than
-   drawing an empty box the way stretching quickcontact or .p-updates did.
-   Never stretch colmain's last child — it's quickcontact, fixed-content,
-   and grows an ugly bordered box instead of filling blank page. */
-.colmain,.colside{display:flex;flex-direction:column}
-.colside>*:last-child{flex:1}
-@media (max-width:900px){.cols{grid-template-columns:1fr}.colmain,.colside{display:block}}
+.cols{display:grid;grid-template-columns:1fr 400px;gap:18px;align-items:start}
+/* The update feed runs longer than the sidebar (deadlines, capped at 8), so
+   once the feed scrolls past it the sidebar would just end, leaving a tall
+   blank column beside more update cards. Sticky keeps it in view while the
+   feed scrolls — align-items:start above matters here: it keeps the
+   sidebar's own box at its natural (short) height rather than stretched to
+   match the feed, which is what gives it room to travel within the grid row
+   before its own bottom reaches the row's bottom and it scrolls away
+   normally. No flex:1 stretch anywhere: every attempt at growing a trailing
+   card or panel to close the height gap just relocated the same dead space
+   into whichever element absorbed it — an empty bordered box on
+   quickcontact, a blank slab inside .p-updates, a gap inside the deadlines
+   panel. Sticky sidesteps the mismatch instead of papering over it. */
+.colside{position:sticky;top:18px}
+@media (max-width:900px){.cols{grid-template-columns:1fr}.colside{position:static}}
 
 .panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;
   padding:16px 18px;box-shadow:var(--shadow-sm);overflow:hidden}
@@ -906,7 +913,7 @@ header.krheader{animation-delay:.08s}
    above it, sitting on the page itself rather than the navy footer below. */
 .quickcontact{margin-top:22px;background:var(--surface);border:1px solid var(--accent);
   border-radius:12px;padding:22px 24px;display:flex;gap:18px;align-items:flex-start;
-  box-shadow:var(--shadow-sm);flex:none}
+  box-shadow:var(--shadow-sm)}
 .quickcontact .qc-photo img{display:block;width:88px;height:88px;border-radius:50%;
   object-fit:cover}
 .quickcontact .qc-text{min-width:0}
@@ -1365,7 +1372,7 @@ footer.sitefoot{margin-top:22px;background:var(--brand-bg)}
          all three items across the row instead of bunching Updated and the
          buttons together on one side. -->
     <span class="krcrumb-updated">Updated
-      August 25, 2026 05:31 EDT</span>
+      August 25, 2026 05:42 EDT</span>
     <!-- Mobile-only counterpart, hidden on desktop. Full-format above was
          dropped entirely on phones because "Updated [full date/time]" won the
          path row's one remaining slot over the icon toolbar every time and
@@ -1374,7 +1381,7 @@ footer.sitefoot{margin-top:22px;background:var(--brand-bg)}
          it's short enough to fit that row without repeating the wrap
          problem. -->
     <span class="krcrumb-updated-mobile">Updated
-      Aug 25, 05:31 EDT</span>
+      Aug 25, 05:42 EDT</span>
     <!-- Share and install are mobile-first actions, so unlike the old lone
          Export CSV button they stay visible on a phone; see the media query.
          Export CSV moves into the overflow menu — it's still desktop-only,
@@ -1921,10 +1928,10 @@ let cardLimit = 8;
 // Deadlines are ordered FIRST on a phone because they are the most actionable
 // thing here — but uncapped that panel ran 1,389px, two thirds of everything
 // above the first update card. Capping it keeps the ordering decision without
-// making the reader scroll past 78 dates to reach an update. Capped on desktop
-// too, same as cardLimit: uncapped, it routinely outran the updates column and
-// left either a stretched blank panel or a misaligned gap beside it.
-let dlLimit = 8;
+// making the reader scroll past 78 dates to reach an update. Desktop is a
+// sticky side column (see .colside), so a long list costs nothing there —
+// it stays uncapped.
+let dlLimit = MOBILE.matches ? 6 : Infinity;
 let userChoseLimit = false;      // never override an explicit "show more"
 let userChoseDlLimit = false;    // same, for the deadlines panel
 let userToggledFilters = false;  // or an explicit open/close
@@ -2510,7 +2517,7 @@ foldables.forEach(el => {
 
 function applyViewport() {
   if (!userChoseLimit) cardLimit = 8;
-  if (!userChoseDlLimit) dlLimit = 8;
+  if (!userChoseDlLimit) dlLimit = MOBILE.matches ? 6 : Infinity;
   // Re-open anything the reader folded on a phone before turning to landscape or
   // widening the window; a collapsed panel on desktop has no visible way back.
   if (!MOBILE.matches) foldables.forEach(el => { el.open = true; });
