@@ -911,9 +911,11 @@ header.krheader{animation-delay:.08s}
    card grows (flex:1) to fill whatever's left after grid stretch sets the
    row height — whichever column is naturally shorter gets its trailing card
    pulled down to the row's bottom instead of leaving blank page beside a
-   still-running column. */
+   still-running column. quickcontact is excluded: it's a fixed-content
+   card, and stretching it just grows an empty bordered box beneath the
+   photo/text instead of filling blank page. */
 .colmain,.colside{display:flex;flex-direction:column}
-.colmain>*:last-child,.colside>*:last-child{flex:1}
+.colmain>*:last-child:not(.quickcontact),.colside>*:last-child{flex:1}
 @media (max-width:900px){.cols{grid-template-columns:1fr}.colmain,.colside{display:block}}
 
 .panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;
@@ -1078,7 +1080,7 @@ header.krheader{animation-delay:.08s}
    above it, sitting on the page itself rather than the navy footer below. */
 .quickcontact{margin-top:22px;background:var(--surface);border:1px solid var(--accent);
   border-radius:12px;padding:22px 24px;display:flex;gap:18px;align-items:flex-start;
-  box-shadow:var(--shadow-sm);flex:1}
+  box-shadow:var(--shadow-sm);flex:none}
 .quickcontact .qc-photo img{display:block;width:88px;height:88px;border-radius:50%;
   object-fit:cover}
 .quickcontact .qc-text{min-width:0}
