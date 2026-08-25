@@ -904,16 +904,17 @@ header.krheader{animation-delay:.08s}
 
 #filters summary{display:none}          /* desktop: always expanded, no control */
 #filters>.pillgroup:last-of-type{margin-bottom:18px}
-.cols{display:grid;grid-template-columns:1fr 400px;gap:18px;align-items:start}
-/* align-items:start, not stretch — both the update list and the deadline
-   list are now capped at 8 with their own "Show more" button (dlLimit,
-   cardLimit), so neither column runs away from the other. Forcing the row
-   to a shared height on top of that just grows blank space into whichever
-   trailing card happened to be last: a stretched .quickcontact grew an
-   empty bordered box, a stretched .p-updates panel grew an empty gap above
-   the contact card. Capping both columns at the source is the actual fix;
-   stretching one to chase the other's length was never it. */
+.cols{display:grid;grid-template-columns:1fr 400px;gap:18px;align-items:stretch}
+/* Both lists are capped at 8 (dlLimit, cardLimit) with their own "Show more"
+   button, so colside — just the one deadlines panel — is now routinely
+   shorter than colmain, which carries the update cards plus quickcontact
+   below them. Stretch only colside's panel to close that gap: its
+   background matches the page, so the extra height blends in rather than
+   drawing an empty box the way stretching quickcontact or .p-updates did.
+   Never stretch colmain's last child — it's quickcontact, fixed-content,
+   and grows an ugly bordered box instead of filling blank page. */
 .colmain,.colside{display:flex;flex-direction:column}
+.colside>*:last-child{flex:1}
 @media (max-width:900px){.cols{grid-template-columns:1fr}.colmain,.colside{display:block}}
 
 .panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;

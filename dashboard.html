@@ -731,16 +731,17 @@ header.krheader{animation-delay:.08s}
 
 #filters summary{display:none}          /* desktop: always expanded, no control */
 #filters>.pillgroup:last-of-type{margin-bottom:18px}
-.cols{display:grid;grid-template-columns:1fr 400px;gap:18px;align-items:start}
-/* align-items:start, not stretch — both the update list and the deadline
-   list are now capped at 8 with their own "Show more" button (dlLimit,
-   cardLimit), so neither column runs away from the other. Forcing the row
-   to a shared height on top of that just grows blank space into whichever
-   trailing card happened to be last: a stretched .quickcontact grew an
-   empty bordered box, a stretched .p-updates panel grew an empty gap above
-   the contact card. Capping both columns at the source is the actual fix;
-   stretching one to chase the other's length was never it. */
+.cols{display:grid;grid-template-columns:1fr 400px;gap:18px;align-items:stretch}
+/* Both lists are capped at 8 (dlLimit, cardLimit) with their own "Show more"
+   button, so colside — just the one deadlines panel — is now routinely
+   shorter than colmain, which carries the update cards plus quickcontact
+   below them. Stretch only colside's panel to close that gap: its
+   background matches the page, so the extra height blends in rather than
+   drawing an empty box the way stretching quickcontact or .p-updates did.
+   Never stretch colmain's last child — it's quickcontact, fixed-content,
+   and grows an ugly bordered box instead of filling blank page. */
 .colmain,.colside{display:flex;flex-direction:column}
+.colside>*:last-child{flex:1}
 @media (max-width:900px){.cols{grid-template-columns:1fr}.colmain,.colside{display:block}}
 
 .panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;
@@ -1364,7 +1365,7 @@ footer.sitefoot{margin-top:22px;background:var(--brand-bg)}
          all three items across the row instead of bunching Updated and the
          buttons together on one side. -->
     <span class="krcrumb-updated">Updated
-      August 25, 2026 05:27 EDT</span>
+      August 25, 2026 05:31 EDT</span>
     <!-- Mobile-only counterpart, hidden on desktop. Full-format above was
          dropped entirely on phones because "Updated [full date/time]" won the
          path row's one remaining slot over the icon toolbar every time and
@@ -1373,7 +1374,7 @@ footer.sitefoot{margin-top:22px;background:var(--brand-bg)}
          it's short enough to fit that row without repeating the wrap
          problem. -->
     <span class="krcrumb-updated-mobile">Updated
-      Aug 25, 05:27 EDT</span>
+      Aug 25, 05:31 EDT</span>
     <!-- Share and install are mobile-first actions, so unlike the old lone
          Export CSV button they stay visible on a phone; see the media query.
          Export CSV moves into the overflow menu — it's still desktop-only,
