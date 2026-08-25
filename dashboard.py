@@ -909,23 +909,15 @@ header.krheader{animation-delay:.08s}
 #filters summary{display:none}          /* desktop: always expanded, no control */
 #filters>.pillgroup:last-of-type{margin-bottom:18px}
 .cols{display:grid;grid-template-columns:1fr 400px;gap:18px;align-items:start}
-/* Whichever of colmain/colside is naturally shorter varies with the data —
-   update cards carry full paragraphs so 8 of them can easily outrun an
-   uncapped deadlines list, or a heavy deadline week can outrun 8 cards the
-   other way. Sticking BOTH columns handles either direction with the same
-   rule: align-items:start keeps each column at its own natural height
-   instead of stretched to match the other, which is what gives the shorter
-   one room to travel within the grid row — it stays in view while the
-   taller column scrolls past, then scrolls away normally once its own
-   bottom reaches the row's bottom. The taller column has no such room (it
-   already equals the row height), so sticky is simply a no-op for it. No
-   flex:1 stretch anywhere: every attempt at growing a trailing card or
-   panel to close the height gap just relocated the same dead space into
-   whichever element absorbed it — an empty bordered box on quickcontact, a
-   blank slab inside .p-updates, a gap inside the deadlines panel. Sticky
-   sidesteps the mismatch instead of papering over it. */
-.colmain,.colside{position:sticky;top:18px}
-@media (max-width:900px){.cols{grid-template-columns:1fr}.colmain,.colside{position:static}}
+/* align-items:start, not stretch: whichever of colmain/colside is naturally
+   taller varies with the data (rich update cards vs compact deadline rows),
+   and forcing a shared row height just relocates the mismatch into whatever
+   sits last — an empty bordered box on quickcontact, a blank slab inside
+   .p-updates, a gap inside the deadlines panel. matchColumnHeights() in the
+   script is the actual fix: it measures both columns after every render and
+   trims whichever is taller (cardLimit or dlLimit) down to match, so the
+   columns end at roughly the same point with real content, not filler. */
+@media (max-width:900px){.cols{grid-template-columns:1fr}}
 
 .panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;
   padding:16px 18px;box-shadow:var(--shadow-sm);overflow:hidden}
@@ -1670,13 +1662,15 @@ let cardLimit = 8;
 // Deadlines are ordered FIRST on a phone because they are the most actionable
 // thing here — but uncapped that panel ran 1,389px, two thirds of everything
 // above the first update card. Capping it keeps the ordering decision without
-// making the reader scroll past 78 dates to reach an update. Desktop is a
-// sticky side column (see .colside), so a long list costs nothing there —
-// it stays uncapped.
+// making the reader scroll past 78 dates to reach an update. On desktop this
+// is just a starting point: matchColumnHeights() below resets it to "show
+// everything" on every render, then trims it back down only if the deadlines
+// column actually ends up taller than the updates column.
 let dlLimit = MOBILE.matches ? 6 : Infinity;
 let userChoseLimit = false;      // never override an explicit "show more"
 let userChoseDlLimit = false;    // same, for the deadlines panel
 let userToggledFilters = false;  // or an explicit open/close
+const MIN_COL_LIMIT = 3;         // never trim a column down to almost nothing
 
 function renderCards(rs) {
   // Every matching row renders into the DOM regardless of cardLimit — only
@@ -1907,9 +1901,45 @@ function renderAgencies(rs) {
     : '<div class="empty">—</div>';
 }
 
+// Rich update cards (full paragraphs) and compact deadline rows almost never
+// reach the same natural height at the same item count, and which side is
+// taller flips with the data — a heavy deadline week can outrun 8 update
+// cards just as easily as the other way round. Rather than stretch one to
+// match (every attempt at that just relocated the same dead space into
+// whatever absorbed it — an empty bordered box on quickcontact, a blank slab
+// inside .p-updates, a gap inside the deadlines panel), measure both columns
+// after they render and trim whichever is taller down to match, via the same
+// cardLimit/dlLimit + "Show more" mechanism a reader's own click already
+// uses. Every pass starts from each column's own natural baseline (never the
+// previous pass's trimmed value) so a later filter change that leaves more
+// room can grow a previously-trimmed column back instead of only ever
+// shrinking it further.
+function matchColumnHeights(rs) {
+  if (!userChoseLimit) cardLimit = 8;
+  if (!userChoseDlLimit) dlLimit = MOBILE.matches ? 6 : (deadlineItems(rs).length || MIN_COL_LIMIT);
+  renderCards(rs); renderDeadlines(rs);
+  if (MOBILE.matches) return;              // stacked on a phone, nothing to balance
+  if (userChoseLimit && userChoseDlLimit) return;
+  const colmain = $('.colmain'), colside = $('.colside');
+  if (!colmain || !colside) return;
+  let guard = 0;
+  while (guard++ < 40) {
+    const diff = colmain.offsetHeight - colside.offsetHeight;
+    if (Math.abs(diff) < 40) break;         // close enough to read as aligned
+    if (diff > 0 && !userChoseLimit) {
+      if (cardLimit <= MIN_COL_LIMIT) break;
+      cardLimit--; renderCards(rs);
+    } else if (diff < 0 && !userChoseDlLimit) {
+      if (dlLimit <= MIN_COL_LIMIT) break;
+      dlLimit--; renderDeadlines(rs);
+    } else break;                           // the taller side is the reader's explicit choice
+  }
+}
+
 function render() {
   const rs = rows();
-  renderCards(rs); renderDeadlines(rs); renderAgencies(rs); renderFilteredOut(); renderRegRef();
+  matchColumnHeights(rs);
+  renderAgencies(rs); renderFilteredOut(); renderRegRef();
   const cf = $('#clearFilters');
   if (cf) cf.hidden = filter.kind === 'all';
 }
