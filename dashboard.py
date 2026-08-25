@@ -1919,8 +1919,16 @@ function matchColumnHeights(rs) {
   if (!userChoseDlLimit) dlLimit = MOBILE.matches ? 6 : (deadlineItems(rs).length || MIN_COL_LIMIT);
   renderCards(rs); renderDeadlines(rs);
   const colmain = $('.colmain'), colside = $('.colside');
-  if (colmain) colmain.style.paddingBottom = '';
-  if (colside) colside.style.paddingBottom = '';
+  // The visible bottom edge a reader actually sees is the last bordered box
+  // in each column (quickcontact; the deadlines panel) — not the plain,
+  // borderless wrapper div around it. Padding the wrapper changes nothing
+  // visible: whatever comes after .cols already starts at the row's full
+  // height regardless, so that padding was inert. Padding the box itself
+  // moves its border down to actually close the gap.
+  const mainBox = $('.quickcontact') || colmain;
+  const sideBox = $('.p-deadlines') || colside;
+  if (mainBox) mainBox.style.paddingBottom = '';
+  if (sideBox) sideBox.style.paddingBottom = '';
   if (MOBILE.matches) return;              // stacked on a phone, nothing to balance
   if (!colmain || !colside) return;
   if (!(userChoseLimit && userChoseDlLimit)) {
@@ -1948,12 +1956,30 @@ function matchColumnHeights(rs) {
   // Item-count trimming only gets within one item's height of matching (a
   // deadline row and an update card are different heights, so the closest
   // whole-item crossing can still be tens of pixels off). Close the exact
-  // remainder with padding on the shorter column's own plain wrapper — not
-  // any bordered panel inside it, so it stays invisible rather than reading
-  // as a gap — landing both columns at precisely the same bottom edge.
-  const finalDiff = colmain.offsetHeight - colside.offsetHeight;
-  if (finalDiff > 0) colside.style.paddingBottom = finalDiff + 'px';
-  else if (finalDiff < 0) colmain.style.paddingBottom = (-finalDiff) + 'px';
+  // remainder by padding the shorter side's own visible box — this actually
+  // moves its border down to meet the taller column, rather than adding
+  // space nobody sees: whatever follows .cols already starts at the taller
+  // column's height regardless of what the shorter column's own box looks
+  // like, so padding a plain wrapper never did anything visible.
+  //
+  // Applying that padding changes the page's total height, which can toggle
+  // whether a vertical scrollbar is present — that changes the viewport's
+  // available width, which reflows text and shifts heights again, so the
+  // first padding value is only a first guess. Re-measuring afterward and
+  // adding the residual on top (not recomputing from scratch, which would
+  // just clear the padding and rediscover the same pre-scrollbar guess
+  // every time) converges on the actual post-reflow width in a couple of
+  // passes.
+  let box = null, pad = 0;
+  for (let i = 0; i < 5; i++) {
+    const d = colmain.offsetHeight - colside.offsetHeight;
+    if (Math.abs(d) < 1) break;
+    if (box === null) box = d > 0 ? sideBox : mainBox;
+    if (!box) break;
+    pad += (box === sideBox ? d : -d);
+    if (pad < 0) pad = 0;
+    box.style.paddingBottom = pad + 'px';
+  }
 }
 
 function render() {
