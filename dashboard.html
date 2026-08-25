@@ -521,12 +521,12 @@ button:hover{background:var(--raised)}
    the cascade reads as one sequence, top to bottom, not simultaneous
    blocks popping in at once. `backwards` holds the 0%-frame state (opacity
    0) during the animation-delay so nothing flashes visible-then-hidden
-   before its turn starts. Animated on the panels themselves
-   (.p-updates/.p-deadlines/.quickcontact), not .colmain/.colside: under the
-   640px breakpoint those wrappers become display:contents (boxless), and
-   animating a boxless element is a no-op — the panels stay real boxes at
-   every width, mobile included. */
-.krtop,header.krheader,.krcrumb,.herowrap,.notice,.kpis,.p-updates,.p-deadlines,.quickcontact{
+   before its turn starts. Animated on .colmain/.colside individually, not
+   .cols itself: an element with a transform-animation (this keyframe lifts
+   via translateY) becomes a new containing block for its descendants for
+   as long as the `animation` property is set, which silences .colside's
+   own position:sticky if the animation sits on its ancestor instead. */
+.krtop,header.krheader,.krcrumb,.herowrap,.notice,.kpis,.colmain,.colside{
   animation:noticeIn .5s cubic-bezier(.25,.6,.4,1) backwards}
 .krtop{animation-delay:0s}
 header.krheader{animation-delay:.08s}
@@ -534,9 +534,9 @@ header.krheader{animation-delay:.08s}
 .herowrap{animation-delay:.24s}
 .notice{animation-delay:.32s}
 .kpis{animation-delay:.4s}
-.p-updates,.p-deadlines,.quickcontact{animation-delay:.48s}
+.colmain,.colside{animation-delay:.48s}
 @media (prefers-reduced-motion:reduce){
-  .krtop,header.krheader,.krcrumb,.herowrap,.notice,.kpis,.p-updates,.p-deadlines,.quickcontact{animation:none}
+  .krtop,header.krheader,.krcrumb,.herowrap,.notice,.kpis,.colmain,.colside{animation:none}
 }
 
 .coverage{font-size:12.5px;color:var(--ink-2)}
@@ -1367,7 +1367,7 @@ footer.sitefoot{margin-top:22px;background:var(--brand-bg)}
          all three items across the row instead of bunching Updated and the
          buttons together on one side. -->
     <span class="krcrumb-updated">Updated
-      August 25, 2026 06:47 EDT</span>
+      August 25, 2026 06:56 EDT</span>
     <!-- Mobile-only counterpart, hidden on desktop. Full-format above was
          dropped entirely on phones because "Updated [full date/time]" won the
          path row's one remaining slot over the icon toolbar every time and
@@ -1376,7 +1376,7 @@ footer.sitefoot{margin-top:22px;background:var(--brand-bg)}
          it's short enough to fit that row without repeating the wrap
          problem. -->
     <span class="krcrumb-updated-mobile">Updated
-      Aug 25, 06:47 EDT</span>
+      Aug 25, 06:56 EDT</span>
     <!-- Share and install are mobile-first actions, so unlike the old lone
          Export CSV button they stay visible on a phone; see the media query.
          Export CSV moves into the overflow menu — it's still desktop-only,
