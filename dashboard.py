@@ -1918,22 +1918,42 @@ function matchColumnHeights(rs) {
   if (!userChoseLimit) cardLimit = 8;
   if (!userChoseDlLimit) dlLimit = MOBILE.matches ? 6 : (deadlineItems(rs).length || MIN_COL_LIMIT);
   renderCards(rs); renderDeadlines(rs);
-  if (MOBILE.matches) return;              // stacked on a phone, nothing to balance
-  if (userChoseLimit && userChoseDlLimit) return;
   const colmain = $('.colmain'), colside = $('.colside');
+  if (colmain) colmain.style.paddingBottom = '';
+  if (colside) colside.style.paddingBottom = '';
+  if (MOBILE.matches) return;              // stacked on a phone, nothing to balance
   if (!colmain || !colside) return;
-  let guard = 0;
-  while (guard++ < 40) {
-    const diff = colmain.offsetHeight - colside.offsetHeight;
-    if (Math.abs(diff) < 40) break;         // close enough to read as aligned
-    if (diff > 0 && !userChoseLimit) {
-      if (cardLimit <= MIN_COL_LIMIT) break;
-      cardLimit--; renderCards(rs);
-    } else if (diff < 0 && !userChoseDlLimit) {
-      if (dlLimit <= MIN_COL_LIMIT) break;
-      dlLimit--; renderDeadlines(rs);
-    } else break;                           // the taller side is the reader's explicit choice
+  if (!(userChoseLimit && userChoseDlLimit)) {
+    let guard = 0;
+    let diff = colmain.offsetHeight - colside.offsetHeight;
+    // Trim one item off the taller side at a time, but never past the
+    // closest point: an item is itself tens of pixels tall, so the last
+    // trim can overshoot from "a bit too tall" to "now a bit too short" the
+    // other way. Comparing abs(diff) before/after and undoing a step that
+    // made it worse lands on whichever side of zero is actually closer.
+    while (guard++ < 60 && Math.abs(diff) >= 12) {
+      if (diff > 0 && !userChoseLimit && cardLimit > MIN_COL_LIMIT) {
+        cardLimit--; renderCards(rs);
+      } else if (diff < 0 && !userChoseDlLimit && dlLimit > MIN_COL_LIMIT) {
+        dlLimit--; renderDeadlines(rs);
+      } else break;                          // the taller side is at its floor or the reader's explicit choice
+      const newDiff = colmain.offsetHeight - colside.offsetHeight;
+      if (Math.abs(newDiff) > Math.abs(diff)) {
+        if (diff > 0) { cardLimit++; renderCards(rs); } else { dlLimit++; renderDeadlines(rs); }
+        break;
+      }
+      diff = newDiff;
+    }
   }
+  // Item-count trimming only gets within one item's height of matching (a
+  // deadline row and an update card are different heights, so the closest
+  // whole-item crossing can still be tens of pixels off). Close the exact
+  // remainder with padding on the shorter column's own plain wrapper — not
+  // any bordered panel inside it, so it stays invisible rather than reading
+  // as a gap — landing both columns at precisely the same bottom edge.
+  const finalDiff = colmain.offsetHeight - colside.offsetHeight;
+  if (finalDiff > 0) colside.style.paddingBottom = finalDiff + 'px';
+  else if (finalDiff < 0) colmain.style.paddingBottom = (-finalDiff) + 'px';
 }
 
 function render() {
