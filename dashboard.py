@@ -2326,6 +2326,20 @@ function applyViewport() {
 MOBILE.addEventListener('change', applyViewport);
 applyViewport();
 
+// matchColumnHeights()'s padding correction is exact only for the width it
+// was computed at — text reflows continuously as the window resizes, not
+// just at the mobile breakpoint MOBILE above watches, so a plain resize
+// within "desktop" (dragging the window narrower, docking it to half the
+// screen) leaves the last-computed padding stale and visibly wrong at the
+// new width. Debounced with setTimeout, not requestAnimationFrame: rAF only
+// fires while the tab is visible/foregrounded, and a resize can still land
+// after the tab loses focus (e.g. a window manager snapping it to a side).
+let resizeTimer = null;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(render, 150);
+});
+
 labelViews();
 setView(false);
 

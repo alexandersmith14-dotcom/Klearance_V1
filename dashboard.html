@@ -1367,7 +1367,7 @@ footer.sitefoot{margin-top:22px;background:var(--brand-bg)}
          all three items across the row instead of bunching Updated and the
          buttons together on one side. -->
     <span class="krcrumb-updated">Updated
-      August 25, 2026 06:08 EDT</span>
+      August 25, 2026 06:20 EDT</span>
     <!-- Mobile-only counterpart, hidden on desktop. Full-format above was
          dropped entirely on phones because "Updated [full date/time]" won the
          path row's one remaining slot over the icon toolbar every time and
@@ -1376,7 +1376,7 @@ footer.sitefoot{margin-top:22px;background:var(--brand-bg)}
          it's short enough to fit that row without repeating the wrap
          problem. -->
     <span class="krcrumb-updated-mobile">Updated
-      Aug 25, 06:08 EDT</span>
+      Aug 25, 06:20 EDT</span>
     <!-- Share and install are mobile-first actions, so unlike the old lone
          Export CSV button they stay visible on a phone; see the media query.
          Export CSV moves into the overflow menu — it's still desktop-only,
@@ -2586,6 +2586,20 @@ function applyViewport() {
 }
 MOBILE.addEventListener('change', applyViewport);
 applyViewport();
+
+// matchColumnHeights()'s padding correction is exact only for the width it
+// was computed at — text reflows continuously as the window resizes, not
+// just at the mobile breakpoint MOBILE above watches, so a plain resize
+// within "desktop" (dragging the window narrower, docking it to half the
+// screen) leaves the last-computed padding stale and visibly wrong at the
+// new width. Debounced with setTimeout, not requestAnimationFrame: rAF only
+// fires while the tab is visible/foregrounded, and a resize can still land
+// after the tab loses focus (e.g. a window manager snapping it to a side).
+let resizeTimer = null;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(render, 150);
+});
 
 labelViews();
 setView(false);
