@@ -907,15 +907,16 @@ header.krheader{animation-delay:.08s}
 .cols{display:grid;grid-template-columns:1fr 400px;gap:18px;align-items:stretch}
 /* Stretch (grid default), not align-items:start — which of colmain/colside
    ends up taller depends on the active filter and how many deadlines exist,
-   so it isn't fixed to one side. Both columns are flex, and each one's last
-   card grows (flex:1) to fill whatever's left after grid stretch sets the
-   row height — whichever column is naturally shorter gets its trailing card
-   pulled down to the row's bottom instead of leaving blank page beside a
-   still-running column. quickcontact is excluded: it's a fixed-content
-   card, and stretching it just grows an empty bordered box beneath the
-   photo/text instead of filling blank page. */
+   so it isn't fixed to one side. Both columns are flex, and each one's
+   trailing card grows (flex:1) to fill whatever's left after grid stretch
+   sets the row height — whichever column is naturally shorter gets that
+   card pulled down to the row's bottom instead of leaving blank page beside
+   a still-running column. On colmain that's the updates panel specifically,
+   not quickcontact below it: quickcontact is fixed-content, and stretching
+   it just grows an empty bordered box beneath the photo/text rather than
+   filling blank page. */
 .colmain,.colside{display:flex;flex-direction:column}
-.colmain>*:last-child:not(.quickcontact),.colside>*:last-child{flex:1}
+.colmain>.p-updates,.colside>*:last-child{flex:1}
 @media (max-width:900px){.cols{grid-template-columns:1fr}.colmain,.colside{display:block}}
 
 .panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;

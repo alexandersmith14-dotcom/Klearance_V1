@@ -734,15 +734,16 @@ header.krheader{animation-delay:.08s}
 .cols{display:grid;grid-template-columns:1fr 400px;gap:18px;align-items:stretch}
 /* Stretch (grid default), not align-items:start — which of colmain/colside
    ends up taller depends on the active filter and how many deadlines exist,
-   so it isn't fixed to one side. Both columns are flex, and each one's last
-   card grows (flex:1) to fill whatever's left after grid stretch sets the
-   row height — whichever column is naturally shorter gets its trailing card
-   pulled down to the row's bottom instead of leaving blank page beside a
-   still-running column. quickcontact is excluded: it's a fixed-content
-   card, and stretching it just grows an empty bordered box beneath the
-   photo/text instead of filling blank page. */
+   so it isn't fixed to one side. Both columns are flex, and each one's
+   trailing card grows (flex:1) to fill whatever's left after grid stretch
+   sets the row height — whichever column is naturally shorter gets that
+   card pulled down to the row's bottom instead of leaving blank page beside
+   a still-running column. On colmain that's the updates panel specifically,
+   not quickcontact below it: quickcontact is fixed-content, and stretching
+   it just grows an empty bordered box beneath the photo/text rather than
+   filling blank page. */
 .colmain,.colside{display:flex;flex-direction:column}
-.colmain>*:last-child:not(.quickcontact),.colside>*:last-child{flex:1}
+.colmain>.p-updates,.colside>*:last-child{flex:1}
 @media (max-width:900px){.cols{grid-template-columns:1fr}.colmain,.colside{display:block}}
 
 .panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;
@@ -1366,7 +1367,7 @@ footer.sitefoot{margin-top:22px;background:var(--brand-bg)}
          all three items across the row instead of bunching Updated and the
          buttons together on one side. -->
     <span class="krcrumb-updated">Updated
-      August 25, 2026 05:10 EDT</span>
+      August 25, 2026 05:21 EDT</span>
     <!-- Mobile-only counterpart, hidden on desktop. Full-format above was
          dropped entirely on phones because "Updated [full date/time]" won the
          path row's one remaining slot over the icon toolbar every time and
@@ -1375,7 +1376,7 @@ footer.sitefoot{margin-top:22px;background:var(--brand-bg)}
          it's short enough to fit that row without repeating the wrap
          problem. -->
     <span class="krcrumb-updated-mobile">Updated
-      Aug 25, 05:10 EDT</span>
+      Aug 25, 05:21 EDT</span>
     <!-- Share and install are mobile-first actions, so unlike the old lone
          Export CSV button they stay visible on a phone; see the media query.
          Export CSV moves into the overflow menu — it's still desktop-only,
