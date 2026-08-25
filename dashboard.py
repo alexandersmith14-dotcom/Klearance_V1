@@ -583,6 +583,10 @@ button:hover{background:var(--raised)}
   background-size:200% 100%;background-position:right bottom;
   transition:background-position .5s ease}
 #showmore:hover,#dlmore:hover{background-position:left bottom}
+/* .dl rows keep their divider on the last one (unlike .card, which drops
+   its own) so this button doesn't sit flush against the final deadline's
+   text — a bit more breathing room than the shared 16px above. */
+#dlmore{margin-top:24px}
 .pagehead button:hover{filter:brightness(1.06)}
 
 /* Icon toolbar (share / install / more) — overrides the lime pagehead-button
@@ -1016,7 +1020,6 @@ header.krheader{animation-delay:.08s}
 .u-High{color:var(--crit)} .u-Medium{color:var(--warn)} .u-Low{color:var(--ink-muted)}
 
 .dl{display:flex;gap:10px;padding:11px 0;border-bottom:1px solid var(--rule)}
-.dl:last-child{border-bottom:none}
 .dl .dot{flex:none;width:9px;height:9px;border-radius:50%;margin-top:6px}
 .dl .body{flex:1}
 .dl .agency{font-size:12px;color:var(--ink-muted);margin-bottom:2px}
