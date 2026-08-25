@@ -904,19 +904,16 @@ header.krheader{animation-delay:.08s}
 
 #filters summary{display:none}          /* desktop: always expanded, no control */
 #filters>.pillgroup:last-of-type{margin-bottom:18px}
-.cols{display:grid;grid-template-columns:1fr 400px;gap:18px;align-items:stretch}
-/* Stretch (grid default), not align-items:start — which of colmain/colside
-   ends up taller depends on the active filter and how many deadlines exist,
-   so it isn't fixed to one side. Both columns are flex, and each one's
-   trailing card grows (flex:1) to fill whatever's left after grid stretch
-   sets the row height — whichever column is naturally shorter gets that
-   card pulled down to the row's bottom instead of leaving blank page beside
-   a still-running column. On colmain that's the updates panel specifically,
-   not quickcontact below it: quickcontact is fixed-content, and stretching
-   it just grows an empty bordered box beneath the photo/text rather than
-   filling blank page. */
+.cols{display:grid;grid-template-columns:1fr 400px;gap:18px;align-items:start}
+/* align-items:start, not stretch — both the update list and the deadline
+   list are now capped at 8 with their own "Show more" button (dlLimit,
+   cardLimit), so neither column runs away from the other. Forcing the row
+   to a shared height on top of that just grows blank space into whichever
+   trailing card happened to be last: a stretched .quickcontact grew an
+   empty bordered box, a stretched .p-updates panel grew an empty gap above
+   the contact card. Capping both columns at the source is the actual fix;
+   stretching one to chase the other's length was never it. */
 .colmain,.colside{display:flex;flex-direction:column}
-.colmain>.p-updates,.colside>*:last-child{flex:1}
 @media (max-width:900px){.cols{grid-template-columns:1fr}.colmain,.colside{display:block}}
 
 .panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;
@@ -1662,9 +1659,10 @@ let cardLimit = 8;
 // Deadlines are ordered FIRST on a phone because they are the most actionable
 // thing here — but uncapped that panel ran 1,389px, two thirds of everything
 // above the first update card. Capping it keeps the ordering decision without
-// making the reader scroll past 78 dates to reach an update. Desktop is a side
-// column where length costs nothing, so it stays uncapped.
-let dlLimit = MOBILE.matches ? 6 : Infinity;
+// making the reader scroll past 78 dates to reach an update. Capped on desktop
+// too, same as cardLimit: uncapped, it routinely outran the updates column and
+// left either a stretched blank panel or a misaligned gap beside it.
+let dlLimit = 8;
 let userChoseLimit = false;      // never override an explicit "show more"
 let userChoseDlLimit = false;    // same, for the deadlines panel
 let userToggledFilters = false;  // or an explicit open/close
@@ -2250,7 +2248,7 @@ foldables.forEach(el => {
 
 function applyViewport() {
   if (!userChoseLimit) cardLimit = 8;
-  if (!userChoseDlLimit) dlLimit = MOBILE.matches ? 6 : Infinity;
+  if (!userChoseDlLimit) dlLimit = 8;
   // Re-open anything the reader folded on a phone before turning to landscape or
   // widening the window; a collapsed panel on desktop has no visible way back.
   if (!MOBILE.matches) foldables.forEach(el => { el.open = true; });
