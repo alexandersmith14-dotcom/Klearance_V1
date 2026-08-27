@@ -9558,5 +9558,45 @@
     "name": "DADENEGAR STARTUP STUDIO",
     "program": "SDGT] [IRAN-CON-ARMS-EO",
     "sdn_type": ""
+  },
+  {
+    "date": "2026-08-27",
+    "ent_num": "58105",
+    "action": "added",
+    "name": "PALESTINE ACTION",
+    "program": "SDGT",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-27",
+    "ent_num": "58314",
+    "action": "added",
+    "name": "AUTISTICI INVENTATI",
+    "program": "SDGT",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-27",
+    "ent_num": "58462",
+    "action": "added",
+    "name": "MASAR BADIL",
+    "program": "SDGT",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-08-27",
+    "ent_num": "58463",
+    "action": "added",
+    "name": "ALSAGHEER, Rawa",
+    "program": "SDGT",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-27",
+    "ent_num": "58464",
+    "action": "added",
+    "name": "ABDULNASSER, Zaid",
+    "program": "SDGT",
+    "sdn_type": "individual"
   }
 ]
