@@ -9598,5 +9598,21 @@
     "name": "ABDULNASSER, Zaid",
     "program": "SDGT",
     "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-29",
+    "ent_num": "58482",
+    "action": "added",
+    "name": "TAEEDI, Reza Mohammad",
+    "program": "SDGT] [IFSR",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-08-29",
+    "ent_num": "58485",
+    "action": "added",
+    "name": "KAMENG TRADING LIMITED",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
   }
 ]
