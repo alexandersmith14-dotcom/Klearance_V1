@@ -25,18 +25,21 @@ LETTERS = ("K", "R")
 # redeploy isn't enough to make it refetch. The manifest's own icon srcs need
 # the same cache-buster, not just the HTML <link> tags, since the WebAPK
 # minting service reads icon paths from the manifest.
-ICON_VERSION = 4
+ICON_VERSION = 5
 
 KR_BLUE = (30, 76, 126)         # Kaufman Rossin logo blue (#1e4c7e)
 WHITE = (255, 255, 255)
 GREEN = (174, 209, 54)          # KR lime (#aed136)
 
-CAP_FRACTION = 0.50       # max letter height, as a share of the field
-MAX_W_FRACTION = 0.74     # max width of the whole K|R group, as a share of the field
+# Proportions tuned against KR's real "K | R" mark: letters sit smaller with
+# generous margin (not stretched edge to edge), the lime pipe is thin and runs
+# TALLER than the cap height, and there is real air around it.
+CAP_FRACTION = 0.46       # letter cap height, as a share of the field
+MAX_W_FRACTION = 0.62     # max width of the whole K|R group, as a share of the field
 FONT_PATH = "C:/Windows/Fonts/arialbd.ttf"
-PIPE_W_FRACTION = 0.038   # pipe stroke width, as a share of the field
-PIPE_H_FRACTION = 0.92    # pipe height, as a share of the letters' own height
-PIPE_GAP_FRACTION = 0.26  # gap between a letter and the pipe, as a share of letter height
+PIPE_W_FRACTION = 0.028   # pipe stroke width, as a share of the field
+PIPE_H_FRACTION = 1.42    # pipe height, as a MULTIPLE of the letters' cap height
+PIPE_GAP_FRACTION = 0.34  # gap between a letter and the pipe, as a share of cap height
 
 
 def render(size, padding=0.0):
