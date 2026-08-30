@@ -971,7 +971,7 @@ header.krheader{animation-delay:.08s}
 .sdnname{font-size:13px;font-weight:600;flex:1 1 auto;min-width:180px}
 .sdnmeta{font-size:12px;color:var(--ink-muted);white-space:nowrap}
 .sdnempty,.sdnnote{font-size:12.5px;color:var(--ink-muted)}
-.sdnsearch{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.sdnsearch{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
 .sdnsearch input{flex:1 1 320px;max-width:420px;appearance:none;-webkit-appearance:none;
   font-family:var(--ui-font);font-size:14px;padding:8px 12px;
   color:var(--ink);background:var(--surface);border:1px solid var(--border);
@@ -3307,11 +3307,12 @@ def sdn_panel(today):
         + '</div>'
     )
 
-    total = None
-    if os.path.exists(SDN_SNAPSHOT_PATH):
-        with open(SDN_SNAPSHOT_PATH, encoding="utf-8") as f:
-            total = len(json.load(f))
-    total_label = f'{total:,} entries' if total is not None else 'the full list'
+    total = 0
+    for path in (SDN_SNAPSHOT_PATH, "csl_snapshot.json"):
+        if os.path.exists(path):
+            with open(path, encoding="utf-8") as f:
+                total += len(json.load(f))
+    total_label = f'{total:,} entries' if total else 'the full lists'
 
     # Separate from the changes log above: this looks up any name against the
     # CURRENT full SDN list (~19k entries), not just what changed recently.
