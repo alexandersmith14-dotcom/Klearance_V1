@@ -1036,6 +1036,21 @@ header.krheader{animation-delay:.08s}
 .dlfoot{display:flex;align-items:center;justify-content:space-between;gap:10px;
   margin-top:3px}
 .dlfoot .when{margin-top:0}
+/* Inline audio player for an item's spoken plain-English summary. One shared
+   <audio> element drives every bar (see the script). Colours are existing
+   tokens, so dark mode is covered. */
+.rp{display:flex;align-items:center;gap:8px;margin-top:8px;background:var(--raised);
+  border:1px solid var(--border);border-radius:8px;padding:6px 9px}
+.rp-btn{flex:none;width:28px;height:28px;border-radius:50%;border:none;padding:0;
+  background:var(--brand);color:#fff;display:inline-flex;align-items:center;
+  justify-content:center;cursor:pointer}
+.rp-btn svg{width:11px;height:11px;fill:currentColor}
+.rp-t{flex:none;font-size:10.5px;color:var(--ink-muted);
+  font-variant-numeric:tabular-nums}
+.rp-track{flex:1;min-width:70px;position:relative;height:5px;border-radius:3px;
+  background:var(--rule);cursor:pointer}
+.rp-fill{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--brand);
+  border-radius:3px}
 /* Unscoped (was .dl .cal) — the same button now also appears on update cards
    in the main feed, not just the sidebar deadline list. */
 .cal{flex:none;font:inherit;font-size:11.5px;color:var(--brand);
@@ -1451,6 +1466,7 @@ footer.sitefoot{margin-top:22px;background:var(--brand-bg)}
 
 JS = r"""
 const DATA = JSON.parse(document.getElementById('data').textContent);
+const AUDIO_KEYS = new Set(JSON.parse((document.getElementById('audiokeys') || {}).textContent || '[]'));
 // Feed names grouped under the agency that publishes them. Readers think "OCC",
 // not "OCC versus OCC Bulletins".
 const GROUPS = JSON.parse(document.getElementById('groups').textContent);
@@ -1694,6 +1710,7 @@ function renderCards(rs) {
       </div>
       <h3><a href="${esc(d.url)}" target="_blank" rel="noopener">${esc(d.title)}</a></h3>
       <p>${esc(d.why)}</p>
+      ${playerBar(d)}
       <div class="cardfoot">
         <div class="meta">${esc(d.date)} · <span class="u u-${esc(d.urgency)}">${esc(d.urgency)}</span></div>
         <div class="actions">${d.slug ? `<a class="cal" href="updates/${esc(d.slug)}.html">Details</a>` : ''}${calButtons(d)}${itemActionButtons(d)}</div>
@@ -1728,6 +1745,26 @@ function deadlineItems(rs) {
 // the matching sidebar entry. Markup and data-* attributes match .dl .cal
 // exactly so the one delegated click handler below covers both.
 const CAL_ICON = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>';
+
+// Base URL for the per-item audio clips (one MP3 per store key, produced by the
+// clip script). Default assumes an `audio/` folder next to this page; override
+// with window.KLEARANCE_AUDIO_BASE. An item with no key, or whose clip has not
+// been generated yet, simply shows no bar - its row is unchanged.
+const AUDIO_BASE = (window.KLEARANCE_AUDIO_BASE || 'audio').replace(/\/+$/, '');
+const RP_PLAY = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+const RP_PAUSE = '<svg viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>';
+function playerBar(d) {
+  // Show a bar only where a clip actually exists (AUDIO_KEYS is written at
+  // build time from ./audio). Covers set-aside items too once their clips
+  // are generated; anything without one is left untouched.
+  if (!d.key || !AUDIO_KEYS.has(d.key)) return '';
+  return '<div class="rp" data-src="' + esc(AUDIO_BASE) + '/' + esc(d.key) + '.mp3">'
+    + '<button class="rp-btn" type="button" aria-label="Play summary">' + RP_PLAY + '</button>'
+    + '<span class="rp-t rp-cur">0:00</span>'
+    + '<div class="rp-track"><div class="rp-fill"></div></div>'
+    + '<span class="rp-t rp-dur">0:00</span>'
+    + '</div>';
+}
 function calButtons(d) {
   const btns = [];
   if (d.comments_close_on && d.comments_close_on >= TODAY)
@@ -1856,6 +1893,7 @@ function renderDeadlines(rs) {
             ${itemActionButtons(d)}
           </div>
         </div>
+        ${playerBar(d)}
       </div></div>`;
   }).join('')
   : '<div class="empty">No dated deadlines in this view. Dates come from matched Federal Register documents; items without a match show none.</div>';
@@ -2230,6 +2268,54 @@ document.addEventListener('click', e => {
   downloadText(name, ics, 'text/calendar');
 });
 
+// ---------------------------------------------- Inline audio player
+// One <audio> for the whole page. A clip can appear in two bars at once
+// (an update card and its matching sidebar deadline), so state is keyed by
+// src and every matching bar is repainted together. Delegated on document,
+// same reasoning as the .cal handler above.
+const rpAudio = new Audio();
+rpAudio.preload = 'none';
+let rpSrc = null;
+function rpFmt(s) { s = Math.max(0, s | 0); return (s / 60 | 0) + ':' + String(s % 60).padStart(2, '0'); }
+function rpBars(src) { return document.querySelectorAll('.rp[data-src="' + src + '"]'); }
+function rpPaint() {
+  if (!rpSrc) return;
+  const pct = rpAudio.duration ? rpAudio.currentTime / rpAudio.duration * 100 : 0;
+  rpBars(rpSrc).forEach(bar => {
+    bar.querySelector('.rp-btn').innerHTML = rpAudio.paused ? RP_PLAY : RP_PAUSE;
+    bar.querySelector('.rp-fill').style.width = pct + '%';
+    bar.querySelector('.rp-cur').textContent = rpFmt(rpAudio.currentTime);
+    if (rpAudio.duration) bar.querySelector('.rp-dur').textContent = rpFmt(rpAudio.duration);
+  });
+}
+function rpClear(src) {
+  rpBars(src).forEach(bar => {
+    bar.querySelector('.rp-btn').innerHTML = RP_PLAY;
+    bar.querySelector('.rp-fill').style.width = '0';
+    bar.querySelector('.rp-cur').textContent = '0:00';
+  });
+}
+['timeupdate', 'play', 'pause', 'loadedmetadata'].forEach(ev => rpAudio.addEventListener(ev, rpPaint));
+rpAudio.addEventListener('ended', () => { if (rpSrc) rpClear(rpSrc); });
+document.addEventListener('click', e => {
+  const bar = e.target.closest('.rp');
+  if (!bar) return;
+  const src = bar.dataset.src;
+  if (rpSrc === src) {
+    if (e.target.closest('.rp-track') && rpAudio.duration) {
+      const t = bar.querySelector('.rp-track').getBoundingClientRect();
+      rpAudio.currentTime = Math.min(1, Math.max(0, (e.clientX - t.left) / t.width)) * rpAudio.duration;
+    } else {
+      rpAudio.paused ? rpAudio.play() : rpAudio.pause();
+    }
+    return;
+  }
+  if (rpSrc) rpClear(rpSrc);
+  rpSrc = src;
+  rpAudio.src = src;
+  rpAudio.play().catch(() => {});
+});
+
 // ---------------------------------------------------------- Notes & Tasks
 // One shared dialog reused across every item, rather than one per card —
 // there can be hundreds of cards rendered at once. Only its content and the
@@ -2399,6 +2485,10 @@ const QS_STEPS = [
   // section a reader actually meets first.
   { sel: '#deadlines .dl .actions',
     text: 'Every update has three quick actions: add a deadline to your calendar, jot a private note, or track a task — right from the list.' },
+  // Skipped automatically on any row whose audio clip has not been generated
+  // yet (no .rp element to point at), same as the gated Ask step above.
+  { sel: '#deadlines .dl .rp',
+    text: 'Press play to hear the item’s plain-English summary read aloud — a local voice, nothing added or interpreted.' },
 ];
 function initQuickStart() {
   // ?quickstart=1 replays the tour on demand -- lets it be checked on a real
@@ -2661,6 +2751,7 @@ def build_rows(store):
     rows = []
     for r in store.values():
         rows.append({
+            "key": r.get("key", ""),
             "title": r.get("title", ""), "url": r.get("url", ""),
             "fr_url": r.get("fr_url"), "date": r.get("date", ""),
             "sources": r.get("sources", []), "type": r.get("update_type", ""),
@@ -3247,6 +3338,14 @@ def main():
     assign_slugs(rows)
     today = datetime.now(timezone.utc).date()
 
+    # Which items have a spoken summary clip. Populated by the audio pipeline
+    # into ./audio/<key>.mp3; drives whether playerBar renders a bar, so an
+    # item without a clip (not yet generated, or none wanted) is untouched.
+    _audio_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "audio")
+    audio_keys = sorted(
+        n[:-4] for n in os.listdir(_audio_dir) if n.endswith(".mp3")
+    ) if os.path.isdir(_audio_dir) else []
+
     # Busiest agency first, so the ordering carries information rather than being
     # alphabetical by accident. Empty groups are dropped — a pill that returns
     # nothing is worse than no pill.
@@ -3767,6 +3866,7 @@ def main():
 </footer>
 <script type="application/json" id="data">{json.dumps(rows)}</script>
 <script type="application/json" id="groups">{json.dumps(AGENCY_GROUPS)}</script>
+<script type="application/json" id="audiokeys">{json.dumps(audio_keys)}</script>
 <script>{JS}</script>
 <script>
 // Chrome dropped the hard requirement for a service worker to install from the
