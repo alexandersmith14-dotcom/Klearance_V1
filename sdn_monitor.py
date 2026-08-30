@@ -1,169 +1,292 @@
-"""Tracks OFAC sanctions lists — day-over-day changes to the Specially
-Designated Nationals (SDN) list, plus a combined name-screening index that
-covers SDN, SDN aliases, the OFAC Consolidated (non-SDN) list and its
-aliases, with per-entry detail (remarks, country) for disambiguation.
+"""Multi-list sanctions screening index, plus day-over-day change tracking for
+the OFAC SDN list.
 
-Separate from the main regulatory-update tracker in fetcher.py/pipeline.py
-because it's a different kind of data: huge name lists that churn by
-individual additions/removals/edits rather than by agencies publishing
-notices. No Claude classification here.
+Screening covers, by name and alias:
+  - OFAC Specially Designated Nationals (SDN)           source "SDN"
+  - OFAC Consolidated / non-SDN lists                   source "Non-SDN"
+  - BIS lists via Trade.gov's Consolidated Screening    source "BIS"
+    List (Entity List, Denied Persons, Unverified, MEU)
+  - State Department (ITAR Debarred, nonproliferation)  source "State"
+  - UN Security Council Consolidated List               source "UN"
+  - UK OFSI Consolidated List                           source "UK"
+  - EU Consolidated Financial Sanctions List            source "EU"
 
-OFAC publishes delta files, but its own guidance (FAQ #90) says to do a
-full-list refresh rather than trust deltas alone — so that's what this
-does: download the whole list and diff by ent_num (OFAC's stable per-entry
-ID) against yesterday's snapshot.
+Only the OFAC SDN list is diffed day over day (sdn_log.json, the audit trail
+behind "Recent list activity"). The other lists are fetched fresh each run and
+folded straight into the search index; each fetch is best-effort, so one flaky
+source never fails the daily build.
 
-Run order: before dashboard.py, so the log/index/feeds are fresh when the
-dashboard embeds and the workflow publishes them.
+Run order: before dashboard.py.
 """
 import csv
 import io
 import json
 import os
+import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta, timezone
 from email.utils import format_datetime
 from xml.sax.saxutils import escape as xml_escape
 
 import fetcher
 
-BASE = "https://sanctionslistservice.ofac.treas.gov/api/download"
-SDN_URL = f"{BASE}/SDN.CSV"
-SDN_ALT_URL = f"{BASE}/ALT.CSV"
-SDN_ADD_URL = f"{BASE}/ADD.CSV"
-CONS_URL = f"{BASE}/CONS_PRIM.CSV"
-CONS_ALT_URL = f"{BASE}/CONS_ALT.CSV"
-CONS_ADD_URL = f"{BASE}/CONS_ADD.CSV"
+# ---- OFAC direct feeds ----
+OFAC = "https://sanctionslistservice.ofac.treas.gov/api/download"
+SDN_URL, SDN_ALT_URL, SDN_ADD_URL = f"{OFAC}/SDN.CSV", f"{OFAC}/ALT.CSV", f"{OFAC}/ADD.CSV"
+CONS_URL, CONS_ALT_URL, CONS_ADD_URL = f"{OFAC}/CONS_PRIM.CSV", f"{OFAC}/CONS_ALT.CSV", f"{OFAC}/CONS_ADD.CSV"
 
-# Committed — must persist ACROSS runs. GitHub Actions checks out a fresh
-# repo every run; a gitignored snapshot would make every run treat itself
-# as the baseline and never diff.
+# ---- other lists ----
+CSL_URL = "https://data.trade.gov/downloadable_consolidated_screening_list/v1/consolidated.csv"
+CSL_SOURCE_MAP = {
+    "Entity List (EL) - Bureau of Industry and Security": "BIS",
+    "Denied Persons List (DPL) - Bureau of Industry and Security": "BIS",
+    "Unverified List (UVL) - Bureau of Industry and Security": "BIS",
+    "Military End User (MEU) List - Bureau of Industry and Security": "BIS",
+    "ITAR Debarred (DTC) - State Department": "State",
+    "Nonproliferation Sanctions (ISN) - State Department": "State",
+}
+UN_URL = "https://scsanctions.un.org/resources/xml/en/consolidated.xml"
+UK_URL = "https://ofsistorage.blob.core.windows.net/publishlive/2022format/ConList.csv"
+EU_TOKEN = "dG9rZW4tMjAxNw"
+EU_URL = ("https://webgate.ec.europa.eu/fsd/fsf/public/files/"
+          f"csvFullSanctionsList_1_1/content?token={EU_TOKEN}")
+
+# Committed (must persist across CI runs so the SDN diff has a baseline).
 SDN_SNAPSHOT_PATH = "sdn_snapshot.json"
 CSL_SNAPSHOT_PATH = "csl_snapshot.json"
-
-# Cumulative log of SDN Added/Removed/Modified events. Committed — the audit
-# trail is the thing with lasting value.
 SDN_LOG_PATH = "sdn_log.json"
 
-# Compact public search index over the CURRENT lists. Gitignored (fully
-# derivable at build time); the workflow copies it into site/.
+# Derived, gitignored; the workflow copies them into site/.
 SDN_INDEX_PATH = "sdn_index.json"
-
-# RSS + CSV of recent SDN changes, for periodic re-screening. Gitignored;
-# copied into site/ by the workflow.
+SDN_COUNTS_PATH = "sdn_counts.json"
 CHANGES_RSS_PATH = "sdn-changes.xml"
 CHANGES_CSV_PATH = "sdn-changes.csv"
 CHANGES_WINDOW_DAYS = 120
-
 SITE_BASE = "https://kaufman2699.github.io/Klearance_V1"
 
-# Column order in OFAC's primary CSVs (SDN.CSV and CONS_PRIM.CSV share it).
-# No header row; columns are fixed.
 FIELDS = ["ent_num", "name", "sdn_type", "program", "title", "call_sign",
           "vess_type", "tonnage", "grt", "vess_flag", "vess_owner", "remarks"]
+REMARKS_CAP = 400
 
-REMARKS_CAP = 600  # keep detail useful without bloating the index
 
-
-def _rows(text):
-    reader = csv.reader(io.StringIO(text), skipinitialspace=True)
-    for row in reader:
-        # A trailing DOS EOF marker (0x1A) shows up as a bogus row; only real
-        # entries have a numeric ent_num in column 0.
+def _csv_rows(text):
+    for row in csv.reader(io.StringIO(text), skipinitialspace=True):
         if row and row[0].strip().isdigit():
             yield row
 
 
 def fetch_primary(url):
-    """Returns {ent_num: {field: value}} for a primary list (SDN or CONS)."""
     out = {}
-    for row in _rows(fetcher.get(url, timeout=120)):
+    for row in _csv_rows(fetcher.get(url, timeout=180)):
         row = (row + [""] * len(FIELDS))[:len(FIELDS)]
         rec = {FIELDS[i]: row[i].strip() for i in range(len(FIELDS))}
-        ent_num = rec.pop("ent_num")
-        for k, v in rec.items():
-            if v == "-0-":            # OFAC's "no data" placeholder
-                rec[k] = ""
-        out[ent_num] = rec
+        num = rec.pop("ent_num")
+        out[num] = {k: ("" if v == "-0-" else v) for k, v in rec.items()}
     return out
 
 
 def fetch_alt(url):
-    """Returns {ent_num: [alt_name, ...]} from ALT.CSV / CONS_ALT.CSV.
-    Columns: ent_num, alt_num, alt_type, alt_name, alt_remarks."""
     out = {}
-    for row in _rows(fetcher.get(url, timeout=120)):
-        if len(row) < 4:
-            continue
-        ent_num, name = row[0].strip(), row[3].strip()
-        if name and name != "-0-":
-            out.setdefault(ent_num, [])
-            if name not in out[ent_num]:
-                out[ent_num].append(name)
+    for row in _csv_rows(fetcher.get(url, timeout=180)):
+        if len(row) >= 4 and row[3].strip() not in ("", "-0-"):
+            out.setdefault(row[0].strip(), [])
+            if row[3].strip() not in out[row[0].strip()]:
+                out[row[0].strip()].append(row[3].strip())
     return out
 
 
 def fetch_add(url):
-    """Returns {ent_num: country} from ADD.CSV / CONS_ADD.CSV — first
-    non-empty country wins. Columns: ent_num, add_num, address,
-    city_state_province_postal, country, add_remarks."""
     out = {}
-    for row in _rows(fetcher.get(url, timeout=120)):
-        if len(row) < 5:
-            continue
-        ent_num, country = row[0].strip(), row[4].strip()
-        if country and country != "-0-" and ent_num not in out:
-            out[ent_num] = country
+    for row in _csv_rows(fetcher.get(url, timeout=180)):
+        if len(row) >= 5 and row[4].strip() not in ("", "-0-") and row[0].strip() not in out:
+            out[row[0].strip()] = row[4].strip()
     return out
 
 
+def ofac_records(primary, alts, countries, source):
+    for num, r in primary.items():
+        yield {
+            "key": num, "name": r["name"], "type": r["sdn_type"], "program": r["program"],
+            "source": source, "remarks": r.get("remarks", ""),
+            "country": countries.get(num, ""), "aliases": alts.get(num, []),
+        }
+
+
+# ---------------------------------------------------------------- other lists
+
+def fetch_tradegov():
+    """BIS + State rows from Trade.gov's Consolidated Screening List. Treasury
+    rows are skipped - the OFAC feeds above already carry them, fresher."""
+    text = fetcher.get(CSL_URL, timeout=240)
+    out = []
+    for i, r in enumerate(csv.DictReader(io.StringIO(text))):
+        src = CSL_SOURCE_MAP.get(r.get("source", ""))
+        name = (r.get("name") or "").strip()
+        if not src or not name:
+            continue
+        rk = " ".join(x for x in [
+            (r.get("remarks") or "").strip(),
+            f"DOB {r['dates_of_birth']}" if r.get("dates_of_birth") else "",
+            f"Nationality: {r['nationalities']}" if r.get("nationalities") else "",
+        ] if x)
+        out.append({
+            "key": r.get("entity_number") or r.get("_id") or f"csl{i}",
+            "name": name, "type": (r.get("type") or "").strip(),
+            "program": (r.get("programs") or "").strip() or src, "source": src,
+            "remarks": rk, "country": (r.get("nationalities") or r.get("citizenships") or "").split(";")[0].strip(),
+            "aliases": [a.strip() for a in (r.get("alt_names") or "").split(";") if a.strip()],
+        })
+    return out
+
+
+def fetch_un():
+    """UN Security Council Consolidated List (individuals + entities)."""
+    root = ET.fromstring(fetcher.get(UN_URL, timeout=180))
+
+    def g(el, tag):
+        x = el.find(tag) if el is not None else None
+        return (x.text or "").strip() if x is not None and x.text else ""
+
+    out = []
+    for ind in root.findall("./INDIVIDUALS/INDIVIDUAL"):
+        name = " ".join(p for p in (g(ind, "FIRST_NAME"), g(ind, "SECOND_NAME"),
+                                    g(ind, "THIRD_NAME"), g(ind, "FOURTH_NAME")) if p)
+        if not name:
+            continue
+        aliases = [g(a, "ALIAS_NAME") for a in ind.findall("INDIVIDUAL_ALIAS")]
+        addr = ind.find("INDIVIDUAL_ADDRESS")
+        country = g(addr, "COUNTRY")
+        if not country:
+            country = g(ind.find("NATIONALITY"), "VALUE")
+        dob = ind.find("INDIVIDUAL_DATE_OF_BIRTH")
+        remarks = f"DOB {g(dob, 'YEAR') or g(dob, 'DATE')}".strip() if dob is not None else ""
+        out.append({"key": "UN" + g(ind, "DATAID"), "name": name, "type": "individual",
+                    "program": g(ind, "UN_LIST_TYPE") or "UN", "source": "UN",
+                    "remarks": remarks, "country": country,
+                    "aliases": [a for a in aliases if a]})
+    for ent in root.findall("./ENTITIES/ENTITY"):
+        name = g(ent, "FIRST_NAME")
+        if not name:
+            continue
+        aliases = [g(a, "ALIAS_NAME") for a in ent.findall("ENTITY_ALIAS")]
+        out.append({"key": "UN" + g(ent, "DATAID"), "name": name, "type": "entity",
+                    "program": g(ent, "UN_LIST_TYPE") or "UN", "source": "UN",
+                    "remarks": "", "country": g(ent.find("ENTITY_ADDRESS"), "COUNTRY"),
+                    "aliases": [a for a in aliases if a]})
+    return out
+
+
+def fetch_uk_ofsi():
+    """UK OFSI Consolidated List. First line is a 'Last Updated' stamp; the
+    real header is line 2. Rows share a Group ID; one is the primary name."""
+    lines = fetcher.get(UK_URL, timeout=240).splitlines()
+    groups = {}
+    for r in csv.DictReader(lines[1:]):
+        gid = (r.get("Group ID") or "").strip()
+        name = " ".join(x.strip() for x in (r.get("Name 1"), r.get("Name 2"),
+                        r.get("Name 3"), r.get("Name 4"), r.get("Name 5"),
+                        r.get("Name 6")) if x and x.strip())
+        if not gid or not name:
+            continue
+        grp = groups.setdefault(gid, {"primary": None, "aliases": [], "meta": r})
+        if (r.get("Alias Type") or "").strip().lower() == "primary name" and not grp["primary"]:
+            grp["primary"], grp["meta"] = name, r
+        else:
+            grp["aliases"].append(name)
+    out = []
+    for gid, grp in groups.items():
+        prim = grp["primary"] or (grp["aliases"].pop(0) if grp["aliases"] else None)
+        if not prim:
+            continue
+        m = grp["meta"]
+        rk = " ".join(x for x in [
+            f"DOB {m.get('DOB').strip()}" if m.get("DOB", "").strip() else "",
+            (m.get("Other Information") or "").strip(),
+        ] if x)
+        out.append({"key": "UK" + gid, "name": prim,
+                    "type": (m.get("Group Type") or "").strip().lower(),
+                    "program": (m.get("Regime") or "UK").strip(), "source": "UK",
+                    "remarks": rk, "country": (m.get("Country") or "").strip(),
+                    "aliases": grp["aliases"]})
+    return out
+
+
+def fetch_eu():
+    """EU Consolidated Financial Sanctions List. Semicolon-delimited, one row
+    per name/alias; rows share Entity_LogicalId."""
+    text = fetcher.get(EU_URL, timeout=240).lstrip("﻿")
+    groups = {}
+    for r in csv.DictReader(io.StringIO(text), delimiter=";"):
+        lid = (r.get("Entity_LogicalId") or "").strip()
+        name = (r.get("NameAlias_WholeName") or "").strip()
+        if not lid or not name:
+            continue
+        groups.setdefault(lid, {"names": [], "meta": r})["names"].append(name)
+    out = []
+    for lid, grp in groups.items():
+        m, names = grp["meta"], grp["names"]
+        st = (m.get("Entity_SubjectType") or "").strip().lower()
+        out.append({"key": "EU" + lid, "name": names[0],
+                    "type": "individual" if st == "person" else ("entity" if st else ""),
+                    "program": (m.get("Entity_Regulation_Programme") or "EU").strip() or "EU",
+                    "source": "EU", "remarks": (m.get("Entity_Remark") or "").strip(),
+                    "country": (m.get("Address_CountryDescription")
+                                or m.get("Citizenship_CountryDescription") or "").strip(),
+                    "aliases": names[1:]})
+    return out
+
+
+def safe(label, fn):
+    try:
+        recs = fn()
+        print(f"  {label}: {len(recs)} entries")
+        return recs
+    except Exception as e:  # one flaky source must not fail the build
+        print(f"  {label}: SKIPPED ({type(e).__name__}: {str(e)[:120]})")
+        return []
+
+
+# ---------------------------------------------------------------- index + diff
+
+def build_index(all_records):
+    rows = []
+    for rec in all_records:
+        remarks = (rec.get("remarks") or "")[:REMARKS_CAP]
+        country = rec.get("country", "")
+        src, key = rec["source"], rec["key"]
+        typ, prog = rec.get("type", ""), rec.get("program", "")
+        rows.append([key, rec["name"], typ, prog, src, 0, remarks, country, ""])
+        seen = set()
+        for al in rec.get("aliases", []):
+            al = (al or "").strip()
+            if al and al != rec["name"] and al.lower() not in seen:
+                seen.add(al.lower())
+                rows.append([key, rec["name"], typ, prog, src, 1, remarks, country, al])
+    return rows
+
+
 def diff(previous, current, today):
-    """SDN change events: Added / Removed / Modified."""
     events = []
-    prev_ids, cur_ids = set(previous), set(current)
-    for ent_num in sorted(cur_ids - prev_ids, key=int):
-        r = current[ent_num]
-        events.append({"date": today, "ent_num": ent_num, "action": "added",
+    prev, cur = set(previous), set(current)
+    for num in sorted(cur - prev, key=int):
+        r = current[num]
+        events.append({"date": today, "ent_num": num, "action": "added",
                        "name": r["name"], "program": r["program"], "sdn_type": r["sdn_type"]})
-    for ent_num in sorted(prev_ids - cur_ids, key=int):
-        r = previous[ent_num]
-        events.append({"date": today, "ent_num": ent_num, "action": "removed",
+    for num in sorted(prev - cur, key=int):
+        r = previous[num]
+        events.append({"date": today, "ent_num": num, "action": "removed",
                        "name": r["name"], "program": r["program"], "sdn_type": r["sdn_type"]})
-    for ent_num in sorted(prev_ids & cur_ids, key=int):
-        if previous[ent_num] != current[ent_num]:
-            r = current[ent_num]
-            events.append({"date": today, "ent_num": ent_num, "action": "modified",
+    for num in sorted(prev & cur, key=int):
+        if previous[num] != current[num]:
+            r = current[num]
+            events.append({"date": today, "ent_num": num, "action": "modified",
                            "name": r["name"], "program": r["program"], "sdn_type": r["sdn_type"]})
     return events
 
 
-def build_index(sdn, sdn_alt, sdn_country, csl, csl_alt, csl_country):
-    """One flat search index across both lists. Row shape:
-    [ent_num, primary_name, sdn_type, program, source, is_alias, remarks, country, alias_name]
-    - source: "SDN" | "Non-SDN"
-    - is_alias: 0 for the primary-name row, 1 for an a.k.a. row (same ent_num)
-    - alias_name: "" on a primary row; the a.k.a. string on an alias row
-    """
-    rows = []
-
-    def add_list(primary, alts, countries, source):
-        for num, r in primary.items():
-            remarks = (r.get("remarks") or "")[:REMARKS_CAP]
-            country = countries.get(num, "")
-            rows.append([num, r["name"], r["sdn_type"], r["program"], source, 0, remarks, country, ""])
-            for alt_name in alts.get(num, []):
-                rows.append([num, r["name"], r["sdn_type"], r["program"], source, 1, remarks, country, alt_name])
-
-    add_list(sdn, sdn_alt, sdn_country, "SDN")
-    add_list(csl, csl_alt, csl_country, "Non-SDN")
-    return rows
-
-
 def write_change_feeds(log, today):
     cutoff = (datetime.fromisoformat(today) - timedelta(days=CHANGES_WINDOW_DAYS)).date().isoformat()
-    recent = [e for e in log if e["date"] >= cutoff]
-    recent.sort(key=lambda e: (e["date"], e["ent_num"]), reverse=True)
-
-    # CSV
+    recent = sorted((e for e in log if e["date"] >= cutoff),
+                    key=lambda e: (e["date"], e["ent_num"]), reverse=True)
     with open(CHANGES_CSV_PATH, "w", encoding="utf-8", newline="") as f:
         w = csv.writer(f)
         w.writerow(["date", "action", "ent_num", "name", "program", "sdn_type"])
@@ -171,34 +294,28 @@ def write_change_feeds(log, today):
             w.writerow([e["date"], e["action"], e["ent_num"], e["name"],
                         e["program"], e.get("sdn_type", "")])
 
-    # RSS 2.0 — one item per change, newest first.
     def item(e):
-        title = f'{e["action"].title()}: {e["name"] or "(unnamed entry)"}'
-        desc = f'{e["action"].title()} on the OFAC SDN list. Program: {e["program"] or "n/a"}.'
         link = f'https://sanctionssearch.ofac.treas.gov/Details.aspx?id={e["ent_num"]}'
         try:
             dt = datetime.fromisoformat(e["date"]).replace(tzinfo=timezone.utc)
         except ValueError:
             dt = datetime.now(timezone.utc)
         return (f"    <item>\n"
-                f"      <title>{xml_escape(title)}</title>\n"
-                f"      <description>{xml_escape(desc)}</description>\n"
+                f"      <title>{xml_escape(e['action'].title() + ': ' + (e['name'] or '(unnamed)'))}</title>\n"
+                f"      <description>{xml_escape(e['action'].title() + ' on the OFAC SDN list. Program: ' + (e['program'] or 'n/a') + '.')}</description>\n"
                 f"      <link>{xml_escape(link)}</link>\n"
                 f"      <guid isPermaLink=\"false\">sdn-{e['date']}-{e['ent_num']}-{e['action']}</guid>\n"
                 f"      <pubDate>{format_datetime(dt)}</pubDate>\n"
                 f"    </item>")
 
-    now = format_datetime(datetime.now(timezone.utc))
-    xml = (f"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-           f"<rss version=\"2.0\"><channel>\n"
-           f"    <title>Klearance — OFAC SDN list changes</title>\n"
+    xml = (f"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<rss version=\"2.0\"><channel>\n"
+           f"    <title>Klearance - OFAC SDN list changes</title>\n"
            f"    <link>{SITE_BASE}/</link>\n"
-           f"    <description>Daily additions, removals and modifications on the "
-           f"OFAC Specially Designated Nationals list.</description>\n"
+           f"    <description>Daily additions, removals and modifications on the OFAC "
+           f"Specially Designated Nationals list.</description>\n"
            f"    <language>en-us</language>\n"
-           f"    <lastBuildDate>{now}</lastBuildDate>\n"
-           + "\n".join(item(e) for e in recent[:200])
-           + "\n</channel></rss>\n")
+           f"    <lastBuildDate>{format_datetime(datetime.now(timezone.utc))}</lastBuildDate>\n"
+           + "\n".join(item(e) for e in recent[:200]) + "\n</channel></rss>\n")
     with open(CHANGES_RSS_PATH, "w", encoding="utf-8") as f:
         f.write(xml)
 
@@ -207,49 +324,58 @@ def main():
     today = datetime.now(timezone.utc).date().isoformat()
 
     sdn = fetch_primary(SDN_URL)
-    sdn_alt = fetch_alt(SDN_ALT_URL)
-    sdn_country = fetch_add(SDN_ADD_URL)
+    sdn_alt, sdn_ctry = fetch_alt(SDN_ALT_URL), fetch_add(SDN_ADD_URL)
     csl = fetch_primary(CONS_URL)
-    csl_alt = fetch_alt(CONS_ALT_URL)
-    csl_country = fetch_add(CONS_ADD_URL)
+    csl_alt, csl_ctry = fetch_alt(CONS_ALT_URL), fetch_add(CONS_ADD_URL)
+    print(f"  OFAC SDN: {len(sdn)}   OFAC Consolidated: {len(csl)}")
 
-    # --- SDN diff + audit log (unchanged behaviour) ---
+    bis_state = safe("Trade.gov (BIS + State)", fetch_tradegov)
+    un = safe("UN Security Council", fetch_un)
+    uk = safe("UK OFSI", fetch_uk_ofsi)
+    eu = safe("EU FSF", fetch_eu)
+
+    # --- SDN diff + audit log (unchanged) ---
     if os.path.exists(SDN_SNAPSHOT_PATH):
         with open(SDN_SNAPSHOT_PATH, encoding="utf-8") as f:
-            previous = json.load(f)
-        events = diff(previous, sdn, today)
+            events = diff(json.load(f), sdn, today)
     else:
         events = []
-        print(f"No prior SDN snapshot — {len(sdn)} entries taken as the baseline. "
-              f"Changes show from tomorrow's run.")
-
+        print(f"  No prior SDN snapshot - {len(sdn)} taken as baseline.")
     with open(SDN_SNAPSHOT_PATH, "w", encoding="utf-8") as f:
         json.dump(sdn, f)
     with open(CSL_SNAPSHOT_PATH, "w", encoding="utf-8") as f:
         json.dump(csl, f)
-
-    log = []
-    if os.path.exists(SDN_LOG_PATH):
-        with open(SDN_LOG_PATH, encoding="utf-8") as f:
-            log = json.load(f)
+    log = json.load(open(SDN_LOG_PATH, encoding="utf-8")) if os.path.exists(SDN_LOG_PATH) else []
     log.extend(events)
     with open(SDN_LOG_PATH, "w", encoding="utf-8") as f:
         json.dump(log, f, indent=2)
 
     # --- combined screening index ---
-    index = build_index(sdn, sdn_alt, sdn_country, csl, csl_alt, csl_country)
+    records = (
+        list(ofac_records(sdn, sdn_alt, sdn_ctry, "SDN"))
+        + list(ofac_records(csl, csl_alt, csl_ctry, "Non-SDN"))
+        + bis_state + un + uk + eu
+    )
+    index = build_index(records)
     with open(SDN_INDEX_PATH, "w", encoding="utf-8") as f:
         json.dump(index, f)
 
-    # --- recent-changes RSS + CSV ---
+    counts = {}
+    for rec in records:
+        counts[rec["source"]] = counts.get(rec["source"], 0) + 1
+    counts["total"] = sum(counts.values())
+    counts["index_rows"] = len(index)
+    with open(SDN_COUNTS_PATH, "w", encoding="utf-8") as f:
+        json.dump(counts, f)
+
     write_change_feeds(log, today)
 
     added = sum(1 for e in events if e["action"] == "added")
     removed = sum(1 for e in events if e["action"] == "removed")
     modified = sum(1 for e in events if e["action"] == "modified")
-    print(f"SDN {len(sdn)} + Non-SDN {len(csl)} entries; index rows {len(index)} "
-          f"(incl. {sum(1 for r in index if r[5])} aliases). "
-          f"Today: {added} added, {removed} removed, {modified} modified.")
+    print(f"index: {len(index)} rows from {counts['total']} entries "
+          f"({', '.join(f'{k} {v}' for k, v in sorted(counts.items()) if k not in ('total', 'index_rows'))}). "
+          f"SDN today: {added} added, {removed} removed, {modified} modified.")
 
 
 if __name__ == "__main__":

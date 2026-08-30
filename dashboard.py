@@ -1028,7 +1028,7 @@ header.krheader{animation-delay:.08s}
 .sdnfeeds{font-size:12px;color:var(--ink-muted);margin:12px 0 0}
 .badge.sdnsrc{font-size:10px;letter-spacing:.03em;padding:1px 6px;
   background:var(--brand);color:#fff;vertical-align:middle}
-.badge.sdnsrc.nonsdn{background:var(--neutral)}
+.badge.sdnsrc.nonsdn,.badge.sdnsrc.other{background:var(--neutral)}
 .sdnalias{font-size:11.5px;color:var(--ink-muted);font-weight:400}
 .sdndetail{flex-basis:100%;font-size:11.5px;color:var(--ink-muted);
   line-height:1.5;margin-top:2px}
@@ -2293,20 +2293,33 @@ if (sdnListQ) {
     }
     return [...seen.values()];
   }
+  const SRC_SEARCH = {
+    'UN': 'https://main.un.org/securitycouncil/en/sanctions/information',
+    'UK': 'https://sanctionssearchapp.ofsi.hmtreasury.gov.uk/',
+    'EU': 'https://www.sanctionsmap.eu/',
+    'BIS': 'https://www.trade.gov/consolidated-screening-list',
+    'State': 'https://www.trade.gov/consolidated-screening-list',
+  };
   function detail(r) {
     const bits = [];
     if (r[7]) bits.push('Country: ' + esc(r[7]));
     if (r[6]) bits.push(esc(r[6]));
-    const link = 'https://sanctionssearch.ofac.treas.gov/Details.aspx?id=' + encodeURIComponent(r[0]);
+    let link, label;
+    if (r[4] === 'SDN' || r[4] === 'Non-SDN') {
+      link = 'https://sanctionssearch.ofac.treas.gov/Details.aspx?id=' + encodeURIComponent(r[0]);
+      label = 'View on OFAC';
+    } else {
+      link = SRC_SEARCH[r[4]] || 'https://www.trade.gov/consolidated-screening-list';
+      label = 'Verify at ' + esc(r[4]);
+    }
     return `<div class="sdndetail">${bits.join(' &middot; ')}`
       + (bits.length ? ' &middot; ' : '')
-      + `<a href="${link}" target="_blank" rel="noopener">View on OFAC &#8599;</a></div>`;
+      + `<a href="${link}" target="_blank" rel="noopener">${label} &#8599;</a></div>`;
   }
   function rowHtml(m) {
     const r = m.row;
-    const src = r[4] === 'SDN'
-      ? '<span class="badge sdnsrc">SDN</span>'
-      : '<span class="badge sdnsrc nonsdn">Non-SDN</span>';
+    const src = '<span class="badge sdnsrc' + (r[4] === 'SDN' ? '' : ' other')
+      + '">' + esc(r[4]) + '</span>';
     const aka = m.isAlias
       ? ` <span class="sdnalias">alias &mdash; listed as &ldquo;${esc(r[1])}&rdquo;</span>` : '';
     return `<div class="sdnrow">
@@ -2620,7 +2633,7 @@ const QS_STEPS = [
   // Sidebar panel, below the deadlines. Skipped automatically if SDN
   // monitoring is off (no .p-sdn element), same as the gated Ask step.
   { sel: '.p-sdn',
-    text: 'Separate from the agency feed: this tracks additions and removals on the OFAC SDN list, and lets you screen a name against the full current list right here.' },
+    text: 'Separate from the agency feed: screen a name against seven sanctions lists at once — OFAC, BIS, State, UN, UK and EU — by name and alias, right here in the browser.' },
 ];
 function initQuickStart() {
   // ?quickstart=1 replays the tour on demand -- lets it be checked on a real
@@ -3242,11 +3255,12 @@ def coverage_panel(store):
         # OFAC's own SDN.CSV, not the classified/relevance-filtered feed — so
         # it needs its own line here or its coverage is invisible next to the
         # agency list above, same principle as the rest of this panel.
-        '<p><strong>OFAC SDN list:</strong> tracked separately from the agency '
-        'feed above — the full <a href="https://sanctionslist.ofac.treas.gov/Home/SdnList" '
-        'target="_blank" rel="noopener">Specially Designated Nationals list</a> is '
-        'downloaded and diffed against the previous day\'s list, not classified or '
-        'filtered for relevance the way the rest of this page is.</p>'
+        '<p><strong>Sanctions screening:</strong> tracked separately from the '
+        'agency feed above. Seven lists are downloaded whole each day &mdash; OFAC '
+        'SDN and Consolidated, BIS and State (via Trade.gov), and the UN, UK and '
+        'EU consolidated lists &mdash; and searched by name and alias, not '
+        'classified or filtered for relevance the way the rest of this page is. '
+        'Only the OFAC SDN list is diffed day over day for the change log.</p>'
         # One honest scope line instead of an enumerated "not tracked" list. The
         # enumeration named specific agencies (which read as tracked) and kept
         # inviting the question of why NYDFS — followed only by personal email
@@ -3321,25 +3335,27 @@ def sdn_panel(today):
     )
 
     total = 0
-    for path in (SDN_SNAPSHOT_PATH, "csl_snapshot.json"):
-        if os.path.exists(path):
-            with open(path, encoding="utf-8") as f:
-                total += len(json.load(f))
+    if os.path.exists("sdn_counts.json"):
+        with open("sdn_counts.json", encoding="utf-8") as f:
+            total = json.load(f).get("total", 0)
+    if not total:
+        for path in (SDN_SNAPSHOT_PATH, "csl_snapshot.json"):
+            if os.path.exists(path):
+                with open(path, encoding="utf-8") as f:
+                    total += len(json.load(f))
     total_label = f'{total:,} entries' if total else 'the full lists'
 
-    # Separate from the changes log above: this looks up any name against the
-    # CURRENT full SDN list (~19k entries), not just what changed recently.
-    # Backed by sdn_index.json, fetched lazily on first use rather than
-    # embedded in the page — a 19k-entry list doesn't belong in every page
-    # load, only in the hands of someone actually searching.
+    # Separate from the changes log above: this screens a name against every
+    # tracked list at once. Backed by sdn_index.json, fetched lazily on first
+    # use rather than embedded in the page.
     full_search = (
         '<div class="sdnfullsearch">'
-        f'<h3>Screen a name <span class="sdnfullcount">(SDN + Non-SDN, {total_label})</span></h3>'
+        f'<h3>Screen a name <span class="sdnfullcount">({total_label} across 7 lists)</span></h3>'
         '<p class="sdnbulkhint">Type a name for live results, or paste several '
         '(one per line) to screen them all at once. Nothing leaves the page.</p>'
         '<textarea id="sdnlistq" rows="2" autocomplete="off" '
         'placeholder="Name or alias &mdash; or one name per line&hellip;" '
-        'aria-label="Screen a name or a list of names against the OFAC lists"></textarea>'
+        'aria-label="Screen a name or a list of names against the sanctions lists"></textarea>'
         '<div class="sdnsearchfoot">'
         '<button type="button" id="sdnbulkgo" hidden>Screen list</button>'
         '<span id="sdnlistcount" class="sdncount"></span>'
@@ -3355,14 +3371,17 @@ def sdn_panel(today):
     # reading as cluttered with all of it open by default.
     return (
         '<details class="panel p-sdn foldable" open>'
-        f'<summary><h2>OFAC SDN list <span style="float:right;'
+        f'<summary><h2>Sanctions screening <span style="float:right;'
         f'text-transform:none;letter-spacing:0">{total_label}</span></h2></summary>'
-        '<p class="sdnintro">Screens the current OFAC SDN and Consolidated '
-        '(non-SDN) lists &mdash; primary names and known aliases, matched loosely '
-        'on spelling and word order. Not a compliance clearance: it does not cover '
-        'every list, and the lists change daily. Verify anything material at '
-        '<a href="https://sanctionssearch.ofac.treas.gov/" target="_blank" '
-        'rel="noopener">OFAC Sanctions Search</a>.</p>'
+        '<p class="sdnintro">Screens a name against seven current sanctions lists '
+        '&mdash; OFAC (SDN and Consolidated), BIS (Entity List, Denied Persons, '
+        'Unverified, Military End-User), the State Department (ITAR debarred, '
+        'nonproliferation), and the UN, UK and EU consolidated lists &mdash; by '
+        'primary name and known alias, matched loosely on spelling and word order. '
+        'Not a compliance clearance: it does not carry PEP or adverse-media data, '
+        'and the lists change daily. Verify anything material against the issuing '
+        'authority, starting with <a href="https://sanctionssearch.ofac.treas.gov/" '
+        'target="_blank" rel="noopener">OFAC Sanctions Search</a>.</p>'
         f'{full_search}'
         '<details class="sdnactivity">'
         f'<summary>Recent list activity <span class="sdnsince">({since_label})</span></summary>'
