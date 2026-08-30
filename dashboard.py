@@ -970,7 +970,7 @@ header.krheader{animation-delay:.08s}
 .badge.t-Guidance{color:#fff;background:var(--brand)}
 .badge.t-Enforcement{color:#fff;background:var(--neutral)}
 .p-sdn .sdnintro{font-size:12.5px;color:var(--ink-muted);margin:2px 0 12px;
-  line-height:1.6;text-align:justify;text-justify:inter-word;max-width:70ch}
+  line-height:1.6;text-align:justify;text-justify:inter-word}
 .p-sdn .sdnlist{display:flex;flex-direction:column;gap:2px}
 .sdnrow{display:flex;align-items:center;gap:10px;padding:6px 0;
   border-bottom:1px solid var(--rule);flex-wrap:wrap}
