@@ -948,6 +948,13 @@ header.krheader{animation-delay:.08s}
 .foldable>summary::-webkit-details-marker{display:none}
 .foldable>summary h2{cursor:default;margin:0;font-size:11.5px;letter-spacing:.07em;
   text-transform:uppercase;font-weight:700;color:inherit}
+/* Standalone section marker between the SDN screening tool and the
+   agency-updates feeds. Same navy strip vocabulary as the panel headers,
+   but a self-contained rounded band since nothing hangs off it. */
+.sectionband{margin:26px 0 14px;padding:11px 16px;font-size:12px;
+  letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:#fff;
+  background:radial-gradient(ellipse at center,var(--brand-bg-light) 0%,var(--brand-bg) 100%);
+  border-radius:12px;border-bottom:3px solid var(--accent)}
 .panel .note{font-size:12px;color:var(--ink-2);margin:0 0 12px}
 /* Scope line under the deadlines heading. */
 .dlscope{font-size:12px;color:var(--ink-muted);margin:0 0 10px;
@@ -3815,6 +3822,12 @@ def main():
      panel ("No SDN list changes recorded") buried below 370 cards and the
      footer read as broken/missing rather than as a quiet day. -->
 <div style="margin:18px 0">{sdn_html}</div>
+
+<!-- Section marker: everything below (filters, search, the deadline and update
+     feeds) is the agency-updates tracker, a different tool from the SDN
+     screening above. Styled like the navy panel headers so it reads as a peer
+     section break. -->
+<h2 class="sectionband">Agency updates</h2>
 
 <!-- Filters & view sits above Search now (was the other way round). On a phone
      this block collapses to its summary, so Search still lands directly under a
