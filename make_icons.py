@@ -3,23 +3,21 @@
 Run after changing the branding, same as make_og_image.py. Output is committed
 so the published page can reference it.
 
-v3, 2026-08-03: matched against a real photo of Kaufman Rossin's own
-installed-app icon (kr.png): a soft gray rounded field, bold navy letters,
-split by a thin lime pipe -- no bottom rule bar, no corner dot, which the
-prior version (white field) had invented and KR's own icon doesn't use.
-KR's icon splits two letters (K|R, one per word of the firm name); a single
-product name has no second word to split, so the pipe now sits to the
-right of the monogram instead, echoing the same "letter, pipe, letter"
-shape without inventing a second initial. Same PRODUCT_NAME-driven
-monogram as v2, so this file is identical for Mihari ("M") and Klearance
-("C") except for that one constant.
+v4, 2026-08-30: use Kaufman Rossin's actual "K|R" monogram as the installed-app
+icon, per the firm's real logo -- a KR-blue field, white K and R, split by a
+thin lime pipe. The prior version (v3) rendered only "K|" because a single
+product name has no second word to split; the firm now wants the app icon to
+read as the KR brand mark itself, not a Klearance-specific variant.
 """
 import json
 
 from PIL import Image, ImageDraw, ImageFont
 
 PRODUCT_NAME = "Klearance"
-MONOGRAM = PRODUCT_NAME[0].upper()
+
+# The Kaufman Rossin monogram: one initial per word of the firm name, split by
+# a lime pipe. Used verbatim as the app icon regardless of product name.
+LETTERS = ("K", "R")
 
 # Bump alongside the matching ?v= in dashboard.py's <link> tags whenever the
 # icon artwork changes -- Android's "Install app" flow mints a WebAPK via a
@@ -27,61 +25,75 @@ MONOGRAM = PRODUCT_NAME[0].upper()
 # redeploy isn't enough to make it refetch. The manifest's own icon srcs need
 # the same cache-buster, not just the HTML <link> tags, since the WebAPK
 # minting service reads icon paths from the manifest.
-ICON_VERSION = 3
+ICON_VERSION = 4
 
-NAVY = (0, 59, 106)
-GREEN = (174, 209, 54)
-FIELD_GRAY = (225, 227, 230)   # matches the soft gray field in KR's own icon
+KR_BLUE = (30, 76, 126)         # Kaufman Rossin logo blue (#1e4c7e)
+WHITE = (255, 255, 255)
+GREEN = (174, 209, 54)          # KR lime (#aed136)
 
-CAP_FRACTION = 0.56       # target height of the letter, as a share of the field
+CAP_FRACTION = 0.50       # max letter height, as a share of the field
+MAX_W_FRACTION = 0.74     # max width of the whole K|R group, as a share of the field
 FONT_PATH = "C:/Windows/Fonts/arialbd.ttf"
-PIPE_W_FRACTION = 0.045   # pipe stroke width, as a share of the field
-PIPE_H_FRACTION = 0.85    # pipe height, as a share of the letter's own height
-PIPE_GAP_FRACTION = 0.22  # gap between letter and pipe, as a share of letter height
+PIPE_W_FRACTION = 0.038   # pipe stroke width, as a share of the field
+PIPE_H_FRACTION = 0.92    # pipe height, as a share of the letters' own height
+PIPE_GAP_FRACTION = 0.26  # gap between a letter and the pipe, as a share of letter height
 
 
 def render(size, padding=0.0):
     """One icon. `padding` insets the artwork for maskable (croppable) icons."""
-    img = Image.new("RGB", (size, size), FIELD_GRAY)
+    img = Image.new("RGB", (size, size), KR_BLUE)
     d = ImageDraw.Draw(img)
 
     inset = round(size * padding)
     inner = size - 2 * inset
 
-    # Binary-search the largest font size whose rendered glyph height fits
-    # CAP_FRACTION of the field -- textbbox gives the real ink height for
-    # this exact font, not a guessed cap-height ratio, so it holds at every
-    # icon size from 16px up to 512px without a separate tuned constant per
-    # size.
-    target_h = inner * CAP_FRACTION
+    # Binary-search the largest font size that fits BOTH bounds: letter ink
+    # height <= CAP_FRACTION of the field, and the full K|R group width <=
+    # MAX_W_FRACTION. Two wide letters plus a pipe are width-bound, not
+    # height-bound, so height alone would overflow the edges.
+    def group_metrics(f):
+        a = d.textbbox((0, 0), LETTERS[0], font=f)
+        b = d.textbbox((0, 0), LETTERS[1], font=f)
+        wa, ha = a[2] - a[0], a[3] - a[1]
+        wb, hb = b[2] - b[0], b[3] - b[1]
+        th = max(ha, hb)
+        pw = max(1, round(inner * PIPE_W_FRACTION))
+        gp = th * PIPE_GAP_FRACTION
+        return wa + gp + pw + gp + wb, th
+
     lo, hi = 1, size * 2
-    font = None
-    bbox = (0, 0, 0, 0)
+    font = ImageFont.truetype(FONT_PATH, 1)
     while lo <= hi:
         mid = (lo + hi) // 2
         f = ImageFont.truetype(FONT_PATH, mid)
-        bbox = d.textbbox((0, 0), MONOGRAM, font=f)
-        h = bbox[3] - bbox[1]
-        if h <= target_h:
+        gw, th = group_metrics(f)
+        if th <= inner * CAP_FRACTION and gw <= inner * MAX_W_FRACTION:
             font, lo = f, mid + 1
         else:
             hi = mid - 1
-    text_w, text_h = bbox[2] - bbox[0], bbox[3] - bbox[1]
+
+    b0 = d.textbbox((0, 0), LETTERS[0], font=font)
+    b1 = d.textbbox((0, 0), LETTERS[1], font=font)
+    w0, h0 = b0[2] - b0[0], b0[3] - b0[1]
+    w1, h1 = b1[2] - b1[0], b1[3] - b1[1]
+    text_h = max(h0, h1)
 
     pipe_w = max(1, round(inner * PIPE_W_FRACTION))
     pipe_h = text_h * PIPE_H_FRACTION
     gap = text_h * PIPE_GAP_FRACTION
-    group_w = text_w + gap + pipe_w
+    group_w = w0 + gap + pipe_w + gap + w1
 
     gx = inset + (inner - group_w) / 2
     gy = inset + (inner - text_h) / 2
-    tx = gx - bbox[0]
-    ty = gy - bbox[1]
-    d.text((tx, ty), MONOGRAM, font=font, fill=NAVY)
 
-    px0 = gx + text_w + gap
+    d.text((gx - b0[0], gy - b0[1] + (text_h - h0) / 2), LETTERS[0], font=font, fill=WHITE)
+
+    px0 = gx + w0 + gap
     py0 = gy + (text_h - pipe_h) / 2
     d.rectangle([px0, py0, px0 + pipe_w, py0 + pipe_h], fill=GREEN)
+
+    rx = px0 + pipe_w + gap
+    d.text((rx - b1[0], gy - b1[1] + (text_h - h1) / 2), LETTERS[1], font=font, fill=WHITE)
     return img
 
 
@@ -102,9 +114,8 @@ def main():
         written.append(name)
 
     # Android masks icons to whatever shape the launcher uses and can crop up to
-    # 20% off each edge. The padded variant keeps the mark inside that safe
-    # zone; without it the spike loses its tip on a circular launcher.
-    render(512, padding=0.20).save("icon-maskable-512.png", "PNG", optimize=True)
+    # 20% off each edge. The padded variant keeps the mark inside that safe zone.
+    render(512, padding=0.18).save("icon-maskable-512.png", "PNG", optimize=True)
     written.append("icon-maskable-512.png")
 
     manifest = {
@@ -112,16 +123,15 @@ def main():
         "short_name": PRODUCT_NAME,
         "description": "Daily federal regulatory updates for community banks and "
                        "fintechs, in plain English.",
-        # Relative, because the site is served from a /regwatch/ subpath rather
-        # than a domain root. An absolute "/" would break the installed app.
+        # Relative, because the site is served from a subpath rather than a
+        # domain root. An absolute "/" would break the installed app.
         "start_url": "./",
         "scope": "./",
         "display": "standalone",
-        # Matches the icon's gray field colour (this is the splash-screen
-        # colour a PWA launch briefly shows). theme_color stays navy since
-        # that's the app's real in-use browser-chrome colour, unrelated to
-        # the icon graphic.
-        "background_color": "#e1e3e6",
+        # Matches the icon's KR-blue field (the splash-screen colour a PWA
+        # launch briefly shows). theme_color stays navy since that's the app's
+        # real in-use browser-chrome colour, unrelated to the icon graphic.
+        "background_color": "#1e4c7e",
         "theme_color": "#003b6a",
         "icons": [
             {"src": f"icon-192.png?v={ICON_VERSION}", "sizes": "192x192", "type": "image/png"},
