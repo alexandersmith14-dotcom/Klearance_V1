@@ -1022,9 +1022,19 @@ header.krheader{animation-delay:.08s}
 #sdnbulkgo{font:inherit;font-size:13px;font-weight:600;
   padding:7px 16px;cursor:pointer;color:#fff;background:var(--brand);
   border:1px solid var(--brand);border-radius:10px}
-.sdndisclaimer{font-size:12px;line-height:1.5;color:var(--ink-muted);
-  margin:0 0 12px;max-width:600px}
-.sdndisclaimer strong{color:var(--ink-2)}
+/* Caveat, collapsed by default — same pattern as .coverage. The summary
+   itself carries the headline ("not a compliance clearance") so the point
+   lands even without opening it. */
+.sdndisc{margin:10px 0 0}
+.sdndisc>summary{cursor:pointer;font-size:12px;font-weight:600;color:var(--warn);
+  list-style:none;display:inline-block;padding-bottom:2px;
+  border-bottom:2px solid var(--warn)}
+.sdndisc>summary::-webkit-details-marker{display:none}
+.sdndisc>summary::before{content:"▸ ";color:var(--ink-muted);font-weight:400}
+.sdndisc[open]>summary::before{content:"▾ "}
+.sdndisc>p{font-size:12px;line-height:1.6;color:var(--ink-muted);
+  text-align:justify;text-justify:inter-word;margin:8px 0 0;
+  padding-left:14px;border-left:2px solid var(--rule);max-width:620px}
 .sdnfeeds{font-size:12px;color:var(--ink-muted);margin:12px 0 0}
 .badge.sdnsrc{font-size:10px;letter-spacing:.03em;padding:1px 6px;
   background:var(--brand);color:#fff;vertical-align:middle}
@@ -3327,6 +3337,7 @@ def sdn_panel(today):
         'aria-label="Screen a name against the OFAC lists">'
         '<span id="sdnlistcount" class="sdncount"></span>'
         '</div>'
+        '<div id="sdnlistresults" class="sdnlist sdnfullresults"></div>'
         '<details class="sdnbulk">'
         '<summary>Screen a list of names</summary>'
         '<p class="sdnbulkhint">Paste names one per line (customers, counterparties, '
@@ -3335,16 +3346,14 @@ def sdn_panel(today):
         'aria-label="Paste names to screen, one per line"></textarea>'
         '<button type="button" id="sdnbulkgo">Screen list</button>'
         '</details>'
-        '<p class="sdndisclaimer">A no-match here is <strong>not a compliance '
-        'clearance.</strong> It searches the current OFAC SDN and Consolidated '
-        '(non-SDN) lists by name and alias with loose spelling and word-order '
-        'matching; it does not cover every sanctions or watch list, and the lists '
-        'change daily. Confirm anything material against '
-        '<a href="https://sanctionssearch.ofac.treas.gov/" target="_blank" '
-        'rel="noopener">OFAC Sanctions Search</a>.</p>'
-        '<div id="sdnlistresults" class="sdnlist sdnfullresults"></div>'
-        '<p class="sdnfeeds">Recent SDN list changes, for periodic re-screening: '
-        '<a href="sdn-changes.xml">RSS</a> &middot; <a href="sdn-changes.csv">CSV</a></p>'
+        '<details class="sdndisc">'
+        '<summary>A no-match here is not a compliance clearance</summary>'
+        '<p>It searches the current OFAC SDN and Consolidated (non-SDN) lists by '
+        'name and alias with loose spelling and word-order matching; it does not '
+        'cover every sanctions or watch list, and the lists change daily. Confirm '
+        'anything material against <a href="https://sanctionssearch.ofac.treas.gov/" '
+        'target="_blank" rel="noopener">OFAC Sanctions Search</a>.</p>'
+        '</details>'
         '</div>'
     )
 
@@ -3366,6 +3375,9 @@ def sdn_panel(today):
         '<details class="sdnactivity">'
         f'<summary>Recent list activity <span class="sdnsince">({since_label})</span></summary>'
         f'{highlights}'
+        '<p class="sdnfeeds">Subscribe to SDN list changes for periodic '
+        're-screening: <a href="sdn-changes.xml">RSS</a> &middot; '
+        '<a href="sdn-changes.csv">CSV</a></p>'
         '</details>'
         '</details>'
     )
