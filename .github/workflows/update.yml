@@ -139,6 +139,12 @@ jobs:
           # future hero assets don't need a workflow edit each time.
           mkdir -p site/assets/video
           cp assets/video/*.mp4 site/assets/video/
+          # Spoken-summary clips, one MP3 per store key. dashboard.py's build
+          # step reads ./audio to decide which items render an inline player
+          # (AUDIO_KEYS); the files themselves must be published here or every
+          # player 404s. Whole folder so new clips need no workflow edit.
+          mkdir -p site/audio
+          cp audio/*.mp3 site/audio/
           # Permalink pages (one per relevant update) and the sitemap listing
           # them, both written fresh by the dashboard.py build step above.
           mkdir -p site/updates
