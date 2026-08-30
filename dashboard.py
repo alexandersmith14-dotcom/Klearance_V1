@@ -1019,9 +1019,12 @@ header.krheader{animation-delay:.08s}
 .u::before{content:"● "}
 .u-High{color:var(--crit)} .u-Medium{color:var(--warn)} .u-Low{color:var(--ink-muted)}
 
-.dl{display:flex;gap:10px;padding:11px 0;border-bottom:1px solid var(--rule)}
-.dl .dot{flex:none;width:9px;height:9px;border-radius:50%;margin-top:6px}
-.dl .body{flex:1}
+.dl{display:block;position:relative;padding:11px 0;border-bottom:1px solid var(--rule)}
+/* Urgency dot hangs in the panel's left padding rather than taking a flex
+   column, so the agency line and headline sit flush with the card edge and
+   line up with the update cards below instead of being indented ~19px. */
+.dl .dot{position:absolute;left:-12px;top:15px;width:8px;height:8px;border-radius:50%;margin:0}
+.dl .body{}
 .dl .agency{font-size:12px;color:var(--ink-muted);margin-bottom:2px}
 .dl .ttl{font-size:13.5px;font-weight:600;line-height:1.35;
   text-align:justify;text-align-last:left}
