@@ -970,7 +970,7 @@ header.krheader{animation-delay:.08s}
 .badge.t-Guidance{color:#fff;background:var(--brand)}
 .badge.t-Enforcement{color:#fff;background:var(--neutral)}
 .p-sdn .sdnintro{font-size:12.5px;color:var(--ink-muted);margin:2px 0 12px;
-  line-height:1.6;text-align:justify;text-justify:inter-word;max-width:620px}
+  line-height:1.6;text-align:justify;text-justify:inter-word;max-width:70ch}
 .p-sdn .sdnlist{display:flex;flex-direction:column;gap:2px}
 .sdnrow{display:flex;align-items:center;gap:10px;padding:6px 0;
   border-bottom:1px solid var(--rule);flex-wrap:wrap}
@@ -980,7 +980,7 @@ header.krheader{animation-delay:.08s}
 .sdnmeta{font-size:12px;color:var(--ink-muted);white-space:nowrap}
 .sdnempty,.sdnnote{font-size:12.5px;color:var(--ink-muted)}
 .sdnsearch{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
-.sdnsearch input{flex:1 1 320px;max-width:420px;appearance:none;-webkit-appearance:none;
+.sdnsearch input{flex:1 1 320px;max-width:none;appearance:none;-webkit-appearance:none;
   font-family:var(--ui-font);font-size:14px;padding:8px 12px;
   color:var(--ink);background:var(--surface);border:1px solid var(--border);
   border-radius:10px}
@@ -1015,7 +1015,7 @@ header.krheader{animation-delay:.08s}
 .sdnactivity[open] summary{margin-bottom:4px}
 .sdnsince{font-weight:400;color:var(--ink-muted);font-size:12px}
 /* --- name-screening: modes, bulk, per-match detail, source badges --- */
-.sdnbulk{margin:0 0 12px;max-width:520px}
+.sdnbulk{margin:0 0 12px}
 .sdnbulk>summary{cursor:pointer;font-size:12.5px;font-weight:600;color:var(--brand);
   list-style:none;display:inline-block;padding-bottom:2px;
   border-bottom:2px solid var(--accent)}
