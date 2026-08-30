@@ -962,7 +962,8 @@ header.krheader{animation-delay:.08s}
 .badge.t-Proposed{color:#fff;background:var(--warn)}
 .badge.t-Guidance{color:#fff;background:var(--brand)}
 .badge.t-Enforcement{color:#fff;background:var(--neutral)}
-.p-sdn .sdnintro{font-size:12.5px;color:var(--ink-muted);margin:2px 0 10px}
+.p-sdn .sdnintro{font-size:12.5px;color:var(--ink-muted);margin:2px 0 12px;
+  line-height:1.6;text-align:justify;text-justify:inter-word;max-width:620px}
 .p-sdn .sdnlist{display:flex;flex-direction:column;gap:2px}
 .sdnrow{display:flex;align-items:center;gap:10px;padding:6px 0;
   border-bottom:1px solid var(--rule);flex-wrap:wrap}
@@ -1022,8 +1023,6 @@ header.krheader{animation-delay:.08s}
 #sdnbulkgo{font:inherit;font-size:13px;font-weight:600;
   padding:7px 16px;cursor:pointer;color:#fff;background:var(--brand);
   border:1px solid var(--brand);border-radius:10px}
-.sdncaveat{font-size:12px;line-height:1.6;color:var(--ink-muted);
-  text-align:justify;text-justify:inter-word;margin:0 0 12px;max-width:620px}
 .sdnfeeds{font-size:12px;color:var(--ink-muted);margin:12px 0 0}
 .badge.sdnsrc{font-size:10px;letter-spacing:.03em;padding:1px 6px;
   background:var(--brand);color:#fff;vertical-align:middle}
@@ -3326,11 +3325,6 @@ def sdn_panel(today):
         'aria-label="Screen a name against the OFAC lists">'
         '<span id="sdnlistcount" class="sdncount"></span>'
         '</div>'
-        '<p class="sdncaveat">Screens the current OFAC SDN and Consolidated '
-        '(non-SDN) lists by name and alias. Not a compliance clearance — it does '
-        'not cover every list and the lists change daily; verify anything material '
-        'at <a href="https://sanctionssearch.ofac.treas.gov/" target="_blank" '
-        'rel="noopener">OFAC Sanctions Search</a>.</p>'
         '<div id="sdnlistresults" class="sdnlist sdnfullresults"></div>'
         '<details class="sdnbulk">'
         '<summary>Screen a list of names</summary>'
@@ -3352,11 +3346,12 @@ def sdn_panel(today):
         '<details class="panel p-sdn foldable" open>'
         f'<summary><h2>OFAC SDN list <span style="float:right;'
         f'text-transform:none;letter-spacing:0">{total_label}</span></h2></summary>'
-        '<p class="sdnintro">Screen a name against OFAC\'s Specially Designated '
-        'Nationals list and its Consolidated (non-SDN) list — primary names and '
-        'known aliases, matched loosely on spelling and word order. Not '
-        'classified or summarized; the name, program tag and entry detail '
-        'speak for themselves.</p>'
+        '<p class="sdnintro">Screens the current OFAC SDN and Consolidated '
+        '(non-SDN) lists &mdash; primary names and known aliases, matched loosely '
+        'on spelling and word order. Not a compliance clearance: it does not cover '
+        'every list, and the lists change daily. Verify anything material at '
+        '<a href="https://sanctionssearch.ofac.treas.gov/" target="_blank" '
+        'rel="noopener">OFAC Sanctions Search</a>.</p>'
         f'{full_search}'
         '<details class="sdnactivity">'
         f'<summary>Recent list activity <span class="sdnsince">({since_label})</span></summary>'
