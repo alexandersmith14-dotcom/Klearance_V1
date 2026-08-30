@@ -1007,17 +1007,19 @@ header.krheader{animation-delay:.08s}
 .sdnactivity[open] summary{margin-bottom:4px}
 .sdnsince{font-weight:400;color:var(--ink-muted);font-size:12px}
 /* --- name-screening: modes, bulk, per-match detail, source badges --- */
-.sdnmodes{display:flex;gap:4px;margin:2px 0 8px}
-.sdnmode{font:inherit;font-size:12px;font-weight:600;padding:5px 11px;cursor:pointer;
-  color:var(--ink-2);background:var(--surface);border:1px solid var(--border);
-  border-radius:999px}
-.sdnmode.is-on{color:#fff;background:var(--brand);border-color:var(--brand)}
-.sdnbulk{display:flex;flex-direction:column;gap:8px;margin-bottom:10px;max-width:520px}
-.sdnbulk textarea{font-family:var(--ui-font);font-size:13.5px;padding:8px 12px;
-  color:var(--ink);background:var(--surface);border:1px solid var(--border);
-  border-radius:10px;resize:vertical}
+.sdnbulk{margin:0 0 12px;max-width:520px}
+.sdnbulk>summary{cursor:pointer;font-size:12.5px;font-weight:600;color:var(--brand);
+  list-style:none;display:inline-block;padding-bottom:2px;
+  border-bottom:2px solid var(--accent)}
+.sdnbulk>summary::-webkit-details-marker{display:none}
+.sdnbulk>summary::before{content:"▸ ";color:var(--ink-muted);font-weight:400}
+.sdnbulk[open]>summary::before{content:"▾ "}
+.sdnbulkhint{font-size:12px;color:var(--ink-muted);line-height:1.5;margin:8px 0 8px}
+.sdnbulk textarea{display:block;width:100%;font-family:var(--ui-font);font-size:13.5px;
+  padding:8px 12px;color:var(--ink);background:var(--surface);
+  border:1px solid var(--border);border-radius:10px;resize:vertical;margin-bottom:8px}
 .sdnbulk textarea:focus{outline:2px solid var(--brand);outline-offset:1px;border-color:var(--brand)}
-#sdnbulkgo{align-self:flex-start;font:inherit;font-size:13px;font-weight:600;
+#sdnbulkgo{font:inherit;font-size:13px;font-weight:600;
   padding:7px 16px;cursor:pointer;color:#fff;background:var(--brand);
   border:1px solid var(--brand);border-radius:10px}
 .sdndisclaimer{font-size:12px;line-height:1.5;color:var(--ink-muted);
@@ -2355,17 +2357,6 @@ if (sdnListQ) {
     });
   });
 
-  document.querySelectorAll('.sdnmode').forEach(btn => btn.addEventListener('click', () => {
-    document.querySelectorAll('.sdnmode').forEach(b => {
-      const on = b === btn;
-      b.classList.toggle('is-on', on);
-      b.setAttribute('aria-pressed', on ? 'true' : 'false');
-    });
-    document.querySelectorAll('.sdnfullsearch [data-pane]').forEach(p => {
-      p.hidden = p.dataset.pane !== btn.dataset.mode;
-    });
-    results.innerHTML = ''; countEl.textContent = '';
-  }));
 }
 
 // "Add to calendar" — delegated on document rather than any one list, since
@@ -3322,22 +3313,20 @@ def sdn_panel(today):
     full_search = (
         '<div class="sdnfullsearch">'
         f'<h3>Screen a name <span class="sdnfullcount">(SDN + Non-SDN, {total_label})</span></h3>'
-        '<div class="sdnmodes" role="tablist">'
-        '<button type="button" class="sdnmode is-on" data-mode="one" aria-pressed="true">One name</button>'
-        '<button type="button" class="sdnmode" data-mode="list" aria-pressed="false">Paste a list</button>'
-        '</div>'
-        '<div class="sdnsearch" data-pane="one">'
+        '<div class="sdnsearch">'
         '<input id="sdnlistq" type="search" autocomplete="off" '
-        'placeholder="Name or alias — spelling and word order are matched loosely…" '
+        'placeholder="Type a name or alias — results appear as you type…" '
         'aria-label="Screen a name against the OFAC lists">'
         '<span id="sdnlistcount" class="sdncount"></span>'
         '</div>'
-        '<div class="sdnbulk" data-pane="list" hidden>'
-        '<textarea id="sdnbulkq" rows="6" '
-        'placeholder="One name per line — customers, counterparties, beneficial owners…" '
+        '<details class="sdnbulk">'
+        '<summary>Screen a list of names</summary>'
+        '<p class="sdnbulkhint">Paste names one per line (customers, counterparties, '
+        'beneficial owners) and get a hit / no-hit table. Nothing leaves the page.</p>'
+        '<textarea id="sdnbulkq" rows="6" placeholder="One name per line…" '
         'aria-label="Paste names to screen, one per line"></textarea>'
         '<button type="button" id="sdnbulkgo">Screen list</button>'
-        '</div>'
+        '</details>'
         '<p class="sdndisclaimer">A no-match here is <strong>not a compliance '
         'clearance.</strong> It searches the current OFAC SDN and Consolidated '
         '(non-SDN) lists by name and alias with loose spelling and word-order '

@@ -834,17 +834,19 @@ header.krheader{animation-delay:.08s}
 .sdnactivity[open] summary{margin-bottom:4px}
 .sdnsince{font-weight:400;color:var(--ink-muted);font-size:12px}
 /* --- name-screening: modes, bulk, per-match detail, source badges --- */
-.sdnmodes{display:flex;gap:4px;margin:2px 0 8px}
-.sdnmode{font:inherit;font-size:12px;font-weight:600;padding:5px 11px;cursor:pointer;
-  color:var(--ink-2);background:var(--surface);border:1px solid var(--border);
-  border-radius:999px}
-.sdnmode.is-on{color:#fff;background:var(--brand);border-color:var(--brand)}
-.sdnbulk{display:flex;flex-direction:column;gap:8px;margin-bottom:10px;max-width:520px}
-.sdnbulk textarea{font-family:var(--ui-font);font-size:13.5px;padding:8px 12px;
-  color:var(--ink);background:var(--surface);border:1px solid var(--border);
-  border-radius:10px;resize:vertical}
+.sdnbulk{margin:0 0 12px;max-width:520px}
+.sdnbulk>summary{cursor:pointer;font-size:12.5px;font-weight:600;color:var(--brand);
+  list-style:none;display:inline-block;padding-bottom:2px;
+  border-bottom:2px solid var(--accent)}
+.sdnbulk>summary::-webkit-details-marker{display:none}
+.sdnbulk>summary::before{content:"▸ ";color:var(--ink-muted);font-weight:400}
+.sdnbulk[open]>summary::before{content:"▾ "}
+.sdnbulkhint{font-size:12px;color:var(--ink-muted);line-height:1.5;margin:8px 0 8px}
+.sdnbulk textarea{display:block;width:100%;font-family:var(--ui-font);font-size:13.5px;
+  padding:8px 12px;color:var(--ink);background:var(--surface);
+  border:1px solid var(--border);border-radius:10px;resize:vertical;margin-bottom:8px}
 .sdnbulk textarea:focus{outline:2px solid var(--brand);outline-offset:1px;border-color:var(--brand)}
-#sdnbulkgo{align-self:flex-start;font:inherit;font-size:13px;font-weight:600;
+#sdnbulkgo{font:inherit;font-size:13px;font-weight:600;
   padding:7px 16px;cursor:pointer;color:#fff;background:var(--brand);
   border:1px solid var(--brand);border-radius:10px}
 .sdndisclaimer{font-size:12px;line-height:1.5;color:var(--ink-muted);
@@ -1421,7 +1423,7 @@ footer.sitefoot{margin-top:22px;background:var(--brand-bg)}
          all three items across the row instead of bunching Updated and the
          buttons together on one side. -->
     <span class="krcrumb-updated">Updated
-      August 30, 2026 12:46 EDT</span>
+      August 30, 2026 12:50 EDT</span>
     <!-- Mobile-only counterpart, hidden on desktop. Full-format above was
          dropped entirely on phones because "Updated [full date/time]" won the
          path row's one remaining slot over the icon toolbar every time and
@@ -1430,7 +1432,7 @@ footer.sitefoot{margin-top:22px;background:var(--brand-bg)}
          it's short enough to fit that row without repeating the wrap
          problem. -->
     <span class="krcrumb-updated-mobile">Updated
-      Aug 30, 12:46 EDT</span>
+      Aug 30, 12:50 EDT</span>
     <!-- Share and install are mobile-first actions, so unlike the old lone
          Export CSV button they stay visible on a phone; see the media query.
          Export CSV moves into the overflow menu — it's still desktop-only,
@@ -1550,7 +1552,7 @@ footer.sitefoot{margin-top:22px;background:var(--brand-bg)}
 <!-- Moved up from the bottom of the page, per Alexander — an empty-state
      panel ("No SDN list changes recorded") buried below 370 cards and the
      footer read as broken/missing rather than as a quiet day. -->
-<div style="margin:18px 0"><details class="panel p-sdn foldable" open><summary><h2>OFAC SDN list <span style="float:right;text-transform:none;letter-spacing:0">19,802 entries</span></h2></summary><p class="sdnintro">Screen a name against OFAC's Specially Designated Nationals list and its Consolidated (non-SDN) list — primary names and known aliases, matched loosely on spelling and word order. Not classified or summarized; the name, program tag and entry detail speak for themselves.</p><div class="sdnfullsearch"><h3>Screen a name <span class="sdnfullcount">(SDN + Non-SDN, 19,802 entries)</span></h3><div class="sdnmodes" role="tablist"><button type="button" class="sdnmode is-on" data-mode="one" aria-pressed="true">One name</button><button type="button" class="sdnmode" data-mode="list" aria-pressed="false">Paste a list</button></div><div class="sdnsearch" data-pane="one"><input id="sdnlistq" type="search" autocomplete="off" placeholder="Name or alias — spelling and word order are matched loosely…" aria-label="Screen a name against the OFAC lists"><span id="sdnlistcount" class="sdncount"></span></div><div class="sdnbulk" data-pane="list" hidden><textarea id="sdnbulkq" rows="6" placeholder="One name per line — customers, counterparties, beneficial owners…" aria-label="Paste names to screen, one per line"></textarea><button type="button" id="sdnbulkgo">Screen list</button></div><p class="sdndisclaimer">A no-match here is <strong>not a compliance clearance.</strong> It searches the current OFAC SDN and Consolidated (non-SDN) lists by name and alias with loose spelling and word-order matching; it does not cover every sanctions or watch list, and the lists change daily. Confirm anything material against <a href="https://sanctionssearch.ofac.treas.gov/" target="_blank" rel="noopener">OFAC Sanctions Search</a>.</p><div id="sdnlistresults" class="sdnlist sdnfullresults"></div><p class="sdnfeeds">Recent SDN list changes, for periodic re-screening: <a href="sdn-changes.xml">RSS</a> &middot; <a href="sdn-changes.csv">CSV</a></p></div><details class="sdnactivity"><summary>Recent list activity <span class="sdnsince">(records back to 2019-03-22)</span></summary><div class="sdnhighlights"><details class="sdnmini"><summary><h3>Most recent additions</h3></summary><div class="sdnlist"><div class="sdnrow"><span class="sdnname">TAEEDI, Reza Mohammad</span><span class="sdnmeta">SDGT] [IFSR · 2026-08-29</span></div><div class="sdnrow"><span class="sdnname">KAMENG TRADING LIMITED</span><span class="sdnmeta">IRAN-EO13902 · 2026-08-29</span></div><div class="sdnrow"><span class="sdnname">PALESTINE ACTION</span><span class="sdnmeta">SDGT · 2026-08-27</span></div><div class="sdnrow"><span class="sdnname">AUTISTICI INVENTATI</span><span class="sdnmeta">SDGT · 2026-08-27</span></div><div class="sdnrow"><span class="sdnname">MASAR BADIL</span><span class="sdnmeta">SDGT · 2026-08-27</span></div></div></details><details class="sdnmini"><summary><h3>Most recent removals</h3></summary><div class="sdnlist"><div class="sdnrow"><span class="sdnname">AL-NUSRAH FRONT</span><span class="sdnmeta">SDGT · 2026-08-24</span></div><div class="sdnrow"><span class="sdnname">AL-AJMI, Shafi Sultan Mohammed</span><span class="sdnmeta">SDGT · 2026-08-24</span></div><div class="sdnrow"><span class="sdnname">AL-&#x27;AJMI, Hajjaj Fahd Hajjaj Muhammad Shabib</span><span class="sdnmeta">SDGT · 2026-08-24</span></div><div class="sdnrow"><span class="sdnname">AL-SHARIKH, Abdul Mohsen Abdullah Ibrahim</span><span class="sdnmeta">SDGT · 2026-08-24</span></div><div class="sdnrow"><span class="sdnname">AL-MUTAYRI, Abd al-Muhsin Zabin Mutib Naif</span><span class="sdnmeta">SDGT · 2026-08-24</span></div></div></details><details class="sdnmini"><summary><h3>Most recent modifications</h3></summary><div class="sdnlist"><div class="sdnrow"><span class="sdnname">VAHIDI, Ahmad</span><span class="sdnmeta">NPWMD] [IFSR] [IRAN-HR] [IRAN-CON-ARMS-EO · 2026-08-24</span></div><div class="sdnrow"><span class="sdnname">AL-KA&#x27;BI, Sa&#x27;d bin Sa&#x27;d Muhammad Shariyan</span><span class="sdnmeta">SDGT · 2026-08-24</span></div><div class="sdnrow"><span class="sdnname">FARAHI, Seyyed Mahdi</span><span class="sdnmeta">NPWMD] [IFSR] [IRAN-CON-ARMS-EO · 2026-08-24</span></div><div class="sdnrow"><span class="sdnname">AL-&#x27;ANIZI, &#x27;Abdallah Hadi &#x27;Abd al-Rahman Fayhan Sharban</span><span class="sdnmeta">SDGT · 2026-08-24</span></div><div class="sdnrow"><span class="sdnname">ZAYNIYAH, Jamal Husayn</span><span class="sdnmeta">SDGT · 2026-08-24</span></div></div></details></div></details></details></div>
+<div style="margin:18px 0"><details class="panel p-sdn foldable" open><summary><h2>OFAC SDN list <span style="float:right;text-transform:none;letter-spacing:0">19,802 entries</span></h2></summary><p class="sdnintro">Screen a name against OFAC's Specially Designated Nationals list and its Consolidated (non-SDN) list — primary names and known aliases, matched loosely on spelling and word order. Not classified or summarized; the name, program tag and entry detail speak for themselves.</p><div class="sdnfullsearch"><h3>Screen a name <span class="sdnfullcount">(SDN + Non-SDN, 19,802 entries)</span></h3><div class="sdnsearch"><input id="sdnlistq" type="search" autocomplete="off" placeholder="Type a name or alias — results appear as you type…" aria-label="Screen a name against the OFAC lists"><span id="sdnlistcount" class="sdncount"></span></div><details class="sdnbulk"><summary>Screen a list of names</summary><p class="sdnbulkhint">Paste names one per line (customers, counterparties, beneficial owners) and get a hit / no-hit table. Nothing leaves the page.</p><textarea id="sdnbulkq" rows="6" placeholder="One name per line…" aria-label="Paste names to screen, one per line"></textarea><button type="button" id="sdnbulkgo">Screen list</button></details><p class="sdndisclaimer">A no-match here is <strong>not a compliance clearance.</strong> It searches the current OFAC SDN and Consolidated (non-SDN) lists by name and alias with loose spelling and word-order matching; it does not cover every sanctions or watch list, and the lists change daily. Confirm anything material against <a href="https://sanctionssearch.ofac.treas.gov/" target="_blank" rel="noopener">OFAC Sanctions Search</a>.</p><div id="sdnlistresults" class="sdnlist sdnfullresults"></div><p class="sdnfeeds">Recent SDN list changes, for periodic re-screening: <a href="sdn-changes.xml">RSS</a> &middot; <a href="sdn-changes.csv">CSV</a></p></div><details class="sdnactivity"><summary>Recent list activity <span class="sdnsince">(records back to 2019-03-22)</span></summary><div class="sdnhighlights"><details class="sdnmini"><summary><h3>Most recent additions</h3></summary><div class="sdnlist"><div class="sdnrow"><span class="sdnname">TAEEDI, Reza Mohammad</span><span class="sdnmeta">SDGT] [IFSR · 2026-08-29</span></div><div class="sdnrow"><span class="sdnname">KAMENG TRADING LIMITED</span><span class="sdnmeta">IRAN-EO13902 · 2026-08-29</span></div><div class="sdnrow"><span class="sdnname">PALESTINE ACTION</span><span class="sdnmeta">SDGT · 2026-08-27</span></div><div class="sdnrow"><span class="sdnname">AUTISTICI INVENTATI</span><span class="sdnmeta">SDGT · 2026-08-27</span></div><div class="sdnrow"><span class="sdnname">MASAR BADIL</span><span class="sdnmeta">SDGT · 2026-08-27</span></div></div></details><details class="sdnmini"><summary><h3>Most recent removals</h3></summary><div class="sdnlist"><div class="sdnrow"><span class="sdnname">AL-NUSRAH FRONT</span><span class="sdnmeta">SDGT · 2026-08-24</span></div><div class="sdnrow"><span class="sdnname">AL-AJMI, Shafi Sultan Mohammed</span><span class="sdnmeta">SDGT · 2026-08-24</span></div><div class="sdnrow"><span class="sdnname">AL-&#x27;AJMI, Hajjaj Fahd Hajjaj Muhammad Shabib</span><span class="sdnmeta">SDGT · 2026-08-24</span></div><div class="sdnrow"><span class="sdnname">AL-SHARIKH, Abdul Mohsen Abdullah Ibrahim</span><span class="sdnmeta">SDGT · 2026-08-24</span></div><div class="sdnrow"><span class="sdnname">AL-MUTAYRI, Abd al-Muhsin Zabin Mutib Naif</span><span class="sdnmeta">SDGT · 2026-08-24</span></div></div></details><details class="sdnmini"><summary><h3>Most recent modifications</h3></summary><div class="sdnlist"><div class="sdnrow"><span class="sdnname">VAHIDI, Ahmad</span><span class="sdnmeta">NPWMD] [IFSR] [IRAN-HR] [IRAN-CON-ARMS-EO · 2026-08-24</span></div><div class="sdnrow"><span class="sdnname">AL-KA&#x27;BI, Sa&#x27;d bin Sa&#x27;d Muhammad Shariyan</span><span class="sdnmeta">SDGT · 2026-08-24</span></div><div class="sdnrow"><span class="sdnname">FARAHI, Seyyed Mahdi</span><span class="sdnmeta">NPWMD] [IFSR] [IRAN-CON-ARMS-EO · 2026-08-24</span></div><div class="sdnrow"><span class="sdnname">AL-&#x27;ANIZI, &#x27;Abdallah Hadi &#x27;Abd al-Rahman Fayhan Sharban</span><span class="sdnmeta">SDGT · 2026-08-24</span></div><div class="sdnrow"><span class="sdnname">ZAYNIYAH, Jamal Husayn</span><span class="sdnmeta">SDGT · 2026-08-24</span></div></div></details></div></details></details></div>
 
 <!-- Filters & view sits above Search now (was the other way round). On a phone
      this block collapses to its summary, so Search still lands directly under a
@@ -2617,17 +2619,6 @@ if (sdnListQ) {
     });
   });
 
-  document.querySelectorAll('.sdnmode').forEach(btn => btn.addEventListener('click', () => {
-    document.querySelectorAll('.sdnmode').forEach(b => {
-      const on = b === btn;
-      b.classList.toggle('is-on', on);
-      b.setAttribute('aria-pressed', on ? 'true' : 'false');
-    });
-    document.querySelectorAll('.sdnfullsearch [data-pane]').forEach(p => {
-      p.hidden = p.dataset.pane !== btn.dataset.mode;
-    });
-    results.innerHTML = ''; countEl.textContent = '';
-  }));
 }
 
 // "Add to calendar" — delegated on document rather than any one list, since
