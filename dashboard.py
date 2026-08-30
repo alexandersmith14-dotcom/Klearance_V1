@@ -1056,6 +1056,7 @@ header.krheader{animation-delay:.08s}
 .cal{flex:none;font:inherit;font-size:11.5px;color:var(--brand);
   background:none;border:1px solid transparent;border-radius:8px;
   padding:4px 7px;cursor:pointer;white-space:nowrap;
+  display:inline-flex;align-items:center;justify-content:center;gap:4px;
   transition:border-color .12s ease}
 .cal:hover{border-color:var(--border);text-decoration:underline}
 /* Card version: meta text left, one or two (rare — an item can have both a
@@ -1424,6 +1425,11 @@ footer.sitefoot{margin-top:22px;background:var(--brand-bg)}
   .dl .actions{gap:2px;flex-shrink:0}
   .dl .itemrow{gap:1px}
   .dl .cal{padding:0 7px}
+  /* Same squeeze on the update card's footer: keep the icon cluster at its
+     natural width so the date/severity text absorbs the pressure instead of
+     the actions wrapping above the row. */
+  .cardfoot .actions{flex-shrink:0}
+  .cardfoot .meta{min-width:0}
   .quickcontact .qc-icons a{width:36px;height:36px}
   .card h3{line-height:1.45}
   .card h3 a{display:inline-block;padding:2px 0}
