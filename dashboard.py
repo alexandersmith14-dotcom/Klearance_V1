@@ -1014,20 +1014,14 @@ header.krheader{animation-delay:.08s}
   color:var(--ink-2)}
 .sdnactivity[open] summary{margin-bottom:4px}
 .sdnsince{font-weight:400;color:var(--ink-muted);font-size:12px}
-/* --- name-screening: modes, bulk, per-match detail, source badges --- */
-/* Screen-a-name and screen-a-list sit in one column on a phone, side by
-   side from ~820px up. Results render full width below both. */
-.sdncols{display:flex;flex-direction:column;gap:18px}
-@media (min-width:820px){
-  .sdncols{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:start}
-}
-.sdncol{min-width:0}
-.sdncol h3{margin-top:0}
+/* --- name screening: one box (line = live search, many lines = list) --- */
 .sdnbulkhint{font-size:12px;color:var(--ink-muted);line-height:1.5;margin:0 0 8px}
-#sdnbulkq{display:block;width:100%;font-family:var(--ui-font);font-size:13.5px;
-  padding:8px 12px;color:var(--ink);background:var(--surface);
-  border:1px solid var(--border);border-radius:10px;resize:vertical;margin-bottom:8px}
-#sdnbulkq:focus{outline:2px solid var(--brand);outline-offset:1px;border-color:var(--brand)}
+#sdnlistq{display:block;width:100%;font-family:var(--ui-font);font-size:14px;
+  padding:9px 12px;color:var(--ink);background:var(--surface);
+  border:1px solid var(--border);border-radius:10px;resize:vertical;
+  min-height:2.6em}
+#sdnlistq:focus{outline:2px solid var(--brand);outline-offset:1px;border-color:var(--brand)}
+.sdnsearchfoot{display:flex;align-items:center;gap:12px;margin-top:8px;min-height:1.4em}
 #sdnbulkgo{font:inherit;font-size:13px;font-weight:600;
   padding:7px 16px;cursor:pointer;color:#fff;background:var(--brand);
   border:1px solid var(--brand);border-radius:10px}
@@ -2341,15 +2335,11 @@ if (sdnListQ) {
     return indexPromise;
   }
 
-  sdnListQ.addEventListener('input', () => {
-    const q = sdnListQ.value.trim();
-    if (!q) { renderOne(''); return; }
-    if (index) { renderOne(q); return; }
-    loadIndex().then(() => { if (index) renderOne(sdnListQ.value.trim()); });
-  });
-
-  if (bulkGo) bulkGo.addEventListener('click', () => {
-    const names = (bulkQ.value || '').split('\n').map(s => s.trim()).filter(Boolean).slice(0, 300);
+  function lines() {
+    return sdnListQ.value.split('\n').map(s => s.trim()).filter(Boolean).slice(0, 300);
+  }
+  function runBulk() {
+    const names = lines();
     if (!names.length) { results.innerHTML = ''; countEl.textContent = ''; return; }
     countEl.textContent = 'screening…';
     loadIndex().then(() => {
@@ -2369,7 +2359,25 @@ if (sdnListQ) {
       }).join('');
       countEl.textContent = `${hits} of ${names.length} name${names.length === 1 ? '' : 's'} hit the lists`;
     });
+  }
+
+  // One box: a single line filters live as you type; two or more lines is a
+  // list, screened on demand via the button that appears.
+  sdnListQ.addEventListener('input', () => {
+    const ls = lines();
+    if (ls.length >= 2) {
+      if (bulkGo) { bulkGo.hidden = false; bulkGo.textContent = `Screen ${ls.length} names`; }
+      results.innerHTML = '';
+      countEl.textContent = `${ls.length} names — press "Screen ${ls.length} names"`;
+      return;
+    }
+    if (bulkGo) bulkGo.hidden = true;
+    const q = ls[0] || '';
+    if (!q) { renderOne(''); return; }
+    if (index) { renderOne(q); return; }
+    loadIndex().then(() => { if (index) renderOne(lines()[0] || ''); });
   });
+  if (bulkGo) bulkGo.addEventListener('click', runBulk);
 
 }
 
@@ -3326,25 +3334,15 @@ def sdn_panel(today):
     # load, only in the hands of someone actually searching.
     full_search = (
         '<div class="sdnfullsearch">'
-        '<div class="sdncols">'
-        '<div class="sdncol">'
         f'<h3>Screen a name <span class="sdnfullcount">(SDN + Non-SDN, {total_label})</span></h3>'
-        '<div class="sdnsearch">'
-        '<input id="sdnlistq" type="search" autocomplete="off" '
-        'placeholder="Type a name or alias — results appear as you type…" '
-        'aria-label="Screen a name against the OFAC lists">'
+        '<p class="sdnbulkhint">Type a name for live results, or paste several '
+        '(one per line) to screen them all at once. Nothing leaves the page.</p>'
+        '<textarea id="sdnlistq" rows="2" autocomplete="off" '
+        'placeholder="Name or alias &mdash; or one name per line&hellip;" '
+        'aria-label="Screen a name or a list of names against the OFAC lists"></textarea>'
+        '<div class="sdnsearchfoot">'
+        '<button type="button" id="sdnbulkgo" hidden>Screen list</button>'
         '<span id="sdnlistcount" class="sdncount"></span>'
-        '</div>'
-        '</div>'
-        '<div class="sdncol">'
-        '<h3>Screen a list</h3>'
-        '<p class="sdnbulkhint">One name per line (customers, counterparties, '
-        'beneficial owners). Everything runs in the browser; the names never '
-        'leave the page.</p>'
-        '<textarea id="sdnbulkq" rows="3" placeholder="One name per line…" '
-        'aria-label="Paste names to screen, one per line"></textarea>'
-        '<button type="button" id="sdnbulkgo">Screen list</button>'
-        '</div>'
         '</div>'
         '<div id="sdnlistresults" class="sdnlist sdnfullresults"></div>'
         '</div>'
