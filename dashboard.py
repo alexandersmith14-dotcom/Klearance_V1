@@ -1019,7 +1019,7 @@ header.krheader{animation-delay:.08s}
    side from ~820px up. Results render full width below both. */
 .sdncols{display:flex;flex-direction:column;gap:18px}
 @media (min-width:820px){
-  .sdncols{display:grid;grid-template-columns:1.25fr 1fr;gap:30px;align-items:start}
+  .sdncols{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:start}
 }
 .sdncol{min-width:0}
 .sdncol h3{margin-top:0}
@@ -3341,7 +3341,7 @@ def sdn_panel(today):
         '<p class="sdnbulkhint">One name per line (customers, counterparties, '
         'beneficial owners). Everything runs in the browser; the names never '
         'leave the page.</p>'
-        '<textarea id="sdnbulkq" rows="5" placeholder="One name per line…" '
+        '<textarea id="sdnbulkq" rows="3" placeholder="One name per line…" '
         'aria-label="Paste names to screen, one per line"></textarea>'
         '<button type="button" id="sdnbulkgo">Screen list</button>'
         '</div>'
