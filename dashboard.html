@@ -1423,7 +1423,7 @@ footer.sitefoot{margin-top:22px;background:var(--brand-bg)}
          all three items across the row instead of bunching Updated and the
          buttons together on one side. -->
     <span class="krcrumb-updated">Updated
-      August 30, 2026 12:51 EDT</span>
+      August 30, 2026 12:55 EDT</span>
     <!-- Mobile-only counterpart, hidden on desktop. Full-format above was
          dropped entirely on phones because "Updated [full date/time]" won the
          path row's one remaining slot over the icon toolbar every time and
@@ -1432,7 +1432,7 @@ footer.sitefoot{margin-top:22px;background:var(--brand-bg)}
          it's short enough to fit that row without repeating the wrap
          problem. -->
     <span class="krcrumb-updated-mobile">Updated
-      Aug 30, 12:51 EDT</span>
+      Aug 30, 12:55 EDT</span>
     <!-- Share and install are mobile-first actions, so unlike the old lone
          Export CSV button they stay visible on a phone; see the media query.
          Export CSV moves into the overflow menu — it's still desktop-only,
@@ -2529,7 +2529,9 @@ if (sdnListQ) {
   const nameOf = r => r[5] ? r[8] : r[1];        // alias rows screen on the alias
 
   function ensureNorm() {
-    if (index && !norm) norm = index.map(r => foldName(nameOf(r)));
+    // Per row: the folded name's words, for prefix matching. Matching whole
+    // words (not any substring) keeps "putin" from hitting "com-putin-g".
+    if (index && !norm) norm = index.map(r => foldName(nameOf(r)).split(' ').filter(Boolean));
   }
   function matchRows(query) {
     ensureNorm();
@@ -2537,8 +2539,9 @@ if (sdnListQ) {
     if (!qt.length) return [];
     const seen = new Map();                       // source:ent_num -> best hit
     for (let i = 0; i < index.length; i++) {
-      const n = norm[i];
-      if (!qt.every(t => n.includes(t))) continue;
+      const words = norm[i];
+      // every query token must start some word in the name
+      if (!qt.every(t => words.some(w => w.startsWith(t)))) continue;
       const r = index[i], key = r[4] + ':' + r[0], isAlias = !!r[5];
       const prev = seen.get(key);
       if (!prev || (prev.isAlias && !isAlias)) {

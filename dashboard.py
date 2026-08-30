@@ -2267,7 +2267,9 @@ if (sdnListQ) {
   const nameOf = r => r[5] ? r[8] : r[1];        // alias rows screen on the alias
 
   function ensureNorm() {
-    if (index && !norm) norm = index.map(r => foldName(nameOf(r)));
+    // Per row: the folded name's words, for prefix matching. Matching whole
+    // words (not any substring) keeps "putin" from hitting "com-putin-g".
+    if (index && !norm) norm = index.map(r => foldName(nameOf(r)).split(' ').filter(Boolean));
   }
   function matchRows(query) {
     ensureNorm();
@@ -2275,8 +2277,9 @@ if (sdnListQ) {
     if (!qt.length) return [];
     const seen = new Map();                       // source:ent_num -> best hit
     for (let i = 0; i < index.length; i++) {
-      const n = norm[i];
-      if (!qt.every(t => n.includes(t))) continue;
+      const words = norm[i];
+      // every query token must start some word in the name
+      if (!qt.every(t => words.some(w => w.startsWith(t)))) continue;
       const r = index[i], key = r[4] + ':' + r[0], isAlias = !!r[5];
       const prev = seen.get(key);
       if (!prev || (prev.isAlias && !isAlias)) {
