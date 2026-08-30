@@ -1015,18 +1015,19 @@ header.krheader{animation-delay:.08s}
 .sdnactivity[open] summary{margin-bottom:4px}
 .sdnsince{font-weight:400;color:var(--ink-muted);font-size:12px}
 /* --- name-screening: modes, bulk, per-match detail, source badges --- */
-.sdnbulk{margin:0 0 12px}
-.sdnbulk>summary{cursor:pointer;font-size:12.5px;font-weight:600;color:var(--brand);
-  list-style:none;display:inline-block;padding-bottom:2px;
-  border-bottom:2px solid var(--accent)}
-.sdnbulk>summary::-webkit-details-marker{display:none}
-.sdnbulk>summary::before{content:"▸ ";color:var(--ink-muted);font-weight:400}
-.sdnbulk[open]>summary::before{content:"▾ "}
-.sdnbulkhint{font-size:12px;color:var(--ink-muted);line-height:1.5;margin:8px 0 8px}
-.sdnbulk textarea{display:block;width:100%;font-family:var(--ui-font);font-size:13.5px;
+/* Screen-a-name and screen-a-list sit in one column on a phone, side by
+   side from ~820px up. Results render full width below both. */
+.sdncols{display:flex;flex-direction:column;gap:18px}
+@media (min-width:820px){
+  .sdncols{display:grid;grid-template-columns:1.25fr 1fr;gap:30px;align-items:start}
+}
+.sdncol{min-width:0}
+.sdncol h3{margin-top:0}
+.sdnbulkhint{font-size:12px;color:var(--ink-muted);line-height:1.5;margin:0 0 8px}
+#sdnbulkq{display:block;width:100%;font-family:var(--ui-font);font-size:13.5px;
   padding:8px 12px;color:var(--ink);background:var(--surface);
   border:1px solid var(--border);border-radius:10px;resize:vertical;margin-bottom:8px}
-.sdnbulk textarea:focus{outline:2px solid var(--brand);outline-offset:1px;border-color:var(--brand)}
+#sdnbulkq:focus{outline:2px solid var(--brand);outline-offset:1px;border-color:var(--brand)}
 #sdnbulkgo{font:inherit;font-size:13px;font-weight:600;
   padding:7px 16px;cursor:pointer;color:#fff;background:var(--brand);
   border:1px solid var(--brand);border-radius:10px}
@@ -3325,6 +3326,8 @@ def sdn_panel(today):
     # load, only in the hands of someone actually searching.
     full_search = (
         '<div class="sdnfullsearch">'
+        '<div class="sdncols">'
+        '<div class="sdncol">'
         f'<h3>Screen a name <span class="sdnfullcount">(SDN + Non-SDN, {total_label})</span></h3>'
         '<div class="sdnsearch">'
         '<input id="sdnlistq" type="search" autocomplete="off" '
@@ -3332,15 +3335,18 @@ def sdn_panel(today):
         'aria-label="Screen a name against the OFAC lists">'
         '<span id="sdnlistcount" class="sdncount"></span>'
         '</div>'
-        '<div id="sdnlistresults" class="sdnlist sdnfullresults"></div>'
-        '<details class="sdnbulk">'
-        '<summary>Screen a list of names</summary>'
-        '<p class="sdnbulkhint">Paste names one per line (customers, counterparties, '
-        'beneficial owners) and get a hit / no-hit table. Nothing leaves the page.</p>'
-        '<textarea id="sdnbulkq" rows="6" placeholder="One name per line…" '
+        '</div>'
+        '<div class="sdncol">'
+        '<h3>Screen a list</h3>'
+        '<p class="sdnbulkhint">One name per line (customers, counterparties, '
+        'beneficial owners). Everything runs in the browser; the names never '
+        'leave the page.</p>'
+        '<textarea id="sdnbulkq" rows="5" placeholder="One name per line…" '
         'aria-label="Paste names to screen, one per line"></textarea>'
         '<button type="button" id="sdnbulkgo">Screen list</button>'
-        '</details>'
+        '</div>'
+        '</div>'
+        '<div id="sdnlistresults" class="sdnlist sdnfullresults"></div>'
         '</div>'
     )
 
