@@ -1033,6 +1033,11 @@ header.krheader{animation-delay:.08s}
 .sdndetail{flex-basis:100%;font-size:11.5px;color:var(--ink-muted);
   line-height:1.5;margin-top:2px}
 .sdndetail a{color:var(--brand);white-space:nowrap}
+/* Screening results: let long OFAC program strings wrap, and let the name
+   column shrink to zero, so a phone never scrolls sideways. */
+.sdnfullresults .sdnrow{align-items:flex-start}
+.sdnfullresults .sdnname{min-width:0}
+.sdnfullresults .sdnmeta{white-space:normal}
 .sdnbulkrow .sdnname{font-weight:600}
 .sdnbulkrow.hit .sdnname::after{content:" ●";color:var(--crit)}
 .sdnbulkrow .sdnmeta{white-space:normal}
