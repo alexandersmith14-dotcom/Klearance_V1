@@ -1393,7 +1393,7 @@ footer.sitefoot{margin-top:22px;background:var(--brand-bg)}
          all three items across the row instead of bunching Updated and the
          buttons together on one side. -->
     <span class="krcrumb-updated">Updated
-      August 30, 2026 12:22 EDT</span>
+      August 30, 2026 12:27 EDT</span>
     <!-- Mobile-only counterpart, hidden on desktop. Full-format above was
          dropped entirely on phones because "Updated [full date/time]" won the
          path row's one remaining slot over the icon toolbar every time and
@@ -1402,7 +1402,7 @@ footer.sitefoot{margin-top:22px;background:var(--brand-bg)}
          it's short enough to fit that row without repeating the wrap
          problem. -->
     <span class="krcrumb-updated-mobile">Updated
-      Aug 30, 12:22 EDT</span>
+      Aug 30, 12:27 EDT</span>
     <!-- Share and install are mobile-first actions, so unlike the old lone
          Export CSV button they stay visible on a phone; see the media query.
          Export CSV moves into the overflow menu — it's still desktop-only,
@@ -2758,6 +2758,10 @@ const QS_STEPS = [
   // yet (no .rp element to point at), same as the gated Ask step above.
   { sel: '#deadlines .dl .rp',
     text: 'Press play to hear the item’s plain-English summary read aloud — a local voice, nothing added or interpreted.' },
+  // Sidebar panel, below the deadlines. Skipped automatically if SDN
+  // monitoring is off (no .p-sdn element), same as the gated Ask step.
+  { sel: '.p-sdn',
+    text: 'Separate from the agency feed: this tracks additions and removals on the OFAC SDN list, and lets you screen a name against the full current list right here.' },
 ];
 function initQuickStart() {
   // ?quickstart=1 replays the tour on demand -- lets it be checked on a real

@@ -2496,6 +2496,10 @@ const QS_STEPS = [
   // yet (no .rp element to point at), same as the gated Ask step above.
   { sel: '#deadlines .dl .rp',
     text: 'Press play to hear the item’s plain-English summary read aloud — a local voice, nothing added or interpreted.' },
+  // Sidebar panel, below the deadlines. Skipped automatically if SDN
+  // monitoring is off (no .p-sdn element), same as the gated Ask step.
+  { sel: '.p-sdn',
+    text: 'Separate from the agency feed: this tracks additions and removals on the OFAC SDN list, and lets you screen a name against the full current list right here.' },
 ];
 function initQuickStart() {
   // ?quickstart=1 replays the tour on demand -- lets it be checked on a real
