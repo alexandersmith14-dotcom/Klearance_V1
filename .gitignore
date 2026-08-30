@@ -37,7 +37,9 @@ deadlines.ics
 /updates/
 sitemap.xml
 
-# Derived SDN search index, regenerated every build from sdn_snapshot.json
-# (which IS committed — see sdn_monitor.py SDN_INDEX_PATH)
+# Derived SDN artefacts, regenerated every run from the committed snapshots
+# and log (see sdn_monitor.py); the workflow copies them into site/.
 sdn_index.json
+sdn-changes.xml
+sdn-changes.csv
 

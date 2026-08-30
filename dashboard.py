@@ -1006,6 +1006,34 @@ header.krheader{animation-delay:.08s}
   color:var(--ink-2)}
 .sdnactivity[open] summary{margin-bottom:4px}
 .sdnsince{font-weight:400;color:var(--ink-muted);font-size:12px}
+/* --- name-screening: modes, bulk, per-match detail, source badges --- */
+.sdnmodes{display:flex;gap:4px;margin:2px 0 8px}
+.sdnmode{font:inherit;font-size:12px;font-weight:600;padding:5px 11px;cursor:pointer;
+  color:var(--ink-2);background:var(--surface);border:1px solid var(--border);
+  border-radius:999px}
+.sdnmode.is-on{color:#fff;background:var(--brand);border-color:var(--brand)}
+.sdnbulk{display:flex;flex-direction:column;gap:8px;margin-bottom:10px;max-width:520px}
+.sdnbulk textarea{font-family:var(--ui-font);font-size:13.5px;padding:8px 12px;
+  color:var(--ink);background:var(--surface);border:1px solid var(--border);
+  border-radius:10px;resize:vertical}
+.sdnbulk textarea:focus{outline:2px solid var(--brand);outline-offset:1px;border-color:var(--brand)}
+#sdnbulkgo{align-self:flex-start;font:inherit;font-size:13px;font-weight:600;
+  padding:7px 16px;cursor:pointer;color:#fff;background:var(--brand);
+  border:1px solid var(--brand);border-radius:10px}
+.sdndisclaimer{font-size:12px;line-height:1.5;color:var(--ink-muted);
+  margin:0 0 12px;max-width:600px}
+.sdndisclaimer strong{color:var(--ink-2)}
+.sdnfeeds{font-size:12px;color:var(--ink-muted);margin:12px 0 0}
+.badge.sdnsrc{font-size:10px;letter-spacing:.03em;padding:1px 6px;
+  background:var(--brand);color:#fff;vertical-align:middle}
+.badge.sdnsrc.nonsdn{background:var(--neutral)}
+.sdnalias{font-size:11.5px;color:var(--ink-muted);font-weight:400}
+.sdndetail{flex-basis:100%;font-size:11.5px;color:var(--ink-muted);
+  line-height:1.5;margin-top:2px}
+.sdndetail a{color:var(--brand);white-space:nowrap}
+.sdnbulkrow .sdnname{font-weight:600}
+.sdnbulkrow.hit .sdnname::after{content:" ●";color:var(--crit)}
+.sdnbulkrow .sdnmeta{white-space:normal}
 .card .agency{font-size:12px;color:var(--ink-muted)}
 .card h3{font-size:14.5px;margin:0 0 5px;font-weight:600;line-height:1.35;
   text-align:justify;text-align-last:left}
@@ -2218,46 +2246,126 @@ if (dlMoreBtn) dlMoreBtn.addEventListener('click', () => {
 // not just recent changes. sdn_index.json isn't fetched until the reader
 // actually types something, so a page load that never touches this box never
 // pays for it. Fetched once and cached in memory for the rest of the session.
+// Full-list name screening across SDN + Consolidated (non-SDN), primary
+// names and aliases. Index row:
+//   [ent_num, primary_name, type, program, source, is_alias, remarks, country, alias_name]
+// sdn_index.json (~12 MB, gzipped on the wire) is fetched only on first use.
 const sdnListQ = document.getElementById('sdnlistq');
 if (sdnListQ) {
-  const sdnListResults = document.getElementById('sdnlistresults');
-  const sdnListCount = document.getElementById('sdnlistcount');
-  let sdnIndex = null;
-  let sdnIndexPromise = null;
-  const SDN_RESULT_CAP = 50;
+  const results = document.getElementById('sdnlistresults');
+  const countEl = document.getElementById('sdnlistcount');
+  const bulkQ = document.getElementById('sdnbulkq');
+  const bulkGo = document.getElementById('sdnbulkgo');
+  const RESULT_CAP = 60;
+  let index = null, indexPromise = null, norm = null;
 
-  function renderSdnResults(query) {
-    if (!query) { sdnListResults.innerHTML = ''; sdnListCount.textContent = ''; return; }
-    const q = query.toLowerCase();
-    const matches = sdnIndex.filter(([num, name]) => name.toLowerCase().includes(q));
-    const shown = matches.slice(0, SDN_RESULT_CAP);
-    sdnListResults.innerHTML = shown.length ? shown.map(([num, name, type, program]) =>
-      `<div class="sdnrow">
-        <span class="sdnname">${esc(name || '(unnamed entry)')}</span>
-        <span class="sdnmeta">${esc(program || '—')}${type ? ' · ' + esc(type) : ''}</span>
-      </div>`
-    ).join('') : '<p class="sdnempty">No matches on the current list.</p>';
-    sdnListCount.textContent = matches.length > SDN_RESULT_CAP
-      ? `showing first ${SDN_RESULT_CAP} of ${matches.length} matches`
-      : `${matches.length} match${matches.length === 1 ? '' : 'es'}`;
+  // Fold accents, drop punctuation, collapse whitespace. "Muḩammad" -> "muhammad".
+  const foldName = s => (s || '').normalize('NFKD').replace(/[̀-ͯ]/g, '')
+    .toLowerCase().replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim();
+  const nameOf = r => r[5] ? r[8] : r[1];        // alias rows screen on the alias
+
+  function ensureNorm() {
+    if (index && !norm) norm = index.map(r => foldName(nameOf(r)));
+  }
+  function matchRows(query) {
+    ensureNorm();
+    const qt = foldName(query).split(' ').filter(Boolean);
+    if (!qt.length) return [];
+    const seen = new Map();                       // source:ent_num -> best hit
+    for (let i = 0; i < index.length; i++) {
+      const n = norm[i];
+      if (!qt.every(t => n.includes(t))) continue;
+      const r = index[i], key = r[4] + ':' + r[0], isAlias = !!r[5];
+      const prev = seen.get(key);
+      if (!prev || (prev.isAlias && !isAlias)) {
+        seen.set(key, { row: r, isAlias, matched: nameOf(r) });
+      }
+    }
+    return [...seen.values()];
+  }
+  function detail(r) {
+    const bits = [];
+    if (r[7]) bits.push('Country: ' + esc(r[7]));
+    if (r[6]) bits.push(esc(r[6]));
+    const link = 'https://sanctionssearch.ofac.treas.gov/Details.aspx?id=' + encodeURIComponent(r[0]);
+    return `<div class="sdndetail">${bits.join(' &middot; ')}`
+      + (bits.length ? ' &middot; ' : '')
+      + `<a href="${link}" target="_blank" rel="noopener">View on OFAC &#8599;</a></div>`;
+  }
+  function rowHtml(m) {
+    const r = m.row;
+    const src = r[4] === 'SDN'
+      ? '<span class="badge sdnsrc">SDN</span>'
+      : '<span class="badge sdnsrc nonsdn">Non-SDN</span>';
+    const aka = m.isAlias
+      ? ` <span class="sdnalias">alias &mdash; listed as &ldquo;${esc(r[1])}&rdquo;</span>` : '';
+    return `<div class="sdnrow">
+      <div class="sdnname">${src} ${esc(m.matched || '(unnamed entry)')}${aka}</div>
+      <div class="sdnmeta">${esc(r[3] || '—')}${r[2] ? ' · ' + esc(r[2]) : ''}</div>
+      ${detail(r)}
+    </div>`;
+  }
+  function renderOne(query) {
+    if (!query) { results.innerHTML = ''; countEl.textContent = ''; return; }
+    const m = matchRows(query), shown = m.slice(0, RESULT_CAP);
+    results.innerHTML = shown.length ? shown.map(rowHtml).join('')
+      : '<p class="sdnempty">No match on the current OFAC SDN or Consolidated lists.</p>';
+    countEl.textContent = m.length > RESULT_CAP
+      ? `first ${RESULT_CAP} of ${m.length} matches`
+      : `${m.length} match${m.length === 1 ? '' : 'es'}`;
+  }
+  function loadIndex() {
+    if (index) return Promise.resolve(index);
+    if (!indexPromise) {
+      countEl.textContent = 'loading lists…';
+      indexPromise = fetch('sdn_index.json').then(r => r.json())
+        .then(d => { index = d; return d; })
+        .catch(() => { countEl.textContent = 'Could not load the lists — try again.'; indexPromise = null; });
+    }
+    return indexPromise;
   }
 
   sdnListQ.addEventListener('input', () => {
-    const query = sdnListQ.value.trim();
-    if (!query) { renderSdnResults(''); return; }
-    if (sdnIndex) { renderSdnResults(query); return; }
-    if (!sdnIndexPromise) {
-      sdnListCount.textContent = 'loading full list…';
-      sdnIndexPromise = fetch('sdn_index.json').then(r => r.json()).then(data => {
-        sdnIndex = data;
-        return data;
-      }).catch(() => {
-        sdnListCount.textContent = 'Could not load the full list — try again.';
-        sdnIndexPromise = null;
-      });
-    }
-    sdnIndexPromise.then(() => { if (sdnIndex) renderSdnResults(sdnListQ.value.trim()); });
+    const q = sdnListQ.value.trim();
+    if (!q) { renderOne(''); return; }
+    if (index) { renderOne(q); return; }
+    loadIndex().then(() => { if (index) renderOne(sdnListQ.value.trim()); });
   });
+
+  if (bulkGo) bulkGo.addEventListener('click', () => {
+    const names = (bulkQ.value || '').split('\n').map(s => s.trim()).filter(Boolean).slice(0, 300);
+    if (!names.length) { results.innerHTML = ''; countEl.textContent = ''; return; }
+    countEl.textContent = 'screening…';
+    loadIndex().then(() => {
+      if (!index) return;
+      let hits = 0;
+      results.innerHTML = names.map(name => {
+        const m = matchRows(name);
+        if (m.length) hits++;
+        const summary = m.length
+          ? m.slice(0, 3).map(x => esc(x.matched) + (x.isAlias ? ' (alias)' : '') + ' &mdash; ' + esc(x.row[3] || '—')).join('; ')
+            + (m.length > 3 ? ` +${m.length - 3} more` : '')
+          : 'no match';
+        return `<div class="sdnrow sdnbulkrow${m.length ? ' hit' : ''}">
+          <div class="sdnname">${esc(name)}</div>
+          <div class="sdnmeta">${summary}</div>
+        </div>`;
+      }).join('');
+      countEl.textContent = `${hits} of ${names.length} name${names.length === 1 ? '' : 's'} hit the lists`;
+    });
+  });
+
+  document.querySelectorAll('.sdnmode').forEach(btn => btn.addEventListener('click', () => {
+    document.querySelectorAll('.sdnmode').forEach(b => {
+      const on = b === btn;
+      b.classList.toggle('is-on', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    document.querySelectorAll('.sdnfullsearch [data-pane]').forEach(p => {
+      p.hidden = p.dataset.pane !== btn.dataset.mode;
+    });
+    results.innerHTML = ''; countEl.textContent = '';
+  }));
 }
 
 // "Add to calendar" — delegated on document rather than any one list, since
@@ -3212,14 +3320,33 @@ def sdn_panel(today):
     # load, only in the hands of someone actually searching.
     full_search = (
         '<div class="sdnfullsearch">'
-        f'<h3>Search the full list <span class="sdnfullcount">({total_label})</span></h3>'
-        '<div class="sdnsearch">'
+        f'<h3>Screen a name <span class="sdnfullcount">(SDN + Non-SDN, {total_label})</span></h3>'
+        '<div class="sdnmodes" role="tablist">'
+        '<button type="button" class="sdnmode is-on" data-mode="one" aria-pressed="true">One name</button>'
+        '<button type="button" class="sdnmode" data-mode="list" aria-pressed="false">Paste a list</button>'
+        '</div>'
+        '<div class="sdnsearch" data-pane="one">'
         '<input id="sdnlistq" type="search" autocomplete="off" '
-        'placeholder="Search all tracked SDN entries by name…" '
-        'aria-label="Search the full SDN list">'
+        'placeholder="Name or alias — spelling and word order are matched loosely…" '
+        'aria-label="Screen a name against the OFAC lists">'
         '<span id="sdnlistcount" class="sdncount"></span>'
         '</div>'
+        '<div class="sdnbulk" data-pane="list" hidden>'
+        '<textarea id="sdnbulkq" rows="6" '
+        'placeholder="One name per line — customers, counterparties, beneficial owners…" '
+        'aria-label="Paste names to screen, one per line"></textarea>'
+        '<button type="button" id="sdnbulkgo">Screen list</button>'
+        '</div>'
+        '<p class="sdndisclaimer">A no-match here is <strong>not a compliance '
+        'clearance.</strong> It searches the current OFAC SDN and Consolidated '
+        '(non-SDN) lists by name and alias with loose spelling and word-order '
+        'matching; it does not cover every sanctions or watch list, and the lists '
+        'change daily. Confirm anything material against '
+        '<a href="https://sanctionssearch.ofac.treas.gov/" target="_blank" '
+        'rel="noopener">OFAC Sanctions Search</a>.</p>'
         '<div id="sdnlistresults" class="sdnlist sdnfullresults"></div>'
+        '<p class="sdnfeeds">Recent SDN list changes, for periodic re-screening: '
+        '<a href="sdn-changes.xml">RSS</a> &middot; <a href="sdn-changes.csv">CSV</a></p>'
         '</div>'
     )
 
@@ -3232,9 +3359,11 @@ def sdn_panel(today):
         '<details class="panel p-sdn foldable" open>'
         f'<summary><h2>OFAC SDN list <span style="float:right;'
         f'text-transform:none;letter-spacing:0">{total_label}</span></h2></summary>'
-        '<p class="sdnintro">Search OFAC\'s Specially Designated Nationals '
-        'list by name. Not classified or summarized; a name and program tag '
-        'speaks for itself.</p>'
+        '<p class="sdnintro">Screen a name against OFAC\'s Specially Designated '
+        'Nationals list and its Consolidated (non-SDN) list — primary names and '
+        'known aliases, matched loosely on spelling and word order. Not '
+        'classified or summarized; the name, program tag and entry detail '
+        'speak for themselves.</p>'
         f'{full_search}'
         '<details class="sdnactivity">'
         f'<summary>Recent list activity <span class="sdnsince">({since_label})</span></summary>'
