@@ -1020,13 +1020,20 @@ details.jurgroup[open]>summary::after{content:" ▾"}
 details.jurgroup>summary:hover h3{color:var(--brand)}
 .jurlookup{margin:4px 0 4px}
 .jurlookup label{display:block;font-size:12px;font-weight:600;margin-bottom:4px}
-.jurqrow{display:flex;gap:8px;align-items:stretch}
+.jurqrow{display:flex;gap:8px;align-items:stretch;position:relative}
 #jurq{flex:1;min-width:0;font-family:var(--ui-font);font-size:14px;
   padding:9px 12px;color:var(--ink);background:var(--surface);
   border:1px solid var(--border);border-radius:8px}
 #jurclear{flex:none;padding:0 12px;font-size:18px;line-height:1;color:var(--ink-muted);
   background:var(--chip);border:1px solid var(--border);border-radius:8px;cursor:pointer}
 #jurclear:hover{color:var(--ink)}
+.jurmenu{position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:20;
+  max-height:264px;overflow-y:auto;background:var(--surface);
+  border:1px solid var(--border);border-radius:8px;box-shadow:var(--shadow-sm)}
+.juropt{padding:7px 12px;font-size:13.5px;cursor:pointer;white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis}
+.juropt:hover,.juropt.active{background:var(--chip)}
+.juropt .jomark{font-size:11px;color:var(--ink-muted);margin-left:6px}
 .jurcard{margin-top:10px;padding:12px 14px;border:1px solid var(--border);
   border-radius:10px;background:var(--raised)}
 .jurcard .jname{font-size:15px;font-weight:700;margin-bottom:8px}
@@ -2538,23 +2545,71 @@ if (sdnListQ) {
     const v = (q.value || '').trim().toLowerCase();
     render(v ? byName.get(v) || null : null);
   }
-  q.addEventListener('input', lookup);
-  q.addEventListener('change', lookup);
-  // A datalist filters its options to substrings of the current value, so once
-  // a country is picked the dropdown only offers that one. Clear the field on
-  // focus so a click always opens the full list; if the reader clicks away
-  // without picking anything, put the previous selection back.
-  let prevVal = '';
-  q.addEventListener('focus', () => {
-    prevVal = q.value;
-    if (q.value) { q.value = ''; render(null); }
+
+  // --- custom dropdown ---
+  const menu = document.getElementById('jurmenu');
+  const names = rows.map(r => r.name);
+  let active = -1;
+
+  function fill(filter) {
+    const f = (filter || '').trim().toLowerCase();
+    const hits = f ? names.filter(n => n.toLowerCase().includes(f)) : names;
+    menu.innerHTML = hits.length
+      ? hits.map(n => `<div class="juropt" role="option" data-name="${esc(n)}">${esc(n)}</div>`).join('')
+      : '<div class="juropt" aria-disabled="true" style="color:var(--ink-muted);cursor:default">No match</div>';
+    active = -1;
+  }
+  function open() {
+    fill(q.value === '' || byName.has(q.value.trim().toLowerCase()) ? '' : q.value);
+    menu.hidden = false;
+    q.setAttribute('aria-expanded', 'true');
+  }
+  function close() {
+    menu.hidden = true;
+    q.setAttribute('aria-expanded', 'false');
+    active = -1;
+  }
+  function choose(name) {
+    q.value = name;
+    close();
+    lookup();
+  }
+  function setActive(i) {
+    const opts = menu.querySelectorAll('.juropt[data-name]');
+    if (!opts.length) return;
+    active = (i + opts.length) % opts.length;
+    opts.forEach((o, k) => o.classList.toggle('active', k === active));
+    opts[active].scrollIntoView({ block: 'nearest' });
+  }
+
+  // Any click into the field opens the whole list (unless the reader is
+  // mid-edit of a partial string).
+  q.addEventListener('focus', open);
+  q.addEventListener('click', open);
+  q.addEventListener('input', () => {
+    menu.hidden = false;
+    q.setAttribute('aria-expanded', 'true');
+    fill(q.value);
+    lookup();
   });
-  q.addEventListener('blur', () => {
-    if (!q.value && prevVal) { q.value = prevVal; lookup(); }
+  q.addEventListener('keydown', e => {
+    if (e.key === 'ArrowDown') { e.preventDefault(); if (menu.hidden) open(); setActive(active + 1); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); setActive(active - 1); }
+    else if (e.key === 'Enter') {
+      const opts = menu.querySelectorAll('.juropt[data-name]');
+      if (!menu.hidden && active >= 0 && opts[active]) { e.preventDefault(); choose(opts[active].dataset.name); }
+    } else if (e.key === 'Escape') { close(); }
+  });
+  menu.addEventListener('mousedown', e => {
+    const o = e.target.closest('.juropt[data-name]');
+    if (o) { e.preventDefault(); choose(o.dataset.name); }
+  });
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.jurqrow')) close();
   });
   const clr = document.getElementById('jurclear');
   if (clr) clr.addEventListener('click', () => {
-    prevVal = ''; q.value = ''; render(null); q.focus();
+    q.value = ''; render(null); close(); q.focus();
   });
 })();
 
@@ -3483,20 +3538,22 @@ def jurisdiction_panel():
         cr = {"countries": [], "as_of": {}, "sources": {}}
     cr_countries = cr.get("countries", [])
     cpi_year = cr.get("as_of", {}).get("cpi")
-    options = "".join(f'<option value="{hesc(c["name"])}">'
-                      for c in cr_countries)
     data_json = json.dumps(cr_countries, ensure_ascii=False, separators=(",", ":"))
 
+    # Custom dropdown, not a <datalist>: a datalist filters its options to
+    # substrings of the current value, so after a country is picked the list
+    # only offers that one and there is no way to re-open the whole list.
     lookup = (
         '<div class="jurlookup">'
         '<label for="jurq">Check a country</label>'
         '<div class="jurqrow">'
-        '<input id="jurq" list="jurcountries" autocomplete="off" '
+        '<input id="jurq" type="text" autocomplete="off" role="combobox" '
+        'aria-expanded="false" aria-autocomplete="list" aria-controls="jurmenu" '
         'placeholder="Country or jurisdiction name&hellip;" '
         'aria-label="Check a country against the jurisdiction-risk lists">'
         '<button type="button" id="jurclear" aria-label="Clear">&times;</button>'
+        '<div id="jurmenu" class="jurmenu" role="listbox" hidden></div>'
         '</div>'
-        f'<datalist id="jurcountries">{options}</datalist>'
         '<div id="jurcard" class="jurcard" hidden></div>'
         f'<script type="application/json" id="crdata">{data_json}</script>'
         '</div>'
