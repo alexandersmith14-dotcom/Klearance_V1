@@ -1031,6 +1031,7 @@ header.krheader{animation-delay:.08s}
 .sdnsince{font-weight:400;color:var(--ink-muted);font-size:12px}
 /* --- name screening: one box (line = live search, many lines = list) --- */
 .sdnbulkhint{font-size:12px;color:var(--ink-muted);line-height:1.5;margin:0 0 8px}
+.sdnsamhint{font-size:12px;color:var(--ink-muted);font-style:italic;line-height:1.5;margin:8px 0 0}
 #sdnlistq{display:block;width:100%;font-family:var(--ui-font);font-size:14px;
   padding:9px 12px;color:var(--ink);background:var(--surface);
   border:1px solid var(--border);border-radius:10px;resize:vertical;
@@ -2280,6 +2281,33 @@ if (sdnListQ) {
   const bulkGo = document.getElementById('sdnbulkgo');
   const RESULT_CAP = 60;
   let index = null, indexPromise = null, norm = null;
+  // SAM.gov (US federal debarment) is ~4x the other lists combined. It loads
+  // from its own file only after the fast index is in hand, and folds into the
+  // same `index` / `norm` arrays when it arrives.
+  let samPromise = null, samDone = false;
+  const samHintEl = document.getElementById('sdnsamhint');
+  function samHint(state) {
+    if (!samHintEl) return;
+    samHintEl.hidden = state === 'done';
+    samHintEl.textContent = state === 'error'
+      ? 'SAM.gov federal debarment list could not be loaded this session.'
+      : 'Also loading the SAM.gov federal debarment list (168k records)…';
+  }
+  function loadSam() {
+    if (samDone || !index) return Promise.resolve();
+    if (!samPromise) {
+      samHint('loading');
+      samPromise = fetch('sdn_index_sam.json').then(r => r.json()).then(d => {
+        index = index.concat(d);
+        if (norm) norm = norm.concat(d.map(r => foldName(nameOf(r)).split(' ').filter(Boolean)));
+        samDone = true;
+        samHint('done');
+        const ls = lines();                       // refresh what's on screen
+        if (ls.length < 2 && ls[0]) renderOne(ls[0]);
+      }).catch(() => { samPromise = null; samHint('error'); });
+    }
+    return samPromise;
+  }
 
   // Fold accents, drop punctuation, collapse whitespace. "Muḩammad" -> "muhammad".
   const foldName = s => (s || '').normalize('NFKD').replace(/[̀-ͯ]/g, '')
@@ -2348,7 +2376,7 @@ if (sdnListQ) {
     if (!query) { results.innerHTML = ''; countEl.textContent = ''; return; }
     const m = matchRows(query), shown = m.slice(0, RESULT_CAP);
     results.innerHTML = shown.length ? shown.map(rowHtml).join('')
-      : '<p class="sdnempty">No match on the current OFAC SDN or Consolidated lists.</p>';
+      : `<p class="sdnempty">No match on the sanctions or debarment lists${samDone ? '' : ' loaded so far'}.</p>`;
     countEl.textContent = m.length > RESULT_CAP
       ? `first ${RESULT_CAP} of ${m.length} matches`
       : `${m.length} match${m.length === 1 ? '' : 'es'}`;
@@ -2358,7 +2386,7 @@ if (sdnListQ) {
     if (!indexPromise) {
       countEl.textContent = 'loading lists…';
       indexPromise = fetch('sdn_index.json').then(r => r.json())
-        .then(d => { index = d; return d; })
+        .then(d => { index = d; loadSam(); return d; })
         .catch(() => { countEl.textContent = 'Could not load the lists — try again.'; indexPromise = null; });
     }
     return indexPromise;
@@ -2371,7 +2399,7 @@ if (sdnListQ) {
     const names = lines();
     if (!names.length) { results.innerHTML = ''; countEl.textContent = ''; return; }
     countEl.textContent = 'screening…';
-    loadIndex().then(() => {
+    loadIndex().then(loadSam).then(() => {
       if (!index) return;
       let hits = 0;
       results.innerHTML = names.map(name => {
@@ -3386,6 +3414,7 @@ def sdn_panel(today):
         '<button type="button" id="sdnbulkgo" hidden>Screen list</button>'
         '<span id="sdnlistcount" class="sdncount"></span>'
         '</div>'
+        '<p id="sdnsamhint" class="sdnsamhint" hidden></p>'
         '<div id="sdnlistresults" class="sdnlist sdnfullresults"></div>'
         '</div>'
     )

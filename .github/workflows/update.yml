@@ -156,6 +156,7 @@ jobs:
           # linked from any page's markup, just fetched by the dashboard's JS
           # on first use of the "search the full list" box.
           cp sdn_index.json site/sdn_index.json
+          cp sdn_index_sam.json site/sdn_index_sam.json
           cp sdn_counts.json site/sdn_counts.json
           # Recent-SDN-changes feeds for periodic re-screening, written by
           # sdn_monitor.py alongside the index.

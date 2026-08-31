@@ -76,7 +76,8 @@ CSL_SNAPSHOT_PATH = "csl_snapshot.json"
 SDN_LOG_PATH = "sdn_log.json"
 
 # Derived, gitignored; the workflow copies them into site/.
-SDN_INDEX_PATH = "sdn_index.json"
+SDN_INDEX_PATH = "sdn_index.json"          # everything except SAM (~3 MB gz)
+SDN_INDEX_SAM_PATH = "sdn_index_sam.json"  # SAM.gov only, loaded after the rest
 SDN_COUNTS_PATH = "sdn_counts.json"
 CHANGES_RSS_PATH = "sdn-changes.xml"
 CHANGES_CSV_PATH = "sdn-changes.csv"
@@ -445,20 +446,26 @@ def main():
         json.dump(log, f, indent=2)
 
     # --- combined screening index ---
+    # SAM.gov alone is ~4x the size of the other seven lists put together, so it
+    # goes in its own file the browser fetches only after the fast index is in
+    # hand and searchable. Same row shape in both.
     records = (
         list(ofac_records(sdn, sdn_alt, sdn_ctry, "SDN"))
         + list(ofac_records(csl, csl_alt, csl_ctry, "Non-SDN"))
-        + bis_state + un + uk + eu + sam
+        + bis_state + un + uk + eu
     )
     index = build_index(records)
+    sam_index = build_index(sam)
     with open(SDN_INDEX_PATH, "w", encoding="utf-8") as f:
         json.dump(index, f)
+    with open(SDN_INDEX_SAM_PATH, "w", encoding="utf-8") as f:
+        json.dump(sam_index, f)
 
     counts = {}
-    for rec in records:
+    for rec in records + sam:
         counts[rec["source"]] = counts.get(rec["source"], 0) + 1
     counts["total"] = sum(counts.values())
-    counts["index_rows"] = len(index)
+    counts["index_rows"] = len(index) + len(sam_index)
     with open(SDN_COUNTS_PATH, "w", encoding="utf-8") as f:
         json.dump(counts, f)
 
@@ -467,7 +474,8 @@ def main():
     added = sum(1 for e in events if e["action"] == "added")
     removed = sum(1 for e in events if e["action"] == "removed")
     modified = sum(1 for e in events if e["action"] == "modified")
-    print(f"index: {len(index)} rows from {counts['total']} entries "
+    print(f"index: {len(index)} rows + {len(sam_index)} SAM rows "
+          f"from {counts['total']} entries "
           f"({', '.join(f'{k} {v}' for k, v in sorted(counts.items()) if k not in ('total', 'index_rows'))}). "
           f"SDN today: {added} added, {removed} removed, {modified} modified.")
 

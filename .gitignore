@@ -40,6 +40,7 @@ sitemap.xml
 # Derived SDN artefacts, regenerated every run from the committed snapshots
 # and log (see sdn_monitor.py); the workflow copies them into site/.
 sdn_index.json
+sdn_index_sam.json
 sdn_counts.json
 sdn-changes.xml
 sdn-changes.csv
