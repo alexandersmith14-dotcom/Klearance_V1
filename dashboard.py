@@ -2541,13 +2541,20 @@ if (sdnListQ) {
   q.addEventListener('input', lookup);
   q.addEventListener('change', lookup);
   // A datalist filters its options to substrings of the current value, so once
-  // a country is picked the dropdown only offers that one. Select the text on
-  // focus so a click-then-type replaces it and the full list comes back; the
-  // clear button does the same in one tap.
-  q.addEventListener('focus', () => q.select());
+  // a country is picked the dropdown only offers that one. Clear the field on
+  // focus so a click always opens the full list; if the reader clicks away
+  // without picking anything, put the previous selection back.
+  let prevVal = '';
+  q.addEventListener('focus', () => {
+    prevVal = q.value;
+    if (q.value) { q.value = ''; render(null); }
+  });
+  q.addEventListener('blur', () => {
+    if (!q.value && prevVal) { q.value = prevVal; lookup(); }
+  });
   const clr = document.getElementById('jurclear');
   if (clr) clr.addEventListener('click', () => {
-    q.value = ''; render(null); q.focus();
+    prevVal = ''; q.value = ''; render(null); q.focus();
   });
 })();
 
