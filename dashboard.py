@@ -4093,19 +4093,10 @@ def main():
   </div>
 </div>
 
-<!-- Moved up from the bottom of the page, per Alexander — an empty-state
-     panel ("No SDN list changes recorded") buried below 370 cards and the
-     footer read as broken/missing rather than as a quiet day. -->
-<div style="margin:18px 0">{sdn_html}</div>
-
-<!-- FATF jurisdiction lists — a country-level reference, grouped with the
-     name-screening panel above rather than the agency feed below. -->
-<div style="margin:18px 0">{jur_html}</div>
-
 <!-- Section marker: everything below (filters, search, the deadline and update
-     feeds) is the agency-updates tracker, a different tool from the SDN
-     screening above. Styled like the navy panel headers so it reads as a peer
-     section break. -->
+     feeds) is the agency-updates tracker. The screening tools follow it — see
+     the "Screening & country reference" band further down. Styled like the navy
+     panel headers so it reads as a peer section break. -->
 <h2 class="sectionband">Agency updates</h2>
 
 <!-- Filters & view sits above Search now (was the other way round). On a phone
@@ -4209,6 +4200,15 @@ def main():
     </details>
   </div>
 </div>
+
+<!-- Screening tools sit after the agency feed, not before it: they are
+     substantial standalone tools now (multi-list name screening, country-risk
+     lookup), no longer the empty-state-prone panels that were moved up the
+     page earlier, and the regulator feed is the thing a cold visitor came
+     for. Per Alexander. -->
+<h2 class="sectionband">Screening &amp; country reference</h2>
+<div style="margin:18px 0">{sdn_html}</div>
+<div style="margin:18px 0">{jur_html}</div>
 
 </div>
 
