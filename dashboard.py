@@ -1019,9 +1019,13 @@ details.jurgroup>summary::after{content:" ▸";color:var(--ink-muted)}
 details.jurgroup[open]>summary::after{content:" ▾"}
 .jurlookup{margin:4px 0 4px}
 .jurlookup label{display:block;font-size:12px;font-weight:600;margin-bottom:4px}
-#jurq{display:block;width:100%;font-family:var(--ui-font);font-size:14px;
+.jurqrow{display:flex;gap:8px;align-items:stretch}
+#jurq{flex:1;min-width:0;font-family:var(--ui-font);font-size:14px;
   padding:9px 12px;color:var(--ink);background:var(--surface);
   border:1px solid var(--border);border-radius:8px}
+#jurclear{flex:none;padding:0 12px;font-size:18px;line-height:1;color:var(--ink-muted);
+  background:var(--chip);border:1px solid var(--border);border-radius:8px;cursor:pointer}
+#jurclear:hover{color:var(--ink)}
 .jurcard{margin-top:10px;padding:12px 14px;border:1px solid var(--border);
   border-radius:10px;background:var(--raised)}
 .jurcard .jname{font-size:15px;font-weight:700;margin-bottom:8px}
@@ -2512,7 +2516,7 @@ if (sdnListQ) {
     if (r.incsr) tags.push('<span class="jtag">INCSR major ML jurisdiction</span>');
     let cpi;
     if (r.cpi != null) {
-      cpi = `<div class="jcpi"><div class="jcpi-bar"><span style="width:${r.cpi}%"></span></div>`
+      cpi = `<div class="jcpi"><div class="jcpi-bar"><span style="left:${r.cpi}%"></span></div>`
         + `<div class="jcpi-n">CPI ${esc(String(r.cpi))}<span>/100</span> `
         + `<span class="jcpi-y">${esc(String(r.cpi_year || ''))}</span></div>`
         + `<div class="jcpi-cap">0 = highly corrupt, 100 = very clean</div></div>`;
@@ -2532,6 +2536,15 @@ if (sdnListQ) {
   }
   q.addEventListener('input', lookup);
   q.addEventListener('change', lookup);
+  // A datalist filters its options to substrings of the current value, so once
+  // a country is picked the dropdown only offers that one. Select the text on
+  // focus so a click-then-type replaces it and the full list comes back; the
+  // clear button does the same in one tap.
+  q.addEventListener('focus', () => q.select());
+  const clr = document.getElementById('jurclear');
+  if (clr) clr.addEventListener('click', () => {
+    q.value = ''; render(null); q.focus();
+  });
 })();
 
 // "Add to calendar" — delegated on document rather than any one list, since
@@ -3456,9 +3469,12 @@ def jurisdiction_panel():
     lookup = (
         '<div class="jurlookup">'
         '<label for="jurq">Check a country</label>'
+        '<div class="jurqrow">'
         '<input id="jurq" list="jurcountries" autocomplete="off" '
         'placeholder="Country or jurisdiction name&hellip;" '
         'aria-label="Check a country against the jurisdiction-risk lists">'
+        '<button type="button" id="jurclear" aria-label="Clear">&times;</button>'
+        '</div>'
         f'<datalist id="jurcountries">{options}</datalist>'
         '<div id="jurcard" class="jurcard" hidden></div>'
         f'<script type="application/json" id="crdata">{data_json}</script>'
