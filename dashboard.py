@@ -2079,13 +2079,14 @@ function matchColumnHeights(rs) {
   if (!userChoseDlLimit) dlLimit = MOBILE.matches ? 6 : (deadlineItems(rs).length || MIN_COL_LIMIT);
   renderCards(rs); renderDeadlines(rs);
   const colmain = $('.colmain'), colside = $('.colside');
-  // The visible bottom edge a reader actually sees is the last bordered box
-  // in each column (quickcontact; the deadlines panel) — not the plain,
+  // The visible bottom edge a reader actually sees is the bordered panel in
+  // each column (the updates panel; the deadlines panel) — not the plain,
   // borderless wrapper div around it. Padding the wrapper changes nothing
   // visible: whatever comes after .cols already starts at the row's full
-  // height regardless, so that padding was inert. Padding the box itself
-  // moves its border down to actually close the gap.
-  const mainBox = $('.quickcontact') || colmain;
+  // height regardless, so that padding was inert. Padding the panel itself
+  // moves its border down to actually close the gap. (The contact card used
+  // to be this column's bottom box; it now lives at the end of the page.)
+  const mainBox = $('.colmain .p-updates') || colmain;
   const sideBox = $('.p-deadlines') || colside;
   if (mainBox) mainBox.style.paddingBottom = '';
   if (sideBox) sideBox.style.paddingBottom = '';
@@ -4181,31 +4182,6 @@ def main():
       <button id="showmore" type="button" hidden>Show more updates</button>
     </details>
     <div id="alsofound"></div>
-    <!-- Lives in .colmain, not after .cols, deliberately. .cols is a grid
-         whose row stretches to the taller column; with the update list
-         capped at 8 cards, colmain is now routinely shorter than colside's
-         deadlines+agencies stack, and anything sitting after .cols closes
-         had to wait out that whole row — a slab of empty page below the
-         "Show more" button before this card even appeared. Placing it
-         inside colmain means it follows the update list immediately,
-         regardless of how tall the sidebar is. -->
-    <div class="quickcontact">
-      <div class="qc-photo">
-        <img src="alexander-smith.png" alt="Alexander Smith, CRCM, CFE" width="72" height="72" loading="lazy">
-      </div>
-      <div class="qc-text">
-        <a class="qc-name" href="https://kaufmanrossin.com/professionals/alexander-smith/" target="_blank" rel="noopener">Alexander Smith, CRCM, CFE</a>
-        <div class="qc-title">Risk Advisory Services Senior Manager at Kaufman Rossin, one of the Top 50 CPA and advisory firms in the U.S.</div>
-        <div class="qc-icons">
-          <a href="mailto:asmith@kaufmanrossin.com?subject=Klearance%20regulatory%20tracker" aria-label="Email Alexander Smith">
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
-          </a>
-          <a href="https://www.linkedin.com/in/alexandersmith14/" target="_blank" rel="noopener" aria-label="Alexander Smith on LinkedIn">
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zm7 0h3.8v1.9h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.5c0-1.3-.02-3-1.83-3-1.83 0-2.11 1.43-2.11 2.9V21h-4z"/></svg>
-          </a>
-        </div>
-      </div>
-    </div>
   </div>
   <div class="colside">
     <details class="panel p-deadlines foldable" open>
@@ -4238,6 +4214,26 @@ def main():
 <h2 class="sectionband">Screening &amp; country reference</h2>
 <div style="margin:18px 0">{sdn_html}</div>
 <div style="margin:18px 0">{jur_html}</div>
+
+<!-- Contact card at the very end of the page content, after everything a
+     visitor came to read. -->
+<div class="quickcontact">
+  <div class="qc-photo">
+    <img src="alexander-smith.png" alt="Alexander Smith, CRCM, CFE" width="72" height="72" loading="lazy">
+  </div>
+  <div class="qc-text">
+    <a class="qc-name" href="https://kaufmanrossin.com/professionals/alexander-smith/" target="_blank" rel="noopener">Alexander Smith, CRCM, CFE</a>
+    <div class="qc-title">Risk Advisory Services Senior Manager at Kaufman Rossin, one of the Top 50 CPA and advisory firms in the U.S.</div>
+    <div class="qc-icons">
+      <a href="mailto:asmith@kaufmanrossin.com?subject=Klearance%20regulatory%20tracker" aria-label="Email Alexander Smith">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+      </a>
+      <a href="https://www.linkedin.com/in/alexandersmith14/" target="_blank" rel="noopener" aria-label="Alexander Smith on LinkedIn">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zm7 0h3.8v1.9h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.5c0-1.3-.02-3-1.83-3-1.83 0-2.11 1.43-2.11 2.9V21h-4z"/></svg>
+      </a>
+    </div>
+  </div>
+</div>
 
 </div>
 
