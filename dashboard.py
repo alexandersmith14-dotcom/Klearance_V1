@@ -2787,10 +2787,13 @@ const QS_STEPS = [
   // yet (no .rp element to point at), same as the gated Ask step above.
   { sel: '#deadlines .dl .rp',
     text: 'Press play to hear the item’s plain-English summary read aloud — a local voice, nothing added or interpreted.' },
-  // Sidebar panel, below the deadlines. Skipped automatically if SDN
-  // monitoring is off (no .p-sdn element), same as the gated Ask step.
+  // The screening tools sit below the feed now, in their own section. Both
+  // steps skip automatically if their panel is absent, same as the gated
+  // Ask step. The tour scrolls each into view on advance.
   { sel: '.p-sdn',
-    text: 'Separate from the agency feed: screen a name against the major sanctions and debarment lists at once — OFAC, BIS, State, SAM.gov, and the UN, UK and EU — by name and alias, right here in the browser.' },
+    text: 'Separate from the agency feed: screen a name against eight sanctions and debarment lists at once — OFAC, BIS, State, SAM.gov, and the UN, UK and EU — by name and alias, right here in the browser. Paste a list to screen them all in one go.' },
+  { sel: '.p-jur',
+    text: 'A country-level reference: check any jurisdiction against the FATF, EU and INCSR high-risk lists and its corruption score. Not a name screen — an input for enhanced due diligence.' },
 ];
 function initQuickStart() {
   // ?quickstart=1 replays the tour on demand -- lets it be checked on a real
