@@ -1012,11 +1012,12 @@ header.krheader{animation-delay:.08s}
 .jurchip.eu{border-color:var(--info)}
 .jurchip.incsr{border-color:var(--border)}
 .jurfoot{font-size:12px;color:var(--ink-muted);margin:14px 0 0;line-height:1.5}
-details.jurgroup>summary{list-style:none;cursor:pointer}
+details.jurgroup>summary{list-style:none;cursor:pointer;padding:3px 0}
 details.jurgroup>summary::-webkit-details-marker{display:none}
 details.jurgroup>summary h3{display:inline}
 details.jurgroup>summary::after{content:" ▸";color:var(--ink-muted)}
 details.jurgroup[open]>summary::after{content:" ▾"}
+details.jurgroup>summary:hover h3{color:var(--brand)}
 .jurlookup{margin:4px 0 4px}
 .jurlookup label{display:block;font-size:12px;font-weight:600;margin-bottom:4px}
 .jurqrow{display:flex;gap:8px;align-items:stretch}
@@ -3455,6 +3456,13 @@ def jurisdiction_panel():
             f'<span class="jurchip {cls}">{hesc(n)}</span>' for n in names
         ) + '</div>')
 
+    def group(cls, title, note, names, open_=False):
+        return (
+            f'<details class="jurgroup {cls}"{" open" if open_ else ""}>'
+            f'<summary><h3>{title}</h3></summary>'
+            f'{note}{chips(names, cls)}</details>'
+        )
+
     try:
         with open(COUNTRY_RISK_PATH, encoding="utf-8") as f:
             cr = json.load(f)
@@ -3500,37 +3508,40 @@ def jurisdiction_panel():
         'International corruption score. Not a sanctions list and not a name '
         'screen &mdash; designated people and entities from these countries are '
         'already covered by the sanctions screening above.</p>'
-        + lookup +
-        '<div class="jurgroup cfa">'
-        f'<h3>FATF call for action <span class="jursince">as of {hesc(FATF_AS_OF)}</span></h3>'
-        '<p class="jurnote">Highest risk. FATF urges enhanced due diligence; '
-        'countermeasures for Iran and North Korea. '
-        f'<a href="{FATF_SOURCE}" target="_blank" rel="noopener">FATF statement</a>.</p>'
-        + chips(FATF_CALL_FOR_ACTION, "cfa") +
-        '</div>'
-        '<div class="jurgroup im">'
-        f'<h3>FATF increased monitoring &mdash; grey list ({len(FATF_INCREASED_MONITORING)})'
-        f' <span class="jursince">as of {hesc(FATF_AS_OF)}</span></h3>'
-        '<p class="jurnote">Committed to fixing identified gaps under FATF '
-        'monitoring. Apply risk-based enhanced due diligence.</p>'
-        + chips(FATF_INCREASED_MONITORING, "im") +
-        '</div>'
-        '<div class="jurgroup eu">'
-        f'<h3>EU high-risk third countries ({len(EU_HIGH_RISK)})'
-        f' <span class="jursince">as of {hesc(EU_HIGH_RISK_AS_OF)}</span></h3>'
-        '<p class="jurnote">The EU\'s own AML list (Delegated Regulation '
-        '2016/1675, as amended). Tracks FATF closely but diverges &mdash; it '
-        'keeps some jurisdictions FATF has removed and adds Russia. '
-        f'<a href="{EU_HIGH_RISK_SOURCE}" target="_blank" rel="noopener">EU list</a>.</p>'
-        + chips(EU_HIGH_RISK, "eu") +
-        '</div>'
-        '<details class="jurgroup incsr">'
-        f'<summary><h3>INCSR money-laundering jurisdictions ({len(INCSR_JURISDICTIONS)})'
-        f' <span class="jursince">{hesc(INCSR_YEAR)}</span></h3></summary>'
-        + incsr_note
-        + chips(INCSR_JURISDICTIONS, "incsr") +
-        '</details>'
-        '<p class="jurfoot">Lists maintained by hand (FATF changes at its three '
+        + lookup
+        + group(
+            "cfa",
+            f'FATF call for action <span class="jursince">as of {hesc(FATF_AS_OF)}</span>',
+            '<p class="jurnote">Highest risk. FATF urges enhanced due diligence; '
+            'countermeasures for Iran and North Korea. '
+            f'<a href="{FATF_SOURCE}" target="_blank" rel="noopener">FATF statement</a>.</p>',
+            FATF_CALL_FOR_ACTION, open_=True,
+        )
+        + group(
+            "im",
+            f'FATF increased monitoring &mdash; grey list ({len(FATF_INCREASED_MONITORING)})'
+            f' <span class="jursince">as of {hesc(FATF_AS_OF)}</span>',
+            '<p class="jurnote">Committed to fixing identified gaps under FATF '
+            'monitoring. Apply risk-based enhanced due diligence.</p>',
+            FATF_INCREASED_MONITORING,
+        )
+        + group(
+            "eu",
+            f'EU high-risk third countries ({len(EU_HIGH_RISK)})'
+            f' <span class="jursince">as of {hesc(EU_HIGH_RISK_AS_OF)}</span>',
+            '<p class="jurnote">The EU\'s own AML list (Delegated Regulation '
+            '2016/1675, as amended). Tracks FATF closely but diverges &mdash; it '
+            'keeps some jurisdictions FATF has removed and adds Russia. '
+            f'<a href="{EU_HIGH_RISK_SOURCE}" target="_blank" rel="noopener">EU list</a>.</p>',
+            EU_HIGH_RISK,
+        )
+        + group(
+            "incsr",
+            f'INCSR money-laundering jurisdictions ({len(INCSR_JURISDICTIONS)})'
+            f' <span class="jursince">{hesc(INCSR_YEAR)}</span>',
+            incsr_note, INCSR_JURISDICTIONS,
+        )
+        + '<p class="jurfoot">Lists maintained by hand (FATF changes at its three '
         'plenaries a year; the EU list about once; INCSR yearly). CPI scores: '
         '<a href="' + CPI_SOURCE + '" target="_blank" rel="noopener">Transparency '
         'International</a>, latest available year, CC BY. For a client in Latin '
