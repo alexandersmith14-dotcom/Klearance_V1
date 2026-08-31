@@ -151,14 +151,17 @@ def sanctions_meta():
     return (len(sources) or 7), ("SAM" in sources)
 
 
-# --- FATF jurisdiction lists (maintained by hand) --------------------------
-# fatf-gafi.org is behind a Cloudflare JS challenge, so it can't be scraped
-# server-side. The two lists are small and only move at the three FATF
-# plenaries a year (Feb / Jun / Oct), so a dated constant is more reliable
-# than a fragile scrape. Update from the FATF statement after each plenary
-# and bump JUR_AS_OF. Source: fatf-gafi.org/en/countries/black-and-grey-lists.html
-JUR_AS_OF = "19 June 2026"
-JUR_SOURCE = "https://www.fatf-gafi.org/en/countries/black-and-grey-lists.html"
+# --- Jurisdiction-risk lists (maintained by hand) -------------------------
+# The issuing bodies' sites can't be scraped server-side (fatf-gafi.org is
+# behind a Cloudflare JS challenge; EUR-Lex only publishes the consolidated
+# annex as prose). All three lists are small and move on a known cadence -
+# FATF at its three plenaries a year (Feb / Jun / Oct), the EU list roughly
+# once a year - so dated constants are more reliable than a fragile scrape.
+# Update from the source after each change and bump the matching *_AS_OF.
+
+# FATF - fatf-gafi.org/en/countries/black-and-grey-lists.html
+FATF_AS_OF = "19 June 2026"
+FATF_SOURCE = "https://www.fatf-gafi.org/en/countries/black-and-grey-lists.html"
 # High-Risk Jurisdictions subject to a Call for Action ("black list").
 FATF_CALL_FOR_ACTION = ["Iran", "North Korea (DPRK)", "Myanmar"]
 # Jurisdictions under Increased Monitoring ("grey list").
@@ -169,6 +172,26 @@ FATF_INCREASED_MONITORING = [
     "Papua New Guinea", "South Sudan", "Syria", "Venezuela", "Vietnam",
     "Virgin Islands (UK)", "Yemen",
 ]
+
+# EU high-risk third countries - Commission Delegated Regulation (EU)
+# 2016/1675 as amended (latest: 2026/46 and 2026/83, effective 29 Jan 2026).
+# Overlaps FATF heavily but is a separate legal list and can diverge (keeps
+# some jurisdictions FATF has removed; adds Russia, which FATF does not list).
+EU_HIGH_RISK_AS_OF = "29 January 2026"
+EU_HIGH_RISK_SOURCE = "https://finance.ec.europa.eu/financial-crime/anti-money-laundering-and-countering-financing-terrorism-international-level_en"
+EU_HIGH_RISK = [
+    "Afghanistan", "Algeria", "Angola", "Bolivia", "British Virgin Islands",
+    "Cameroon", "Côte d'Ivoire", "North Korea (DPRK)",
+    "Democratic Republic of the Congo", "Haiti", "Iran", "Kenya", "Laos",
+    "Lebanon", "Monaco", "Myanmar", "Namibia", "Nepal", "Russia",
+    "South Sudan", "Syria", "Trinidad and Tobago", "Vanuatu", "Venezuela",
+    "Vietnam", "Yemen",
+]
+
+# GAFILAT and the other FATF-style regional bodies publish no high-risk list
+# of their own - their output is per-country Mutual Evaluation Reports. A
+# reader with a client in the region is pointed at the MER directly.
+GAFILAT_MER_SOURCE = "https://www.gafilat.org/index.php/es/biblioteca-virtual/miembros"
 
 # Absolute URL of the published site. Social scrapers require absolute URLs for
 # og:image and og:url — a relative path silently produces no preview.
@@ -1010,12 +1033,15 @@ header.krheader{animation-delay:.08s}
   line-height:1.6;text-align:justify;text-justify:inter-word}
 .jurgroup{margin:14px 0 0}
 .jurgroup h3{font-size:13px;margin:0 0 3px;color:var(--ink)}
+.jurgroup h3 .jursince{font-weight:400;font-size:11px;color:var(--ink-muted);
+  text-transform:none;letter-spacing:0}
 .jurgroup .jurnote{font-size:12px;color:var(--ink-muted);margin:0 0 8px;line-height:1.5}
 .jurchips{display:flex;flex-wrap:wrap;gap:6px}
 .jurchip{font-size:12.5px;padding:3px 9px;border-radius:12px;
   background:var(--chip);border:1px solid var(--border);white-space:nowrap}
 .jurchip.cfa{border-color:var(--crit);color:var(--crit);font-weight:600}
 .jurchip.im{border-color:var(--warn)}
+.jurchip.eu{border-color:var(--info)}
 .jurfoot{font-size:12px;color:var(--ink-muted);margin:14px 0 0;line-height:1.5}
 .p-sdn .sdnlist{display:flex;flex-direction:column;gap:2px}
 .sdnrow{display:flex;align-items:center;gap:10px;padding:6px 0;
@@ -3341,9 +3367,9 @@ def coverage_panel(store):
         'the way the rest of this page is. Only the OFAC SDN list is diffed day '
         'over day for the change log.</p>'
         '<p><strong>Jurisdiction risk:</strong> the FATF call-for-action and '
-        'increased-monitoring (grey) lists are shown as a country-level '
-        'reference, kept current by hand after each FATF plenary. They are not '
-        'part of the name screen.</p>'
+        'increased-monitoring (grey) lists and the EU high-risk third-country '
+        'list are shown as a country-level reference, kept current by hand after '
+        'each change. They are not part of the name screen.</p>'
         # One honest scope line instead of an enumerated "not tracked" list. The
         # enumeration named specific agencies (which read as tracked) and kept
         # inviting the question of why NYDFS — followed only by personal email
@@ -3366,10 +3392,10 @@ def coverage_panel(store):
 
 
 def jurisdiction_panel():
-    """FATF high-risk and increased-monitoring jurisdiction lists. A country-
-    level reference, not a name screen — kept next to the sanctions panel
-    because a reader here is asking the same kind of question. Data is the
-    hand-maintained constant above (FATF's site can't be scraped)."""
+    """FATF and EU high-risk jurisdiction lists. A country-level reference,
+    not a name screen — kept next to the sanctions panel because a reader
+    here is asking the same kind of question. Data is the hand-maintained
+    constants above (the issuing bodies' sites can't be scraped)."""
     def chips(names, cls):
         return ('<div class="jurchips">' + "".join(
             f'<span class="jurchip {cls}">{hesc(n)}</span>' for n in names
@@ -3378,29 +3404,42 @@ def jurisdiction_panel():
     return (
         '<details class="panel p-jur foldable" open>'
         '<summary><h2>Jurisdiction risk <span style="float:right;'
-        f'text-transform:none;letter-spacing:0">FATF &middot; as of {hesc(JUR_AS_OF)}</span>'
+        'text-transform:none;letter-spacing:0">FATF &amp; EU</span>'
         '</h2></summary>'
-        '<p class="jurintro">The FATF\'s two lists of jurisdictions with '
-        'strategic anti-money-laundering and counter-terrorist-financing '
-        'deficiencies. Not a sanctions list and not a name screen &mdash; a '
-        'country-level flag for enhanced due diligence. Designated people and '
-        'entities from these countries are already covered by the sanctions '
-        'screening above. Confirm against the '
-        f'<a href="{JUR_SOURCE}" target="_blank" rel="noopener">FATF statement</a>.</p>'
+        '<p class="jurintro">Country-level lists of jurisdictions with strategic '
+        'anti-money-laundering and counter-terrorist-financing deficiencies. Not '
+        'a sanctions list and not a name screen &mdash; a flag for enhanced due '
+        'diligence at onboarding and review. Designated people and entities from '
+        'these countries are already covered by the sanctions screening above.</p>'
         '<div class="jurgroup cfa">'
-        '<h3>Call for action</h3>'
+        f'<h3>FATF call for action <span class="jursince">as of {hesc(FATF_AS_OF)}</span></h3>'
         '<p class="jurnote">Highest risk. FATF urges enhanced due diligence; '
-        'countermeasures for Iran and North Korea.</p>'
+        'countermeasures for Iran and North Korea. '
+        f'<a href="{FATF_SOURCE}" target="_blank" rel="noopener">FATF statement</a>.</p>'
         + chips(FATF_CALL_FOR_ACTION, "cfa") +
         '</div>'
         '<div class="jurgroup im">'
-        f'<h3>Increased monitoring &mdash; grey list ({len(FATF_INCREASED_MONITORING)})</h3>'
+        f'<h3>FATF increased monitoring &mdash; grey list ({len(FATF_INCREASED_MONITORING)})'
+        f' <span class="jursince">as of {hesc(FATF_AS_OF)}</span></h3>'
         '<p class="jurnote">Committed to fixing identified gaps under FATF '
         'monitoring. Apply risk-based enhanced due diligence.</p>'
         + chips(FATF_INCREASED_MONITORING, "im") +
         '</div>'
-        '<p class="jurfoot">Updated after each FATF plenary (February, June and '
-        'October). Between plenaries this list does not change.</p>'
+        '<div class="jurgroup eu">'
+        f'<h3>EU high-risk third countries ({len(EU_HIGH_RISK)})'
+        f' <span class="jursince">as of {hesc(EU_HIGH_RISK_AS_OF)}</span></h3>'
+        '<p class="jurnote">The EU\'s own AML list (Delegated Regulation '
+        '2016/1675, as amended). Tracks FATF closely but diverges &mdash; it '
+        'keeps some jurisdictions FATF has removed and adds Russia. '
+        f'<a href="{EU_HIGH_RISK_SOURCE}" target="_blank" rel="noopener">EU list</a>.</p>'
+        + chips(EU_HIGH_RISK, "eu") +
+        '</div>'
+        '<p class="jurfoot">Maintained by hand: FATF changes only at its three '
+        'plenaries a year (February, June, October), the EU list about once a '
+        'year. For a client in Latin America, GAFILAT publishes no list of its '
+        'own &mdash; check that country\'s '
+        f'<a href="{GAFILAT_MER_SOURCE}" target="_blank" rel="noopener">GAFILAT '
+        'Mutual Evaluation Report</a> directly.</p>'
         '</details>'
     )
 
