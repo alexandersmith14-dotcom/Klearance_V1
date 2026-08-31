@@ -135,6 +135,21 @@ SDN_LOG_PATH = "sdn_log.json"
 # lazily by the browser, not from this file.
 SDN_SNAPSHOT_PATH = "sdn_snapshot.json"
 
+SDN_COUNTS_PATH = "sdn_counts.json"
+
+
+def sanctions_meta():
+    """(list_count, sam_live) from sdn_counts.json, so the screening copy
+    self-corrects: SAM.gov needs an API key and one of the eight sources can
+    drop out on any run. Falls back to the seven-list baseline with no file."""
+    try:
+        with open(SDN_COUNTS_PATH, encoding="utf-8") as f:
+            counts = json.load(f)
+    except (OSError, ValueError):
+        return 7, False
+    sources = [k for k in counts if k not in ("total", "index_rows")]
+    return (len(sources) or 7), ("SAM" in sources)
+
 # Absolute URL of the published site. Social scrapers require absolute URLs for
 # og:image and og:url — a relative path silently produces no preview.
 SITE_URL = "https://kaufman2699.github.io/Klearance_V1/"
@@ -2299,6 +2314,7 @@ if (sdnListQ) {
     'EU': 'https://www.sanctionsmap.eu/',
     'BIS': 'https://www.trade.gov/consolidated-screening-list',
     'State': 'https://www.trade.gov/consolidated-screening-list',
+    'SAM': 'https://sam.gov/search/?index=ex',
   };
   function detail(r) {
     const bits = [];
@@ -2633,7 +2649,7 @@ const QS_STEPS = [
   // Sidebar panel, below the deadlines. Skipped automatically if SDN
   // monitoring is off (no .p-sdn element), same as the gated Ask step.
   { sel: '.p-sdn',
-    text: 'Separate from the agency feed: screen a name against seven sanctions lists at once — OFAC, BIS, State, UN, UK and EU — by name and alias, right here in the browser.' },
+    text: 'Separate from the agency feed: screen a name against the major sanctions and debarment lists at once — OFAC, BIS, State, SAM.gov, and the UN, UK and EU — by name and alias, right here in the browser.' },
 ];
 function initQuickStart() {
   // ?quickstart=1 replays the tour on demand -- lets it be checked on a real
@@ -3238,6 +3254,9 @@ def coverage_panel(store):
         + (f', plus the {joined} state financial regulators' if tracked_states else '')
         + '. History depth varies by source — some publish archives going back '
         'years, others only their most recent items.')
+    _n, _sam = sanctions_meta()
+    _sanc_lists_word = {6: "six", 7: "seven", 8: "eight", 9: "nine"}.get(_n, str(_n))
+    _sanc_note = " SAM.gov Exclusions," if _sam else ""
     return (
         '<details class="coverage"><summary>What this covers, and what it does not'
         '</summary><div class="body">'
@@ -3256,11 +3275,12 @@ def coverage_panel(store):
         # it needs its own line here or its coverage is invisible next to the
         # agency list above, same principle as the rest of this panel.
         '<p><strong>Sanctions screening:</strong> tracked separately from the '
-        'agency feed above. Seven lists are downloaded whole each day &mdash; OFAC '
-        'SDN and Consolidated, BIS and State (via Trade.gov), and the UN, UK and '
-        'EU consolidated lists &mdash; and searched by name and alias, not '
-        'classified or filtered for relevance the way the rest of this page is. '
-        'Only the OFAC SDN list is diffed day over day for the change log.</p>'
+        f'agency feed above. {_sanc_lists_word.capitalize()} lists are downloaded '
+        'whole each day &mdash; OFAC SDN and Consolidated, BIS and State (via '
+        f'Trade.gov),{_sanc_note} and the UN, UK and EU consolidated lists &mdash; '
+        'and searched by name and alias, not classified or filtered for relevance '
+        'the way the rest of this page is. Only the OFAC SDN list is diffed day '
+        'over day for the change log.</p>'
         # One honest scope line instead of an enumerated "not tracked" list. The
         # enumeration named specific agencies (which read as tracked) and kept
         # inviting the question of why NYDFS — followed only by personal email
@@ -3335,9 +3355,15 @@ def sdn_panel(today):
     )
 
     total = 0
-    if os.path.exists("sdn_counts.json"):
-        with open("sdn_counts.json", encoding="utf-8") as f:
+    if os.path.exists(SDN_COUNTS_PATH):
+        with open(SDN_COUNTS_PATH, encoding="utf-8") as f:
             total = json.load(f).get("total", 0)
+    # Derived from the data so the copy self-corrects if a best-effort source
+    # drops out or SAM.gov (which needs an API key) isn't wired up yet.
+    list_count, sam_live = sanctions_meta()
+    lists_word = {6: "six", 7: "seven", 8: "eight", 9: "nine"}.get(list_count, str(list_count))
+    sam_intro = (" SAM.gov Exclusions (US federal debarment and suspension),"
+                 if sam_live else "")
     if not total:
         for path in (SDN_SNAPSHOT_PATH, "csl_snapshot.json"):
             if os.path.exists(path):
@@ -3350,7 +3376,7 @@ def sdn_panel(today):
     # use rather than embedded in the page.
     full_search = (
         '<div class="sdnfullsearch">'
-        f'<h3>Screen a name <span class="sdnfullcount">({total_label} across 7 lists)</span></h3>'
+        f'<h3>Screen a name <span class="sdnfullcount">({total_label} across {list_count} lists)</span></h3>'
         '<p class="sdnbulkhint">Type a name for live results, or paste several '
         '(one per line) to screen them all at once. Nothing leaves the page.</p>'
         '<textarea id="sdnlistq" rows="2" autocomplete="off" '
@@ -3373,14 +3399,15 @@ def sdn_panel(today):
         '<details class="panel p-sdn foldable" open>'
         f'<summary><h2>Sanctions screening <span style="float:right;'
         f'text-transform:none;letter-spacing:0">{total_label}</span></h2></summary>'
-        '<p class="sdnintro">Screens a name against seven current sanctions lists '
-        '&mdash; OFAC (SDN and Consolidated), BIS (Entity List, Denied Persons, '
-        'Unverified, Military End-User), the State Department (ITAR debarred, '
-        'nonproliferation), and the UN, UK and EU consolidated lists &mdash; by '
-        'primary name and known alias, matched loosely on spelling and word order. '
-        'Not a compliance clearance: it does not carry PEP or adverse-media data, '
-        'and the lists change daily. Verify anything material against the issuing '
-        'authority, starting with <a href="https://sanctionssearch.ofac.treas.gov/" '
+        f'<p class="sdnintro">Screens a name against {lists_word} current '
+        'sanctions and debarment lists &mdash; OFAC (SDN and Consolidated), BIS '
+        '(Entity List, Denied Persons, Unverified, Military End-User), the State '
+        f'Department (ITAR debarred, nonproliferation),{sam_intro} and the UN, UK '
+        'and EU consolidated lists &mdash; by primary name and known alias, '
+        'matched loosely on spelling and word order. Not a compliance clearance: '
+        'it does not carry PEP or adverse-media data, and the lists change daily. '
+        'Verify anything material against the issuing authority, starting with '
+        '<a href="https://sanctionssearch.ofac.treas.gov/" '
         'target="_blank" rel="noopener">OFAC Sanctions Search</a>.</p>'
         f'{full_search}'
         '<details class="sdnactivity">'

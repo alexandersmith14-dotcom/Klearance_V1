@@ -10,6 +10,8 @@ Screening covers, by name and alias:
   - UN Security Council Consolidated List               source "UN"
   - UK OFSI Consolidated List                           source "UK"
   - EU Consolidated Financial Sanctions List            source "EU"
+  - SAM.gov Exclusions (US federal debarment)           source "SAM"
+      needs a free SAM.gov public API key in SAM_API_KEY; skipped without it
 
 Only the OFAC SDN list is diffed day over day (sdn_log.json, the audit trail
 behind "Recent list activity"). The other lists are fetched fresh each run and
@@ -22,7 +24,11 @@ import csv
 import io
 import json
 import os
+import urllib.error
+import urllib.parse
+import urllib.request
 import xml.etree.ElementTree as ET
+import zipfile
 from datetime import datetime, timedelta, timezone
 from email.utils import format_datetime
 from xml.sax.saxutils import escape as xml_escape
@@ -49,6 +55,20 @@ UK_URL = "https://ofsistorage.blob.core.windows.net/publishlive/2022format/ConLi
 EU_TOKEN = "dG9rZW4tMjAxNw"
 EU_URL = ("https://webgate.ec.europa.eu/fsd/fsf/public/files/"
           f"csvFullSanctionsList_1_1/content?token={EU_TOKEN}")
+
+# SAM.gov Exclusions (US federal debarment / suspension). The download endpoint
+# needs a free SAM.gov "public" API key, supplied via the SAM_API_KEY env var
+# (a GitHub Actions secret in CI). Without it fetch_sam() raises and is skipped
+# like any other flaky source. The daily file is a ZIP named by Julian date
+# (YYDDD) and is not always posted by run time, so we try the last few days.
+SAM_EXTRACT_URL = "https://api.sam.gov/data-services/v1/extracts"
+SAM_UA = {"User-Agent": fetcher.UA["User-Agent"]}
+# 0-based column positions in the 31-field comma-separated V2 extract
+# (SAM Exclusions Extract V2 Layout v1.5). Only the ones we index are named.
+SAM_COL = dict(classification=0, name=1, prefix=2, first=3, middle=4, last=5,
+               suffix=6, country=13, uei=17, program=18, agency=19,
+               excl_type=21, comments=22, term_date=24, cross_ref=26,
+               sam_number=27)
 
 # Committed (must persist across CI runs so the SDN diff has a baseline).
 SDN_SNAPSHOT_PATH = "sdn_snapshot.json"
@@ -235,6 +255,77 @@ def fetch_eu():
     return out
 
 
+def fetch_sam():
+    """SAM.gov Exclusions: US federal debarment, suspension and other
+    ineligibility records. Needs a free SAM.gov public API key in SAM_API_KEY.
+    The file is a daily ZIP holding one comma-separated V2 extract; only Active
+    records are in it. Firm/SED rows carry the entity name, Individual rows are
+    assembled from the name parts, and the Cross-Reference field holds aliases."""
+    key = os.environ.get("SAM_API_KEY", "").strip()
+    if not key:
+        raise RuntimeError("SAM_API_KEY not set")
+
+    now = datetime.now(timezone.utc)
+    raw, tried = None, []
+    for back in range(4):
+        d = now - timedelta(days=back)
+        fname = f"SAM_Exclusions_Public_V2_Extract_{d:%y}{d.timetuple().tm_yday:03d}.ZIP"
+        tried.append(fname)
+        url = (f"{SAM_EXTRACT_URL}?api_key={urllib.parse.quote(key)}"
+               f"&fileName={fname}")
+        try:
+            req = urllib.request.Request(url, headers=SAM_UA)
+            with urllib.request.urlopen(req, timeout=240) as r:
+                raw = r.read()
+            break
+        except urllib.error.HTTPError as e:
+            if e.code in (403, 404):   # not posted yet, or key lacks the role
+                continue
+            raise
+    if raw is None:
+        raise RuntimeError("no exclusions file for " + ", ".join(tried))
+
+    zf = zipfile.ZipFile(io.BytesIO(raw))
+    names = [n for n in zf.namelist() if not n.endswith("/")]
+    if not names:
+        raise RuntimeError("empty ZIP")
+    text = zf.read(max(names, key=lambda n: zf.getinfo(n).file_size)).decode("utf-8", "ignore")
+
+    C = SAM_COL
+    out = []
+    for row in csv.reader(io.StringIO(text)):
+        if len(row) <= C["sam_number"]:
+            continue
+        cell = lambda k: row[C[k]].strip()
+        if cell("classification").lower() == "classification":  # header row, if any
+            continue
+        cls = cell("classification")
+        if cls.lower() == "individual":
+            name = " ".join(x for x in (cell("prefix"), cell("first"),
+                                        cell("middle"), cell("last"),
+                                        cell("suffix")) if x)
+        else:
+            name = cell("name")
+        if not name:
+            continue
+        term = cell("term_date")
+        remarks = " ".join(x for x in [
+            cell("excl_type") or "",
+            f"Excluding agency: {cell('agency')}" if cell("agency") else "",
+            f"Terminates {term}" if term and term.lower() != "indefinite" else "",
+            cell("comments"),
+        ] if x)
+        aliases = [a.strip() for a in cell("cross_ref").replace(";", ",").split(",")
+                   if a.strip()]
+        out.append({
+            "key": cell("uei") or cell("sam_number") or f"sam{len(out)}",
+            "name": name, "type": cls.lower(),
+            "program": cell("program") or "Exclusion", "source": "SAM",
+            "remarks": remarks, "country": cell("country"), "aliases": aliases,
+        })
+    return out
+
+
 def safe(label, fn):
     try:
         recs = fn()
@@ -333,6 +424,7 @@ def main():
     un = safe("UN Security Council", fetch_un)
     uk = safe("UK OFSI", fetch_uk_ofsi)
     eu = safe("EU FSF", fetch_eu)
+    sam = safe("SAM.gov Exclusions", fetch_sam)
 
     # --- SDN diff + audit log (unchanged) ---
     if os.path.exists(SDN_SNAPSHOT_PATH):
@@ -354,7 +446,7 @@ def main():
     records = (
         list(ofac_records(sdn, sdn_alt, sdn_ctry, "SDN"))
         + list(ofac_records(csl, csl_alt, csl_ctry, "Non-SDN"))
-        + bis_state + un + uk + eu
+        + bis_state + un + uk + eu + sam
     )
     index = build_index(records)
     with open(SDN_INDEX_PATH, "w", encoding="utf-8") as f:

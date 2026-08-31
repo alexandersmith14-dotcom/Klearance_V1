@@ -54,6 +54,8 @@ jobs:
         run: python deadlines.py
 
       - name: Check OFAC SDN list for changes
+        env:
+          SAM_API_KEY: ${{ secrets.SAM_API_KEY }}
         run: python sdn_monitor.py
 
       - name: Build dashboard
