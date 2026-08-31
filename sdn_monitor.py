@@ -59,8 +59,8 @@ EU_URL = ("https://webgate.ec.europa.eu/fsd/fsf/public/files/"
 # SAM.gov Exclusions (US federal debarment / suspension). The download endpoint
 # needs a free SAM.gov "public" API key, supplied via the SAM_API_KEY env var
 # (a GitHub Actions secret in CI). Without it fetch_sam() raises and is skipped
-# like any other flaky source. The daily file is a ZIP named by Julian date
-# (YYDDD) and is not always posted by run time, so we try the last few days.
+# like any other flaky source. Fetched as fileType=EXCLUSION + date; the daily
+# file is not always posted by run time, so we try the last few days.
 SAM_EXTRACT_URL = "https://api.sam.gov/data-services/v1/extracts"
 SAM_UA = {"User-Agent": fetcher.UA["User-Agent"]}
 # 0-based column positions in the 31-field comma-separated V2 extract
@@ -265,25 +265,27 @@ def fetch_sam():
     if not key:
         raise RuntimeError("SAM_API_KEY not set")
 
+    # fileType=EXCLUSION + date lets SAM build the filename; the daily file for
+    # a given day isn't always posted by run time, and a missing file comes back
+    # as 400 ("extract file not found") as well as 404, so walk back a few days.
     now = datetime.now(timezone.utc)
-    raw, tried = None, []
-    for back in range(4):
+    raw, last_err = None, None
+    for back in range(5):
         d = now - timedelta(days=back)
-        fname = f"SAM_Exclusions_Public_V2_Extract_{d:%y}{d.timetuple().tm_yday:03d}.ZIP"
-        tried.append(fname)
         url = (f"{SAM_EXTRACT_URL}?api_key={urllib.parse.quote(key)}"
-               f"&fileName={fname}")
+               f"&fileType=EXCLUSION&date={d:%m/%d/%Y}")
         try:
             req = urllib.request.Request(url, headers=SAM_UA)
             with urllib.request.urlopen(req, timeout=240) as r:
                 raw = r.read()
             break
         except urllib.error.HTTPError as e:
-            if e.code in (403, 404):   # not posted yet, or key lacks the role
+            last_err = f"HTTP {e.code} for {d:%Y-%m-%d}"
+            if e.code in (400, 403, 404):   # not posted for that day yet
                 continue
             raise
     if raw is None:
-        raise RuntimeError("no exclusions file for " + ", ".join(tried))
+        raise RuntimeError(last_err or "no exclusions file in the last 5 days")
 
     zf = zipfile.ZipFile(io.BytesIO(raw))
     names = [n for n in zf.namelist() if not n.endswith("/")]
