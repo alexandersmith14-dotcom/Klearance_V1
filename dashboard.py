@@ -3518,7 +3518,7 @@ def jurisdiction_panel():
             '<p class="jurnote">Highest risk. FATF urges enhanced due diligence; '
             'countermeasures for Iran and North Korea. '
             f'<a href="{FATF_SOURCE}" target="_blank" rel="noopener">FATF statement</a>.</p>',
-            FATF_CALL_FOR_ACTION, open_=True,
+            FATF_CALL_FOR_ACTION,
         )
         + group(
             "im",
