@@ -150,6 +150,26 @@ def sanctions_meta():
     sources = [k for k in counts if k not in ("total", "index_rows")]
     return (len(sources) or 7), ("SAM" in sources)
 
+
+# --- FATF jurisdiction lists (maintained by hand) --------------------------
+# fatf-gafi.org is behind a Cloudflare JS challenge, so it can't be scraped
+# server-side. The two lists are small and only move at the three FATF
+# plenaries a year (Feb / Jun / Oct), so a dated constant is more reliable
+# than a fragile scrape. Update from the FATF statement after each plenary
+# and bump JUR_AS_OF. Source: fatf-gafi.org/en/countries/black-and-grey-lists.html
+JUR_AS_OF = "19 June 2026"
+JUR_SOURCE = "https://www.fatf-gafi.org/en/countries/black-and-grey-lists.html"
+# High-Risk Jurisdictions subject to a Call for Action ("black list").
+FATF_CALL_FOR_ACTION = ["Iran", "North Korea (DPRK)", "Myanmar"]
+# Jurisdictions under Increased Monitoring ("grey list").
+FATF_INCREASED_MONITORING = [
+    "Angola", "Bolivia", "Bosnia and Herzegovina", "Bulgaria", "Cameroon",
+    "Côte d'Ivoire", "Democratic Republic of the Congo", "Haiti", "Iraq",
+    "Kenya", "Kuwait", "Laos", "Lebanon", "Monaco", "Nepal",
+    "Papua New Guinea", "South Sudan", "Syria", "Venezuela", "Vietnam",
+    "Virgin Islands (UK)", "Yemen",
+]
+
 # Absolute URL of the published site. Social scrapers require absolute URLs for
 # og:image and og:url — a relative path silently produces no preview.
 SITE_URL = "https://kaufman2699.github.io/Klearance_V1/"
@@ -986,6 +1006,17 @@ header.krheader{animation-delay:.08s}
 .badge.t-Enforcement{color:#fff;background:var(--neutral)}
 .p-sdn .sdnintro{font-size:12.5px;color:var(--ink-muted);margin:2px 0 12px;
   line-height:1.6;text-align:justify;text-justify:inter-word}
+.p-jur .jurintro{font-size:12.5px;color:var(--ink-muted);margin:2px 0 14px;
+  line-height:1.6;text-align:justify;text-justify:inter-word}
+.jurgroup{margin:14px 0 0}
+.jurgroup h3{font-size:13px;margin:0 0 3px;color:var(--ink)}
+.jurgroup .jurnote{font-size:12px;color:var(--ink-muted);margin:0 0 8px;line-height:1.5}
+.jurchips{display:flex;flex-wrap:wrap;gap:6px}
+.jurchip{font-size:12.5px;padding:3px 9px;border-radius:12px;
+  background:var(--chip);border:1px solid var(--border);white-space:nowrap}
+.jurchip.cfa{border-color:var(--crit);color:var(--crit);font-weight:600}
+.jurchip.im{border-color:var(--warn)}
+.jurfoot{font-size:12px;color:var(--ink-muted);margin:14px 0 0;line-height:1.5}
 .p-sdn .sdnlist{display:flex;flex-direction:column;gap:2px}
 .sdnrow{display:flex;align-items:center;gap:10px;padding:6px 0;
   border-bottom:1px solid var(--rule);flex-wrap:wrap}
@@ -3309,6 +3340,10 @@ def coverage_panel(store):
         'and searched by name and alias, not classified or filtered for relevance '
         'the way the rest of this page is. Only the OFAC SDN list is diffed day '
         'over day for the change log.</p>'
+        '<p><strong>Jurisdiction risk:</strong> the FATF call-for-action and '
+        'increased-monitoring (grey) lists are shown as a country-level '
+        'reference, kept current by hand after each FATF plenary. They are not '
+        'part of the name screen.</p>'
         # One honest scope line instead of an enumerated "not tracked" list. The
         # enumeration named specific agencies (which read as tracked) and kept
         # inviting the question of why NYDFS — followed only by personal email
@@ -3327,6 +3362,46 @@ def coverage_panel(store):
         'filtered out, so this is not a complete record of everything these '
         'agencies publish.</p>'
         "</div></details>"
+    )
+
+
+def jurisdiction_panel():
+    """FATF high-risk and increased-monitoring jurisdiction lists. A country-
+    level reference, not a name screen — kept next to the sanctions panel
+    because a reader here is asking the same kind of question. Data is the
+    hand-maintained constant above (FATF's site can't be scraped)."""
+    def chips(names, cls):
+        return ('<div class="jurchips">' + "".join(
+            f'<span class="jurchip {cls}">{hesc(n)}</span>' for n in names
+        ) + '</div>')
+
+    return (
+        '<details class="panel p-jur foldable" open>'
+        '<summary><h2>Jurisdiction risk <span style="float:right;'
+        f'text-transform:none;letter-spacing:0">FATF &middot; as of {hesc(JUR_AS_OF)}</span>'
+        '</h2></summary>'
+        '<p class="jurintro">The FATF\'s two lists of jurisdictions with '
+        'strategic anti-money-laundering and counter-terrorist-financing '
+        'deficiencies. Not a sanctions list and not a name screen &mdash; a '
+        'country-level flag for enhanced due diligence. Designated people and '
+        'entities from these countries are already covered by the sanctions '
+        'screening above. Confirm against the '
+        f'<a href="{JUR_SOURCE}" target="_blank" rel="noopener">FATF statement</a>.</p>'
+        '<div class="jurgroup cfa">'
+        '<h3>Call for action</h3>'
+        '<p class="jurnote">Highest risk. FATF urges enhanced due diligence; '
+        'countermeasures for Iran and North Korea.</p>'
+        + chips(FATF_CALL_FOR_ACTION, "cfa") +
+        '</div>'
+        '<div class="jurgroup im">'
+        f'<h3>Increased monitoring &mdash; grey list ({len(FATF_INCREASED_MONITORING)})</h3>'
+        '<p class="jurnote">Committed to fixing identified gaps under FATF '
+        'monitoring. Apply risk-based enhanced due diligence.</p>'
+        + chips(FATF_INCREASED_MONITORING, "im") +
+        '</div>'
+        '<p class="jurfoot">Updated after each FATF plenary (February, June and '
+        'October). Between plenaries this list does not change.</p>'
+        '</details>'
     )
 
 
@@ -3595,6 +3670,7 @@ def main():
     coverage_html = coverage_panel(store)
     regref_html = regref_panel()
     sdn_html = sdn_panel(today)
+    jur_html = jurisdiction_panel()
 
     # Static seed for #cards: real <a href> markup for every relevant update,
     # present in the HTML this function returns — not only after
@@ -3901,6 +3977,10 @@ def main():
      panel ("No SDN list changes recorded") buried below 370 cards and the
      footer read as broken/missing rather than as a quiet day. -->
 <div style="margin:18px 0">{sdn_html}</div>
+
+<!-- FATF jurisdiction lists — a country-level reference, grouped with the
+     name-screening panel above rather than the agency feed below. -->
+<div style="margin:18px 0">{jur_html}</div>
 
 <!-- Section marker: everything below (filters, search, the deadline and update
      feeds) is the agency-updates tracker, a different tool from the SDN
