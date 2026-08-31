@@ -1083,7 +1083,7 @@ details.jurgroup>summary:hover h3{color:var(--brand)}
 .sdnhighlights .sdnlist{gap:0}
 @media (max-width:900px){.sdnhighlights{grid-template-columns:1fr 1fr}}
 @media (max-width:480px){.sdnhighlights{grid-template-columns:1fr}}
-.sdnactivity{margin-top:14px;padding-top:10px;border-top:1px solid var(--rule)}
+.sdnactivity{margin-top:10px;padding-top:8px;border-top:1px solid var(--rule)}
 .sdnactivity summary{cursor:pointer;font-size:13px;font-weight:600;
   color:var(--ink-2)}
 .sdnactivity[open] summary{margin-bottom:4px}
@@ -1096,7 +1096,9 @@ details.jurgroup>summary:hover h3{color:var(--brand)}
   border:1px solid var(--border);border-radius:10px;resize:vertical;
   min-height:2.6em}
 #sdnlistq:focus{outline:2px solid var(--brand);outline-offset:1px;border-color:var(--brand)}
-.sdnsearchfoot{display:flex;align-items:center;gap:12px;margin-top:8px;min-height:1.4em}
+.sdnsearchfoot{display:flex;align-items:center;gap:12px;margin-top:6px}
+.sdnsearchfoot:empty{display:none}
+#sdnlistcount:empty{display:none}
 #sdnbulkgo{font:inherit;font-size:13px;font-weight:600;
   padding:7px 16px;cursor:pointer;color:#fff;background:var(--brand);
   border:1px solid var(--brand);border-radius:10px}
