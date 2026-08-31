@@ -58,6 +58,9 @@ jobs:
           SAM_API_KEY: ${{ secrets.SAM_API_KEY }}
         run: python sdn_monitor.py
 
+      - name: Build country-risk reference
+        run: python country_risk.py
+
       - name: Build dashboard
         run: python dashboard.py
 

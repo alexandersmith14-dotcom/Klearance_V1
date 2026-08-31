@@ -151,46 +151,14 @@ def sanctions_meta():
     return (len(sources) or 7), ("SAM" in sources)
 
 
-# --- Jurisdiction-risk lists (maintained by hand) -------------------------
-# The issuing bodies' sites can't be scraped server-side (fatf-gafi.org is
-# behind a Cloudflare JS challenge; EUR-Lex only publishes the consolidated
-# annex as prose). All three lists are small and move on a known cadence -
-# FATF at its three plenaries a year (Feb / Jun / Oct), the EU list roughly
-# once a year - so dated constants are more reliable than a fragile scrape.
-# Update from the source after each change and bump the matching *_AS_OF.
-
-# FATF - fatf-gafi.org/en/countries/black-and-grey-lists.html
-FATF_AS_OF = "19 June 2026"
-FATF_SOURCE = "https://www.fatf-gafi.org/en/countries/black-and-grey-lists.html"
-# High-Risk Jurisdictions subject to a Call for Action ("black list").
-FATF_CALL_FOR_ACTION = ["Iran", "North Korea (DPRK)", "Myanmar"]
-# Jurisdictions under Increased Monitoring ("grey list").
-FATF_INCREASED_MONITORING = [
-    "Angola", "Bolivia", "Bosnia and Herzegovina", "Bulgaria", "Cameroon",
-    "Côte d'Ivoire", "Democratic Republic of the Congo", "Haiti", "Iraq",
-    "Kenya", "Kuwait", "Laos", "Lebanon", "Monaco", "Nepal",
-    "Papua New Guinea", "South Sudan", "Syria", "Venezuela", "Vietnam",
-    "Virgin Islands (UK)", "Yemen",
-]
-
-# EU high-risk third countries - Commission Delegated Regulation (EU)
-# 2016/1675 as amended (latest: 2026/46 and 2026/83, effective 29 Jan 2026).
-# Overlaps FATF heavily but is a separate legal list and can diverge (keeps
-# some jurisdictions FATF has removed; adds Russia, which FATF does not list).
-EU_HIGH_RISK_AS_OF = "29 January 2026"
-EU_HIGH_RISK_SOURCE = "https://finance.ec.europa.eu/financial-crime/anti-money-laundering-and-countering-financing-terrorism-international-level_en"
-EU_HIGH_RISK = [
-    "Afghanistan", "Algeria", "Angola", "Bolivia", "British Virgin Islands",
-    "Cameroon", "Côte d'Ivoire", "North Korea (DPRK)",
-    "Democratic Republic of the Congo", "Haiti", "Iran", "Kenya", "Laos",
-    "Lebanon", "Monaco", "Myanmar", "Namibia", "Nepal", "Russia",
-    "South Sudan", "Syria", "Trinidad and Tobago", "Vanuatu", "Venezuela",
-    "Vietnam", "Yemen",
-]
-
-# GAFILAT and the other FATF-style regional bodies publish no high-risk list
-# of their own - their output is per-country Mutual Evaluation Reports. A
-# reader with a client in the region is pointed at the MER directly.
+# Jurisdiction-risk data (FATF / EU / INCSR lists, CPI scores) lives in
+# country_risk.py, which also writes country_risk.json for the panel's lookup.
+from country_risk import (  # noqa: E402
+    FATF_AS_OF, FATF_SOURCE, FATF_CALL_FOR_ACTION, FATF_INCREASED_MONITORING,
+    EU_HIGH_RISK_AS_OF, EU_HIGH_RISK_SOURCE, EU_HIGH_RISK,
+    INCSR_JURISDICTIONS, INCSR_YEAR, INCSR_REPORT, INCSR_SOURCE, CPI_SOURCE,
+)
+COUNTRY_RISK_PATH = "country_risk.json"
 GAFILAT_MER_SOURCE = "https://www.gafilat.org/index.php/es/biblioteca-virtual/miembros"
 
 # Absolute URL of the published site. Social scrapers require absolute URLs for
@@ -1042,7 +1010,36 @@ header.krheader{animation-delay:.08s}
 .jurchip.cfa{border-color:var(--crit);color:var(--crit);font-weight:600}
 .jurchip.im{border-color:var(--warn)}
 .jurchip.eu{border-color:var(--info)}
+.jurchip.incsr{border-color:var(--border)}
 .jurfoot{font-size:12px;color:var(--ink-muted);margin:14px 0 0;line-height:1.5}
+details.jurgroup>summary{list-style:none;cursor:pointer}
+details.jurgroup>summary::-webkit-details-marker{display:none}
+details.jurgroup>summary h3{display:inline}
+details.jurgroup>summary::after{content:" ▸";color:var(--ink-muted)}
+details.jurgroup[open]>summary::after{content:" ▾"}
+.jurlookup{margin:4px 0 4px}
+.jurlookup label{display:block;font-size:12px;font-weight:600;margin-bottom:4px}
+#jurq{display:block;width:100%;font-family:var(--ui-font);font-size:14px;
+  padding:9px 12px;color:var(--ink);background:var(--surface);
+  border:1px solid var(--border);border-radius:8px}
+.jurcard{margin-top:10px;padding:12px 14px;border:1px solid var(--border);
+  border-radius:10px;background:var(--raised)}
+.jurcard .jname{font-size:15px;font-weight:700;margin-bottom:8px}
+.jurcard .jtags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.jurcard .jtag{font-size:12px;padding:2px 8px;border-radius:10px;
+  background:var(--chip);border:1px solid var(--border)}
+.jurcard .jtag.crit{border-color:var(--crit);color:var(--crit);font-weight:600}
+.jurcard .jtag.warn{border-color:var(--warn)}
+.jurcard .jtag.info{border-color:var(--info)}
+.jurcard .jnote{font-size:12.5px;color:var(--ink-muted);margin:0 0 10px}
+.jcpi-bar{height:8px;border-radius:4px;background:linear-gradient(90deg,
+  var(--crit),var(--warn),var(--ok));position:relative;margin-bottom:5px}
+.jcpi-bar span{position:absolute;top:-3px;width:3px;height:14px;
+  background:var(--ink);border-radius:2px;transform:translateX(-50%)}
+.jcpi-n{font-size:13px;font-weight:600;font-variant-numeric:tabular-nums}
+.jcpi-n span{font-weight:400;color:var(--ink-muted)}
+.jcpi-y{font-weight:400;font-size:11px;color:var(--ink-muted)}
+.jcpi-cap{font-size:11.5px;color:var(--ink-muted);margin-top:2px}
 .p-sdn .sdnlist{display:flex;flex-direction:column;gap:2px}
 .sdnrow{display:flex;align-items:center;gap:10px;padding:6px 0;
   border-bottom:1px solid var(--rule);flex-wrap:wrap}
@@ -2495,6 +2492,48 @@ if (sdnListQ) {
 
 }
 
+// Jurisdiction-risk lookup — join FATF / EU / INCSR listing + CPI score for
+// one country. Data is embedded (#crdata, ~190 small records), no fetch.
+(function () {
+  const q = document.getElementById('jurq');
+  const card = document.getElementById('jurcard');
+  const raw = document.getElementById('crdata');
+  if (!q || !card || !raw) return;
+  let rows = [];
+  try { rows = JSON.parse(raw.textContent || '[]'); } catch (e) { return; }
+  const byName = new Map(rows.map(r => [r.name.toLowerCase(), r]));
+
+  function render(r) {
+    if (!r) { card.hidden = true; card.innerHTML = ''; return; }
+    const tags = [];
+    if (r.fatf === 'call') tags.push('<span class="jtag crit">FATF call for action</span>');
+    if (r.fatf === 'grey') tags.push('<span class="jtag warn">FATF grey list</span>');
+    if (r.eu) tags.push('<span class="jtag info">EU high-risk</span>');
+    if (r.incsr) tags.push('<span class="jtag">INCSR major ML jurisdiction</span>');
+    let cpi;
+    if (r.cpi != null) {
+      cpi = `<div class="jcpi"><div class="jcpi-bar"><span style="width:${r.cpi}%"></span></div>`
+        + `<div class="jcpi-n">CPI ${esc(String(r.cpi))}<span>/100</span> `
+        + `<span class="jcpi-y">${esc(String(r.cpi_year || ''))}</span></div>`
+        + `<div class="jcpi-cap">0 = highly corrupt, 100 = very clean</div></div>`;
+    } else {
+      cpi = '<div class="jcpi-cap">No CPI score (not assessed).</div>';
+    }
+    card.innerHTML = `<div class="jname">${esc(r.name)}</div>`
+      + (tags.length
+          ? `<div class="jtags">${tags.join('')}</div>`
+          : '<p class="jnote">Not on any FATF, EU or INCSR list.</p>')
+      + cpi;
+    card.hidden = false;
+  }
+  function lookup() {
+    const v = (q.value || '').trim().toLowerCase();
+    render(v ? byName.get(v) || null : null);
+  }
+  q.addEventListener('input', lookup);
+  q.addEventListener('change', lookup);
+})();
+
 // "Add to calendar" — delegated on document rather than any one list, since
 // .cal buttons now render in three places that each re-render independently
 // (sidebar deadlines, update cards, "also found" cards) and re-binding a
@@ -3367,9 +3406,12 @@ def coverage_panel(store):
         'the way the rest of this page is. Only the OFAC SDN list is diffed day '
         'over day for the change log.</p>'
         '<p><strong>Jurisdiction risk:</strong> the FATF call-for-action and '
-        'increased-monitoring (grey) lists and the EU high-risk third-country '
-        'list are shown as a country-level reference, kept current by hand after '
-        'each change. They are not part of the name screen.</p>'
+        'grey lists, the EU high-risk third-country list, the INCSR '
+        'money-laundering jurisdictions and the Transparency International '
+        'corruption score are shown as a country-level reference, with a lookup '
+        'that joins them for any country. The lists are kept current by hand '
+        'after each change; the score is refreshed from a public mirror each '
+        'build. None of it is part of the name screen.</p>'
         # One honest scope line instead of an enumerated "not tracked" list. The
         # enumeration named specific agencies (which read as tracked) and kept
         # inviting the question of why NYDFS — followed only by personal email
@@ -3392,25 +3434,57 @@ def coverage_panel(store):
 
 
 def jurisdiction_panel():
-    """FATF and EU high-risk jurisdiction lists. A country-level reference,
-    not a name screen — kept next to the sanctions panel because a reader
-    here is asking the same kind of question. Data is the hand-maintained
-    constants above (the issuing bodies' sites can't be scraped)."""
+    """Country-level risk reference: a lookup that joins the FATF, EU and
+    INCSR lists with the CPI score for any country, plus the lists shown in
+    full. Not a name screen. Data from country_risk.py / country_risk.json."""
     def chips(names, cls):
         return ('<div class="jurchips">' + "".join(
             f'<span class="jurchip {cls}">{hesc(n)}</span>' for n in names
         ) + '</div>')
 
+    try:
+        with open(COUNTRY_RISK_PATH, encoding="utf-8") as f:
+            cr = json.load(f)
+    except (OSError, ValueError):
+        cr = {"countries": [], "as_of": {}, "sources": {}}
+    cr_countries = cr.get("countries", [])
+    cpi_year = cr.get("as_of", {}).get("cpi")
+    options = "".join(f'<option value="{hesc(c["name"])}">'
+                      for c in cr_countries)
+    data_json = json.dumps(cr_countries, ensure_ascii=False, separators=(",", ":"))
+
+    lookup = (
+        '<div class="jurlookup">'
+        '<label for="jurq">Check a country</label>'
+        '<input id="jurq" list="jurcountries" autocomplete="off" '
+        'placeholder="Country or jurisdiction name&hellip;" '
+        'aria-label="Check a country against the jurisdiction-risk lists">'
+        f'<datalist id="jurcountries">{options}</datalist>'
+        '<div id="jurcard" class="jurcard" hidden></div>'
+        f'<script type="application/json" id="crdata">{data_json}</script>'
+        '</div>'
+    )
+
+    incsr_note = (
+        f'<p class="jurnote">US State Dept, {hesc(INCSR_REPORT)} '
+        f'({hesc(INCSR_YEAR)} data). Flags significant <em>volume</em> of '
+        'laundering-related activity, not weak controls &mdash; major financial '
+        'centres (US, UK, Germany) are on it. '
+        f'<a href="{INCSR_SOURCE}" target="_blank" rel="noopener">INCSR</a>.</p>'
+    )
+
     return (
         '<details class="panel p-jur foldable" open>'
         '<summary><h2>Jurisdiction risk <span style="float:right;'
-        'text-transform:none;letter-spacing:0">FATF &amp; EU</span>'
+        'text-transform:none;letter-spacing:0">FATF &middot; EU &middot; INCSR &middot; CPI</span>'
         '</h2></summary>'
-        '<p class="jurintro">Country-level lists of jurisdictions with strategic '
-        'anti-money-laundering and counter-terrorist-financing deficiencies. Not '
-        'a sanctions list and not a name screen &mdash; a flag for enhanced due '
-        'diligence at onboarding and review. Designated people and entities from '
-        'these countries are already covered by the sanctions screening above.</p>'
+        '<p class="jurintro">Country-level references for enhanced due diligence '
+        'at onboarding and review: the FATF and EU high-risk lists, the US '
+        'INCSR money-laundering jurisdictions, and the Transparency '
+        'International corruption score. Not a sanctions list and not a name '
+        'screen &mdash; designated people and entities from these countries are '
+        'already covered by the sanctions screening above.</p>'
+        + lookup +
         '<div class="jurgroup cfa">'
         f'<h3>FATF call for action <span class="jursince">as of {hesc(FATF_AS_OF)}</span></h3>'
         '<p class="jurnote">Highest risk. FATF urges enhanced due diligence; '
@@ -3434,12 +3508,19 @@ def jurisdiction_panel():
         f'<a href="{EU_HIGH_RISK_SOURCE}" target="_blank" rel="noopener">EU list</a>.</p>'
         + chips(EU_HIGH_RISK, "eu") +
         '</div>'
-        '<p class="jurfoot">Maintained by hand: FATF changes only at its three '
-        'plenaries a year (February, June, October), the EU list about once a '
-        'year. For a client in Latin America, GAFILAT publishes no list of its '
-        'own &mdash; check that country\'s '
-        f'<a href="{GAFILAT_MER_SOURCE}" target="_blank" rel="noopener">GAFILAT '
-        'Mutual Evaluation Report</a> directly.</p>'
+        '<details class="jurgroup incsr">'
+        f'<summary><h3>INCSR money-laundering jurisdictions ({len(INCSR_JURISDICTIONS)})'
+        f' <span class="jursince">{hesc(INCSR_YEAR)}</span></h3></summary>'
+        + incsr_note
+        + chips(INCSR_JURISDICTIONS, "incsr") +
+        '</details>'
+        '<p class="jurfoot">Lists maintained by hand (FATF changes at its three '
+        'plenaries a year; the EU list about once; INCSR yearly). CPI scores: '
+        '<a href="' + CPI_SOURCE + '" target="_blank" rel="noopener">Transparency '
+        'International</a>, latest available year, CC BY. For a client in Latin '
+        'America, GAFILAT publishes no list of its own &mdash; check that '
+        'country\'s <a href="' + GAFILAT_MER_SOURCE + '" target="_blank" '
+        'rel="noopener">GAFILAT Mutual Evaluation Report</a> directly.</p>'
         '</details>'
     )
 
