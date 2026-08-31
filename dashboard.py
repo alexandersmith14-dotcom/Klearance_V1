@@ -920,22 +920,6 @@ header.krheader{animation-delay:.08s}
 .pill[aria-pressed="true"]:hover{box-shadow:5px 5px 0 0 var(--accent)}
 .pill[aria-pressed="true"]:active{box-shadow:0 0 0 0 var(--accent)}
 
-/* Relevance is a lens, not a gate — this switches between the filtered default
-   and everything collected. */
-.viewtoggle{display:inline-flex;border:1px solid var(--border);border-radius:999px;
-  overflow:hidden;box-shadow:3px 3px 0 0 var(--accent)}
-.viewtoggle button{border:none;border-radius:0;padding:6px 15px;font-size:12.5px;
-  background:var(--surface);color:var(--ink-2);cursor:pointer}
-.viewtoggle button[aria-pressed="true"]{
-  background:radial-gradient(ellipse at center,var(--brand-bg-light) 0%,var(--brand) 100%);
-  color:#fff;font-weight:700}
-/* Set-aside items are dimmed AND labelled — dimming alone is not a readable
-   signal, and in the everything view the reader must be able to tell which
-   items met the criteria. */
-.dropped{opacity:.78}
-.badge.setaside{background:transparent;border:1px solid var(--border);
-  color:var(--ink-muted);font-weight:400}
-
 #filters summary{display:none}          /* desktop: always expanded, no control */
 #filters>.pillgroup:last-of-type{margin-bottom:18px}
 .cols{display:grid;grid-template-columns:1fr 400px;gap:18px;align-items:start}
@@ -1520,11 +1504,8 @@ footer.sitefoot{margin-top:22px;background:var(--brand-bg)}
      is the difference between tapping a filter and aiming at one. min-height
      with centred content rather than more padding, so the pill rows do not grow
      taller than they need to. */
-  .pill,.viewtoggle button{min-height:44px;display:inline-flex;align-items:center;
-    justify-content:center;font-size:13px}
-  .pill{padding:0 14px}
-  .viewtoggle button{padding:0 16px}
-  .viewtoggle{border-radius:14px}
+  .pill{min-height:44px;display:inline-flex;align-items:center;
+    justify-content:center;font-size:13px;padding:0 14px}
   #showmore,#dlmore{min-height:44px}
   /* Inline on the date row, so it costs no extra line, but padded enough to be
      tappable. A full 44px here would grow every deadline row instead. */
@@ -1675,10 +1656,12 @@ $('#export').addEventListener('click', closeMoreMenu);
 let filter = {kind: 'all', value: ''};
 let query = '';
 // Relevance is a lens, not a gate. The profile it screens against is one
-// person's view of what matters; a public audience does not share it. Default to
-// the filtered view because that is the useful default, but everything the
-// agencies published stays one click away.
-let showAll = false;
+// The relevance flag is still computed server-side (classifier.py) and used
+// for the permalink pages and the Ask corpus, but the dashboard no longer
+// filters on it: every tracked item is shown, and Source + Search are the
+// only ways to narrow. showAll stays wired through rows() as a constant so
+// that machinery doesn't have to be unpicked.
+let showAll = true;
 
 // Search runs IN ADDITION to whichever pill is active, so "FinCEN" + "stablecoin"
 // narrows rather than replacing the pill selection.
@@ -1827,13 +1810,10 @@ function renderCards(rs) {
   // 370 plain-English summaries never existed in the DOM at all.
   $('#cards').innerHTML = rs.length ? rs.map((d, i) => {
     const short = (d.type || '').split(' ')[0];
-    // In the "everything" view a set-aside item must be visibly marked, or the
-    // reader cannot tell which items met the criteria and which did not.
-    return `<div class="card${d.relevant ? '' : ' dropped'}"${i >= cardLimit ? ' hidden' : ''}>
+    return `<div class="card"${i >= cardLimit ? ' hidden' : ''}>
       <div class="top">
         <span class="badge t-${esc(short)}">${esc(d.type || '—')}</span>
         <span class="agency">${esc(d.sources.join(' · '))}</span>
-        ${d.relevant ? '' : '<span class="badge setaside">set aside by filter</span>'}
       </div>
       <h3><a href="${esc(d.url)}" target="_blank" rel="noopener">${esc(d.title)}</a></h3>
       <p>${esc(d.why)}</p>
@@ -2158,30 +2138,6 @@ function render() {
   if (cf) cf.hidden = filter.kind === 'all';
 }
 
-// Counts on the buttons, so the size of each lens is visible before clicking
-// rather than inferred afterwards. Computed from the data, never hardcoded.
-function labelViews() {
-  const rel = DATA.filter(d => d.relevant).length;
-  const fin = DATA.filter(d => d.relevant && d.fintech === true).length;
-  const cu = DATA.filter(d => d.relevant && d.credit_union === true).length;
-  $('#viewRelevant').textContent = `Banks, credit unions & fintechs (${rel})`;
-  $('#viewAll').textContent = `Everything (${DATA.length})`;
-  const f = $('[data-kind="fintech"]');
-  if (f) f.textContent = `Fintech only (${fin})`;
-  const c = $('[data-kind="credit_union"]');
-  if (c) c.textContent = `Credit unions only (${cu})`;
-}
-
-function setView(all) {
-  showAll = all;
-  $('#viewAll').setAttribute('aria-pressed', String(all));
-  $('#viewRelevant').setAttribute('aria-pressed', String(!all));
-  $('#viewnote').textContent = '';
-  render();
-}
-$('#viewAll').addEventListener('click', () => setView(true));
-$('#viewRelevant').addEventListener('click', () => setView(false));
-
 const searchBox = $('#q');
 searchBox.addEventListener('input', () => {
   query = searchBox.value.trim().toLowerCase();
@@ -2208,7 +2164,6 @@ function clearFilterUI() {
     .forEach(x => x.setAttribute('aria-pressed', 'false'));
   const all = $('.pill[data-kind="all"]');
   if (all) all.setAttribute('aria-pressed', 'true');
-  $('#viewnote').textContent = '';
 }
 
 document.querySelectorAll('.pill').forEach(p => {
@@ -2266,9 +2221,8 @@ if (sourceGroup) {
   });
 
   agencyPills().forEach(p => p.addEventListener('click', () => {
-    document.querySelectorAll('.kpi[data-kpi], .pill[data-kind="fintech"], .pill[data-kind="credit_union"]')
+    document.querySelectorAll('.kpi[data-kpi]')
       .forEach(x => x.setAttribute('aria-pressed', 'false'));
-    $('#viewnote').textContent = '';
     const pressed = p.getAttribute('aria-pressed') === 'true';
     p.setAttribute('aria-pressed', String(!pressed));
     applySourceFilter();
@@ -2276,8 +2230,7 @@ if (sourceGroup) {
 }
 
 // KPI tiles filter the list to exactly what they count. Clicking the active tile
-// again clears back to all. KPI items are all relevant, so also drop out of the
-// "Everything" view for a consistent picture.
+// again clears back to all.
 document.querySelectorAll('.kpi[data-kpi]').forEach(k => {
   const activate = () => {
     const key = k.dataset.kpi;
@@ -2288,10 +2241,6 @@ document.querySelectorAll('.kpi[data-kpi]').forEach(k => {
     } else {
       filter = {kind: 'kpi', value: key};
       k.setAttribute('aria-pressed', 'true');
-      $('#viewnote').textContent = 'Showing: ' + k.querySelector('.l').textContent;
-      showAll = false;
-      $('#viewAll').setAttribute('aria-pressed', 'false');
-      $('#viewRelevant').setAttribute('aria-pressed', 'true');
     }
     render();
   };
@@ -2815,8 +2764,7 @@ window.addEventListener('resize', () => {
   resizeTimer = setTimeout(render, 150);
 });
 
-labelViews();
-setView(false);
+render();
 
 // ------------------------------------------------------------- Quick start
 // Two-step onboarding tour, shown once per browser: step 1 points at the
@@ -2833,7 +2781,7 @@ const QS_STEPS = [
   { sel: '.icon-toolbar',
     text: 'Share this page, save/install it for quick access, or export the tracked updates to a spreadsheet from here.' },
   { sel: '#filters',
-    text: 'Narrow what you see: switch scope with View, or combine agencies with Source — pick several to see them together.' },
+    text: 'Every tracked item shows by default. Narrow the list by Source — pick several agencies to combine them.' },
   { sel: '#searchGroup',
     text: 'Search by keyword — works together with View and Source, not instead of them.' },
   // Absent when ASK_ENABLED is off in dashboard.py -- showStep skips a
@@ -3504,13 +3452,13 @@ def coverage_panel(store):
         'listed above, and only what they post on those listing pages. It is not a '
         'substitute for monitoring every regulator you answer to &mdash; confirm '
         'anything material against the source.</p>'
-        '<p><strong>Relevance:</strong> items are screened against a profile of US '
-        'community banks (under ~$10B assets), federally-insured credit unions, and '
-        'fintechs — BaaS and sponsor-bank arrangements, prepaid and FBO accounts, '
-        'consumer lending and credit risk, BSA/AML, NCUA and share-insurance '
-        'matters, and internal audit. Items outside that scope are collected but '
-        'filtered out, so this is not a complete record of everything these '
-        'agencies publish.</p>'
+        '<p><strong>What is shown:</strong> every item pulled from the agency '
+        'listing pages above &mdash; rules, proposed rules, notices, bulletins and '
+        'enforcement actions alike. Each is still scored for how closely it fits a '
+        'US community-bank, credit-union and fintech profile (that score drives the '
+        'plain-English summaries and the &ldquo;ask&rdquo; answers), but nothing is '
+        'hidden from the feed on that basis &mdash; narrow it with Source and '
+        'Search.</p>'
         "</div></details>"
     )
 
@@ -4196,31 +4144,13 @@ def main():
      panel headers so it reads as a peer section break. -->
 <h2 class="sectionband">Agency updates</h2>
 
-<!-- Filters & view sits above Search now (was the other way round). On a phone
-     this block collapses to its summary, so Search still lands directly under a
-     single "Filters & view ▸" line and stays the first live control. -->
+<!-- Filters sits above Search. On a phone this block collapses to its
+     summary, so Search still lands directly under a single "Filters ▸" line
+     and stays the first live control. The page shows every tracked item;
+     Source and Search are the only ways to narrow it. -->
 <details id="filters" open>
-  <summary>Filters &amp; view</summary>
+  <summary>Filters</summary>
   <button id="clearFilters" type="button" class="clearfilters" hidden>Clear filters</button>
-  <div class="pillgroup">
-    <div class="grouplabel">View<small>how much to show</small></div>
-    <div class="viewtoggle">
-      <!-- "Relevant only" was self-referential: relevant to whom? These say who
-           the page is for. Counts are filled in by script so they cannot go
-           stale against the data. Everything comes first in the markup now,
-           not because it's the default (it isn't — see setView below) but
-           per Alexander's request on ordering. -->
-      <button id="viewAll" aria-pressed="false">Everything</button>
-      <button id="viewRelevant" aria-pressed="true">Banks, credit unions &amp; fintechs</button>
-    </div>
-    <!-- Fintech and Credit unions sit with the view toggle, not with Source,
-         because they are the same kind of control: lenses on the classifier's
-         judgment rather than keywords, and the two filters the search box cannot
-         reproduce (a text match on "fintech"/"credit union" is far noisier). -->
-    <button class="pill" data-kind="fintech" aria-pressed="false">Fintech only</button>
-    <button class="pill" data-kind="credit_union" aria-pressed="false">Credit unions only</button>
-    <span class="count" id="viewnote"></span>
-  </div>
   <div class="pillgroup" id="sourceGroup">
     <div class="grouplabel">Source<small>who published it &middot; pick several to combine</small></div>
     {source_pills}
