@@ -976,15 +976,17 @@ header.krheader{animation-delay:.08s}
 /* Advisory pitch band: the tool tracks the change, the team helps you act on
    it. Same navy strip vocabulary as .sectionband, sized up to hold body copy
    and a mailto CTA. Sits between the agency feed and the screening tools. */
-.advisory-band{margin:30px 0 14px;padding:22px 22px 24px;border-radius:12px;color:#fff;
+.advisory-band{margin:30px 0 14px;padding:24px 26px;border-radius:12px;color:#fff;
   background:radial-gradient(ellipse at center,var(--brand-bg-light) 0%,var(--brand-bg) 100%);
-  border-bottom:3px solid var(--accent)}
+  border-bottom:3px solid var(--accent);
+  display:flex;align-items:center;justify-content:space-between;gap:36px;flex-wrap:wrap}
+.advisory-band .ab-main{flex:1 1 520px;min-width:0;max-width:80ch}
 .advisory-band h2{margin:0 0 8px;font-size:19px;font-weight:800;letter-spacing:-.01em;color:#fff}
-.advisory-band p{margin:0 0 14px;font-size:14.5px;line-height:1.6;color:rgba(255,255,255,.82);max-width:64ch}
-.advisory-band .ab-cta{margin:0}
+.advisory-band p{margin:0;font-size:14.5px;line-height:1.6;color:rgba(255,255,255,.82)}
+.advisory-band .ab-cta{flex:0 0 auto;margin:0}
 .advisory-band .ab-cta a{display:inline-block;background:var(--accent);color:#003b6a;
   font-weight:700;font-size:14px;text-decoration:none;padding:11px 20px;border-radius:10px;
-  transition:filter .12s}
+  transition:filter .12s;white-space:nowrap}
 .advisory-band .ab-cta a:hover{filter:brightness(1.06)}
 .advisory-band .ab-cta a:focus-visible{outline:2px solid #fff;outline-offset:2px}
 .panel .note{font-size:12px;color:var(--ink-2);margin:0 0 12px}
@@ -4352,12 +4354,14 @@ def main():
 </div>
 
 <div class="advisory-band">
-  <h2>Where the tool stops, the team starts</h2>
-  <p>Klearance tells you what the regulators published. Deciding what it means for
-    your institution, and what to change, is advisory work. Kaufman Rossin's risk
-    advisory team does that for community banks, credit unions and fintechs: gap
-    assessments, program updates, remediation, and ongoing change management. We
-    are independent, and we answer only to our clients.</p>
+  <div class="ab-main">
+    <h2>Where the tool stops, the team starts</h2>
+    <p>Klearance tells you what the regulators published. Deciding what it means for
+      your institution, and what to change, is advisory work. Kaufman Rossin's risk
+      advisory team does that for community banks, credit unions and fintechs: gap
+      assessments, program updates, remediation, and ongoing change management. We
+      are independent, and we answer only to our clients.</p>
+  </div>
   <p class="ab-cta"><a href="mailto:asmith@kaufmanrossin.com?subject=Klearance%3A%20advisory%20help&amp;body=Institution%3A%0ARole%3A%0AWhat%20you%20need%20help%20with%3A%0A">Start a conversation &rarr;</a></p>
 </div>
 
