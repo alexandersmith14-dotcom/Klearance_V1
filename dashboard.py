@@ -541,6 +541,13 @@ h1.wordmark svg{width:.85em;height:.72em;margin-bottom:.08em;flex:none}
   letter-spacing:0;text-transform:none;margin-top:3px}
 .hero-pipe{color:var(--accent);font-weight:400}
 .hero-copy{font-size:19px;line-height:1.55;font-weight:600;color:#fff;margin:0}
+.hero-body{min-width:0}
+.hero-cta{margin:20px 0 0}
+.hero-cta a{display:inline-block;background:var(--accent);color:#003b6a;
+  font-weight:700;font-size:14px;text-decoration:none;padding:11px 20px;
+  border-radius:10px;transition:filter .12s}
+.hero-cta a:hover{filter:brightness(1.06)}
+.hero-cta a:focus-visible{outline:2px solid #fff;outline-offset:2px}
 @media (max-width:820px){
   /* padding/gap tightened well below the desktop values (44px/44px) rather
      than inheriting them, let alone the old 48px override -- stacking to a
@@ -566,6 +573,7 @@ h1.wordmark svg{width:.85em;height:.72em;margin-bottom:.08em;flex:none}
      wordmark itself has shrunk to its 46px mobile floor. Tightened to
      match, same reasoning as the other mobile paddings in this block. */
   .hero-rule{margin:8px 0 8px}
+  .hero-cta{margin-top:14px}
   /* Both em-scaled correctly now (proportional to desktop's approved
      look), but at mobile's small absolute sizes the same ratio still
      reads as cramped -- icon nearly touching K, divider nearly touching
@@ -4198,10 +4206,13 @@ def main():
       <p class="hero-sub"><b>by KAUFMAN <span class="hero-pipe">|</span> ROSSIN</b></p>
     </div>
     <div class="hero-divider"></div>
-    <p class="hero-copy">When you are the whole compliance function, more alerts
-      do not help. Klearance is a free regulatory tracker from Kaufman Rossin's
-      risk advisory team. It reads agency updates so you don't have to. One page,
-      no login.</p>
+    <div class="hero-body">
+      <p class="hero-copy">When you are the whole compliance function, more alerts
+        do not help. Klearance is a free regulatory tracker from Kaufman Rossin's
+        risk advisory team. It reads agency updates so you don't have to. One page,
+        no login.</p>
+      <p class="hero-cta"><a href="mailto:asmith@kaufmanrossin.com?subject=Klearance%3A%20a%20question%20about%20an%20update">Ask our advisory team about an update &rarr;</a></p>
+    </div>
   </div>
 </div>
 
