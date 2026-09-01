@@ -53,9 +53,27 @@ jobs:
       - name: Match Federal Register deadlines
         run: python deadlines.py
 
+      # SAM.gov's index is fetched on scheduled / manual runs only (its public
+      # API key has a low daily quota — a burst of push builds hits 429). This
+      # cache carries sdn_index_sam.json + sam_meta.json between runs so a push
+      # build can republish the last real SAM list instead of an empty one. The
+      # key is always new, so restore falls to the prefix and grabs the most
+      # recent cache; the post step then re-saves under this run's key.
+      - name: Restore the cached SAM.gov index
+        uses: actions/cache@v4
+        with:
+          path: |
+            sdn_index_sam.json
+            sam_meta.json
+          key: sam-index-${{ github.run_id }}
+          restore-keys: |
+            sam-index-
+
       - name: Check OFAC SDN list for changes
         env:
           SAM_API_KEY: ${{ secrets.SAM_API_KEY }}
+          # Set for schedule + workflow_dispatch, empty for push.
+          FETCH_SAM: ${{ github.event_name != 'push' && '1' || '' }}
         run: python sdn_monitor.py
 
       - name: Build country-risk reference

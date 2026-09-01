@@ -79,6 +79,7 @@ SDN_LOG_PATH = "sdn_log.json"
 SDN_INDEX_PATH = "sdn_index.json"          # everything except SAM (~3 MB gz)
 SDN_INDEX_SAM_PATH = "sdn_index_sam.json"  # SAM.gov only, loaded after the rest
 SDN_COUNTS_PATH = "sdn_counts.json"
+SAM_META_PATH = "sam_meta.json"           # {"entries": N} from the last real SAM fetch, reused when SAM is skipped
 CHANGES_RSS_PATH = "sdn-changes.xml"
 CHANGES_CSV_PATH = "sdn-changes.csv"
 CHANGES_WINDOW_DAYS = 120
@@ -262,6 +263,12 @@ def fetch_sam():
     The file is a daily ZIP holding one comma-separated V2 extract; only Active
     records are in it. Firm/SED rows carry the entity name, Individual rows are
     assembled from the name parts, and the Cross-Reference field holds aliases."""
+    if not os.environ.get("FETCH_SAM"):
+        # Scheduled / manual builds only. The SAM.gov public API key has a low
+        # daily request quota; a burst of push builds exhausts it and every
+        # fetch that day then returns 429. FETCH_SAM is set in the workflow for
+        # the schedule and workflow_dispatch triggers, not for push.
+        raise RuntimeError("SAM fetch skipped for this trigger (schedule/dispatch only)")
     key = os.environ.get("SAM_API_KEY", "").strip()
     if not key:
         raise RuntimeError("SAM_API_KEY not set")
@@ -455,15 +462,44 @@ def main():
         + bis_state + un + uk + eu
     )
     index = build_index(records)
-    sam_index = build_index(sam)
     with open(SDN_INDEX_PATH, "w", encoding="utf-8") as f:
         json.dump(index, f)
-    with open(SDN_INDEX_SAM_PATH, "w", encoding="utf-8") as f:
-        json.dump(sam_index, f)
+
+    # SAM.gov is fetched on scheduled / manual runs only (see fetch_sam). On a
+    # push build `sam` is empty: keep the sdn_index_sam.json the last real fetch
+    # left behind — restored from the workflow cache — and carry its entry count
+    # forward, rather than overwriting the live list with an empty file.
+    if sam:
+        sam_index = build_index(sam)
+        sam_entries = len(sam)
+        with open(SDN_INDEX_SAM_PATH, "w", encoding="utf-8") as f:
+            json.dump(sam_index, f)
+        with open(SAM_META_PATH, "w", encoding="utf-8") as f:
+            json.dump({"entries": sam_entries}, f)
+    else:
+        sam_index, sam_entries = [], 0
+        try:
+            with open(SDN_INDEX_SAM_PATH, encoding="utf-8") as f:
+                sam_index = json.load(f)
+        except (OSError, ValueError):
+            sam_index = []
+        try:
+            with open(SAM_META_PATH, encoding="utf-8") as f:
+                sam_entries = int(json.load(f).get("entries", 0))
+        except (OSError, ValueError):
+            sam_entries = 0
+        if not os.path.exists(SDN_INDEX_SAM_PATH):
+            with open(SDN_INDEX_SAM_PATH, "w", encoding="utf-8") as f:
+                json.dump([], f)
 
     counts = {}
-    for rec in records + sam:
+    for rec in records:
         counts[rec["source"]] = counts.get(rec["source"], 0) + 1
+    if sam:
+        for rec in sam:
+            counts[rec["source"]] = counts.get(rec["source"], 0) + 1
+    elif sam_entries:
+        counts["SAM"] = sam_entries
     counts["total"] = sum(counts.values())
     counts["index_rows"] = len(index) + len(sam_index)
     with open(SDN_COUNTS_PATH, "w", encoding="utf-8") as f:
