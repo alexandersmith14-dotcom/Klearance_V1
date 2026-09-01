@@ -4380,7 +4380,7 @@ def main():
   <div class="qc-text">
     <a class="qc-name" href="https://kaufmanrossin.com/professionals/alexander-smith/" target="_blank" rel="noopener">Alexander Smith, CRCM, CFE</a>
     <div class="qc-title">Risk Advisory Services Senior Manager at Kaufman Rossin, one of the Top 50 CPA and advisory firms in the U.S.</div>
-    <p class="qc-blurb">If an update on this page affects your institution and you want a second read, email me.</p>
+    <p class="qc-blurb">Not sure what an update here means for your institution? Email me.</p>
     <div class="qc-icons">
       <a href="mailto:asmith@kaufmanrossin.com?subject=KleaRance%20regulatory%20tracker" aria-label="Email Alexander Smith">
         <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
