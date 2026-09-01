@@ -1252,6 +1252,19 @@ details.jurgroup>summary:hover h3{color:var(--brand)}
   width:28px;height:28px;border-radius:6px;background:#212529;color:#fff;
   transition:filter .12s ease}
 .quickcontact .qc-icons a:hover{filter:brightness(1.3)}
+/* Weekly-roundup opt-in, a lighter surface card than the navy bands above.
+   The list is not automated yet, so the copy and CTA are framed as a manual
+   add — swap the mailto for a real form action once a list exists. */
+.roundup{margin-top:22px;background:var(--surface);border:1px solid var(--border);
+  border-left:3px solid var(--accent);border-radius:12px;padding:18px 22px;
+  box-shadow:var(--shadow-sm)}
+.roundup b{display:block;font-size:14.5px;color:var(--ink);margin-bottom:5px}
+.roundup p{margin:0 0 13px;font-size:13px;color:var(--ink-muted);line-height:1.55}
+.roundup a{display:inline-block;font:inherit;font-size:13px;font-weight:600;
+  color:var(--brand);text-decoration:none;padding:8px 15px;border-radius:9px;
+  border:1px solid var(--brand);transition:background .12s ease,color .12s ease}
+.roundup a:hover{background:var(--brand);color:var(--surface)}
+.roundup a:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
 
 /* Footer band. Full-bleed navy, mirrors kaufmanrossin.com's own footer — this
    is the point of publishing the tool, so it gets real estate at the bottom,
@@ -4370,6 +4383,13 @@ def main():
 <h2 class="sectionband">Screening &amp; country reference</h2>
 <div style="margin:18px 0">{sdn_html}</div>
 <div style="margin:18px 0">{jur_html}</div>
+
+<div class="roundup">
+  <b>Get the week's changes in one email</b>
+  <p>A weekly summary: the updates that scored highest for community banks, credit unions
+    and fintechs, and the deadlines coming up. Send your details and I will add you.</p>
+  <a href="mailto:asmith@kaufmanrossin.com?subject=KleaRance%20weekly%20roundup&amp;body=Add%20me%20to%20the%20KleaRance%20weekly%20roundup.%0A%0AName%3A%0AInstitution%3A%0ARole%3A%0A">Subscribe &rarr;</a>
+</div>
 
 <!-- Contact card at the very end of the page content, after everything a
      visitor came to read. -->
