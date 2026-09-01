@@ -4387,7 +4387,7 @@ def main():
 <div class="roundup">
   <b>Get the week's changes in one email</b>
   <p>A weekly summary: the updates that scored highest for community banks, credit unions
-    and fintechs, and the deadlines coming up. Send your details and I will add you.</p>
+    and fintechs, and the deadlines coming up.</p>
   <a href="mailto:asmith@kaufmanrossin.com?subject=KleaRance%20weekly%20roundup&amp;body=Add%20me%20to%20the%20KleaRance%20weekly%20roundup.%0A%0AName%3A%0AInstitution%3A%0ARole%3A%0A">Subscribe &rarr;</a>
 </div>
 
