@@ -4353,11 +4353,11 @@ def main():
 
 <div class="advisory-band">
   <h2>Where the tool stops, the team starts</h2>
-  <p>KleaRance tells you what the regulators published. Deciding what it means for
-    your institution, and what to change, is advisory work. Kaufman Rossin's risk
-    advisory team does that for community banks, credit unions and fintechs: gap
-    assessments, program updates, remediation, and ongoing change management. We
-    are independent, and we answer only to our clients.</p>
+  <p>KleaRance tells you what the regulators published. Working out what it means
+    for your institution, and what to change, is where our team comes in. Kaufman
+    Rossin's risk advisory practice does that for community banks, credit unions
+    and fintechs: gap assessments, program updates, remediation, and change
+    management. We are independent, and we answer only to our clients.</p>
   <p class="ab-cta"><a href="mailto:asmith@kaufmanrossin.com?subject=KleaRance%3A%20advisory%20help&amp;body=Institution%3A%0ARole%3A%0AWhat%20you%20need%20help%20with%3A%0A">Start a conversation &rarr;</a></p>
 </div>
 
