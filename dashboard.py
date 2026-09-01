@@ -240,7 +240,6 @@ CSS = """
   --ink:#212529; --ink-2:#3c3c3c; --ink-muted:#6c757d;
   --rule:#e3e3e3; --border:rgba(0,0,0,.12);
   --brand:#003b6a; --brand-bg:#003b6a; --brand-bg-2:#001f3f; --brand-bg-light:#074c83; --accent:#aed136;
-  --accent-wash:#f7f9ec;
   --info:var(--brand-bg-light);
   --bar:#003b6a; --track:#e3e3e3;
   --crit:#c0392b; --warn:#9a6400; --ok:#2f7d32; --neutral:#3c3c3c;
@@ -266,7 +265,6 @@ CSS = """
     --ink:#f5f5f5; --ink-2:#c9cdd1; --ink-muted:#8b9298;
     --rule:#2a3035; --border:rgba(255,255,255,.12);
     --brand:#4e9bd8; --brand-bg:#123a63; --brand-bg-2:#0a2242; --brand-bg-light:#215383; --accent:#aed136;
-  --accent-wash:#191d1a;
     --info:var(--brand-bg-light);
     --bar:#4e9bd8; --track:#2a3035;
     --crit:#e66767; --warn:#eda100; --ok:#4caf50; --neutral:#c9cdd1;
@@ -285,7 +283,6 @@ CSS = """
   --ink:#f5f5f5; --ink-2:#c9cdd1; --ink-muted:#8b9298;
   --rule:#2a3035; --border:rgba(255,255,255,.12);
   --brand:#4e9bd8; --brand-bg:#123a63; --brand-bg-2:#0a2242; --brand-bg-light:#215383; --accent:#aed136;
-  --accent-wash:#191d1a;
     --info:var(--brand-bg-light);
   --bar:#4e9bd8; --track:#2a3035;
   --crit:#e66767; --warn:#eda100; --ok:#4caf50; --neutral:#c9cdd1;
@@ -982,17 +979,17 @@ header.krheader{animation-delay:.08s}
    the section headers above and below it, so it reads as an aside rather than
    another header. Sits between the agency feed and the screening tools. */
 .advisory-band{margin:30px 0 14px;padding:20px 22px;border-radius:12px;
-  background:var(--accent-wash);border:1px solid var(--border);
-  border-left:4px solid var(--accent);box-shadow:var(--shadow-sm)}
+  background:var(--surface);border:1px solid var(--border);
+  border-left:5px solid var(--accent);box-shadow:var(--shadow-sm)}
 .advisory-band .ab-eyebrow{display:block;font-size:11px;font-weight:700;
   letter-spacing:.08em;text-transform:uppercase;color:var(--brand);margin:0 0 6px}
 .advisory-band h2{margin:0 0 8px;font-size:19px;font-weight:800;letter-spacing:-.01em;color:var(--ink)}
 .advisory-band p{margin:0;font-size:14.5px;line-height:1.6;color:var(--ink-muted)}
 .advisory-band .ab-cta{margin:16px 0 0}
-.advisory-band .ab-cta a{display:inline-block;background:var(--brand-bg);color:#fff;
+.advisory-band .ab-cta a{display:inline-block;background:var(--accent);color:#003b6a;
   font-weight:700;font-size:14px;text-decoration:none;padding:11px 20px;border-radius:10px;
   transition:filter .12s;white-space:nowrap}
-.advisory-band .ab-cta a:hover{filter:brightness(1.12)}
+.advisory-band .ab-cta a:hover{filter:brightness(1.06)}
 .advisory-band .ab-cta a:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
 .panel .note{font-size:12px;color:var(--ink-2);margin:0 0 12px}
 /* Scope line under the deadlines heading. */
