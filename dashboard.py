@@ -1090,6 +1090,7 @@ details.jurgroup>summary:hover h3{color:var(--brand)}
 .sdnsearchfoot{display:flex;align-items:center;gap:12px;margin-top:6px}
 .sdnsearchfoot:empty{display:none}
 #sdnlistcount:empty{display:none}
+#sdnlistcount{margin-left:auto;text-align:right}
 #sdnbulkgo{font:inherit;font-size:13px;font-weight:600;
   padding:7px 16px;cursor:pointer;color:#fff;background:var(--brand);
   border:1px solid var(--brand);border-radius:10px}
@@ -1109,6 +1110,14 @@ details.jurgroup>summary:hover h3{color:var(--brand)}
 .sdnbulkrow .sdnname{font-weight:600}
 .sdnbulkrow.hit .sdnname::after{content:" ●";color:var(--crit)}
 .sdnbulkrow .sdnmeta{white-space:normal}
+.sdnscorewrap{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink-muted)}
+.sdnscorewrap input[type=range]{width:120px;accent-color:var(--brand)}
+.sdnscoreval{font-variant-numeric:tabular-nums;font-weight:600;color:var(--ink);min-width:2.5ch;text-align:right}
+.sdnscorebadge{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.02em;padding:1px 5px;
+  border-radius:6px;background:var(--neutral);color:#fff;vertical-align:middle;font-variant-numeric:tabular-nums}
+.sdnscorebadge.exact{background:transparent;color:var(--ink-muted);
+  border:1px solid var(--border);font-weight:600}
+.sdnrow.near .sdnname{opacity:.92}
 .card .agency{font-size:12px;color:var(--ink-muted)}
 .card h3{font-size:14.5px;margin:0 0 5px;font-weight:600;line-height:1.35;
   text-align:justify;text-align-last:left}
@@ -2297,8 +2306,11 @@ if (sdnListQ) {
   const countEl = document.getElementById('sdnlistcount');
   const bulkQ = document.getElementById('sdnbulkq');
   const bulkGo = document.getElementById('sdnbulkgo');
+  const minScoreEl = document.getElementById('sdnminscore');
+  const minScoreValEl = document.getElementById('sdnminscoreval');
+  const minScore = () => minScoreEl ? +minScoreEl.value : 100;
   const RESULT_CAP = 60;
-  let index = null, indexPromise = null, norm = null;
+  let index = null, indexPromise = null, norm = null, scoreVisible = false;
   // SAM.gov (US federal debarment) is ~4x the other lists combined. It loads
   // from its own file only after the fast index is in hand, and folds into the
   // same `index` / `norm` arrays when it arrives.
@@ -2332,27 +2344,101 @@ if (sdnListQ) {
     .toLowerCase().replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim();
   const nameOf = r => r[5] ? r[8] : r[1];        // alias rows screen on the alias
 
+  // Jaro-Winkler similarity 0..1. Prefix-weighted, transposition-tolerant —
+  // what transliterated names need ("kadirov" vs "kadyrov").
+  function jaro(a, b) {
+    if (a === b) return 1;
+    const la = a.length, lb = b.length;
+    if (!la || !lb) return 0;
+    const win = Math.max(0, ((la > lb ? la : lb) >> 1) - 1);
+    const ma = new Array(la).fill(false);
+    const mb = new Array(lb).fill(false);
+    let m = 0;
+    for (let i = 0; i < la; i++) {
+      const lo = i > win ? i - win : 0, hi = Math.min(i + win + 1, lb);
+      for (let j = lo; j < hi; j++) {
+        if (mb[j] || a[i] !== b[j]) continue;
+        ma[i] = mb[j] = true; m++; break;
+      }
+    }
+    if (!m) return 0;
+    let k = 0, t = 0;
+    for (let i = 0; i < la; i++) {
+      if (!ma[i]) continue;
+      while (!mb[k]) k++;
+      if (a[i] !== b[k]) t++;
+      k++;
+    }
+    t /= 2;
+    return (m / la + m / lb + (m - t) / m) / 3;
+  }
+  function jaroWinkler(a, b) {
+    const j = jaro(a, b);
+    let p = 0;
+    while (p < 4 && a[p] && a[p] === b[p]) p++;
+    return j + p * 0.1 * (1 - j);
+  }
+  // Name score 0..100: each query token greedily paired with its best remaining
+  // name word, averaged. Extra name words are free (partial-name queries stay
+  // strong); missing query tokens cost.
+  function nameScore(qtokens, nwords) {
+    if (!qtokens.length || !nwords.length) return 0;
+    const used = new Array(nwords.length).fill(false);
+    let sum = 0;
+    for (const qt of qtokens) {
+      let best = 0, bi = -1;
+      for (let j = 0; j < nwords.length; j++) {
+        if (used[j]) continue;
+        const s = jaroWinkler(qt, nwords[j]);
+        if (s > best) { best = s; bi = j; }
+      }
+      if (bi >= 0) used[bi] = true;
+      sum += best;
+    }
+    return Math.round((sum / qtokens.length) * 100);
+  }
+
   function ensureNorm() {
     // Per row: the folded name's words, for prefix matching. Matching whole
     // words (not any substring) keeps "putin" from hitting "com-putin-g".
     if (index && !norm) norm = index.map(r => foldName(nameOf(r)).split(' ').filter(Boolean));
   }
-  function matchRows(query) {
+  function matchRows(query, minScore) {
     ensureNorm();
     const qt = foldName(query).split(' ').filter(Boolean);
     if (!qt.length) return [];
+    const fuzzy = minScore != null && minScore < 100
+      && qt.join(' ').length >= 3;
     const seen = new Map();                       // source:ent_num -> best hit
     for (let i = 0; i < index.length; i++) {
       const words = norm[i];
-      // every query token must start some word in the name
-      if (!qt.every(t => words.some(w => w.startsWith(t)))) continue;
+      if (!words.length) continue;
+      let score = 100;
+      // fast path: every query token starts some name word -> exact / prefix
+      if (!qt.every(t => words.some(w => w.startsWith(t)))) {
+        if (!fuzzy) continue;
+        // cheap gate before the O(n*m) similarity: some name word must
+        // plausibly pair with some query token — same initial, similar
+        // length. Compared per word, not whole-string, so a partial-name
+        // query ("Putn" against "Vladimir Putin") still gets through.
+        let gate = false;
+        for (const w of words) {
+          for (const t of qt) {
+            if (w[0] === t[0] && Math.abs(w.length - t.length) <= 3) { gate = true; break; }
+          }
+          if (gate) break;
+        }
+        if (!gate) continue;
+        score = nameScore(qt, words);
+        if (score < minScore) continue;
+      }
       const r = index[i], key = r[4] + ':' + r[0], isAlias = !!r[5];
       const prev = seen.get(key);
-      if (!prev || (prev.isAlias && !isAlias)) {
-        seen.set(key, { row: r, isAlias, matched: nameOf(r) });
+      if (!prev || prev.score < score || (prev.score === score && prev.isAlias && !isAlias)) {
+        seen.set(key, { row: r, isAlias, matched: nameOf(r), score });
       }
     }
-    return [...seen.values()];
+    return [...seen.values()].sort((a, b) => b.score - a.score);
   }
   const SRC_SEARCH = {
     'UN': 'https://main.un.org/securitycouncil/en/sanctions/information',
@@ -2384,20 +2470,30 @@ if (sdnListQ) {
       + '">' + esc(r[4]) + '</span>';
     const aka = m.isAlias
       ? ` <span class="sdnalias">alias &mdash; listed as &ldquo;${esc(r[1])}&rdquo;</span>` : '';
-    return `<div class="sdnrow">
-      <div class="sdnname">${src} ${esc(m.matched || '(unnamed entry)')}${aka}</div>
+    // While the threshold is below 100 every row carries a score for a
+    // consistent column; an exact/prefix hit (100) gets the quiet outline.
+    const badge = scoreVisible
+      ? ` <span class="sdnscorebadge${m.score >= 100 ? ' exact' : ''}" title="Approximate name-match score">${m.score}</span>` : '';
+    return `<div class="sdnrow${m.score < 100 ? ' near' : ''}">
+      <div class="sdnname">${src} ${esc(m.matched || '(unnamed entry)')}${aka}${badge}</div>
       <div class="sdnmeta">${esc(r[3] || '—')}${r[2] ? ' · ' + esc(r[2]) : ''}</div>
       ${detail(r)}
     </div>`;
   }
   function renderOne(query) {
     if (!query) { results.innerHTML = ''; countEl.textContent = ''; return; }
-    const m = matchRows(query), shown = m.slice(0, RESULT_CAP);
+    const ms = minScore();
+    scoreVisible = ms < 100;
+    const m = matchRows(query, ms), shown = m.slice(0, RESULT_CAP);
+    const emptyMsg = ms >= 100
+      ? 'No exact match. Lower &ldquo;Min. name score&rdquo; to check for near matches.'
+      : `No match at score ${ms}+ on the sanctions or debarment lists${samDone ? '' : ' loaded so far'}.`;
     results.innerHTML = shown.length ? shown.map(rowHtml).join('')
-      : `<p class="sdnempty">No match on the sanctions or debarment lists${samDone ? '' : ' loaded so far'}.</p>`;
-    countEl.textContent = m.length > RESULT_CAP
+      : `<p class="sdnempty">${emptyMsg}</p>`;
+    const tail = ms < 100 ? ` at score ${ms}+` : '';
+    countEl.textContent = (m.length > RESULT_CAP
       ? `first ${RESULT_CAP} of ${m.length} matches`
-      : `${m.length} match${m.length === 1 ? '' : 'es'}`;
+      : `${m.length} match${m.length === 1 ? '' : 'es'}`) + tail;
   }
   function loadIndex() {
     if (index) return Promise.resolve(index);
@@ -2417,14 +2513,16 @@ if (sdnListQ) {
     const names = lines();
     if (!names.length) { results.innerHTML = ''; countEl.textContent = ''; return; }
     countEl.textContent = 'screening…';
+    const ms = minScore();
     loadIndex().then(loadSam).then(() => {
       if (!index) return;
       let hits = 0;
+      const sc = x => ms < 100 ? ` [${x.score}]` : '';
       results.innerHTML = names.map(name => {
-        const m = matchRows(name);
+        const m = matchRows(name, ms);
         if (m.length) hits++;
         const summary = m.length
-          ? m.slice(0, 3).map(x => esc(x.matched) + (x.isAlias ? ' (alias)' : '') + ' &mdash; ' + esc(x.row[3] || '—')).join('; ')
+          ? m.slice(0, 3).map(x => esc(x.matched) + (x.isAlias ? ' (alias)' : '') + sc(x) + ' &mdash; ' + esc(x.row[3] || '—')).join('; ')
             + (m.length > 3 ? ` +${m.length - 3} more` : '')
           : 'no match';
         return `<div class="sdnrow sdnbulkrow${m.length ? ' hit' : ''}">
@@ -2432,7 +2530,8 @@ if (sdnListQ) {
           <div class="sdnmeta">${summary}</div>
         </div>`;
       }).join('');
-      countEl.textContent = `${hits} of ${names.length} name${names.length === 1 ? '' : 's'} hit the lists`;
+      const tail = ms < 100 ? ` (score ${ms}+)` : '';
+      countEl.textContent = `${hits} of ${names.length} name${names.length === 1 ? '' : 's'} hit the lists${tail}`;
     });
   }
 
@@ -2453,6 +2552,24 @@ if (sdnListQ) {
     loadIndex().then(() => { if (index) renderOne(lines()[0] || ''); });
   });
   if (bulkGo) bulkGo.addEventListener('click', runBulk);
+
+  if (minScoreEl) {
+    const reflect = () => { if (minScoreValEl) minScoreValEl.textContent = minScoreEl.value; };
+    reflect();
+    minScoreEl.addEventListener('input', reflect);        // number readout only — cheap
+    let t = 0;
+    minScoreEl.addEventListener('change', () => {         // re-screen on release
+      clearTimeout(t);
+      t = setTimeout(() => {
+        const ls = lines();
+        if (ls.length >= 2) return;                       // list mode re-runs on its button
+        const q = ls[0] || '';
+        if (!q) return;
+        if (index) renderOne(q);
+        else loadIndex().then(() => { if (index) renderOne(lines()[0] || ''); });
+      }, 120);
+    });
+  }
 
 }
 
@@ -3652,6 +3769,11 @@ def sdn_panel(today):
         'aria-label="Screen a name or a list of names against the sanctions lists"></textarea>'
         '<div class="sdnsearchfoot">'
         '<button type="button" id="sdnbulkgo" hidden>Screen list</button>'
+        '<label class="sdnscorewrap" for="sdnminscore">Min. name score'
+        '<input type="range" id="sdnminscore" min="50" max="100" step="5" value="100" '
+        'aria-label="Minimum name score — lower to see near matches">'
+        '<span class="sdnscoreval" id="sdnminscoreval">100</span>'
+        '</label>'
         '<span id="sdnlistcount" class="sdncount"></span>'
         '</div>'
         '<p id="sdnsamhint" class="sdnsamhint" hidden></p>'
@@ -3673,7 +3795,8 @@ def sdn_panel(today):
         '(Entity List, Denied Persons, Unverified, Military End-User), the State '
         f'Department (ITAR debarred, nonproliferation),{sam_intro} and the UN, UK '
         'and EU consolidated lists &mdash; by primary name and known alias, '
-        'matched loosely on spelling and word order. Not a compliance clearance: '
+        'matched on spelling and word order, with an adjustable near-match score. '
+        'Not a compliance clearance: '
         'it does not carry PEP or adverse-media data, and the lists change daily. '
         'Verify anything material against the issuing authority, starting with '
         '<a href="https://sanctionssearch.ofac.treas.gov/" '
