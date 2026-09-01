@@ -4198,10 +4198,10 @@ def main():
       <p class="hero-sub"><b>by KAUFMAN <span class="hero-pipe">|</span> ROSSIN</b></p>
     </div>
     <div class="hero-divider"></div>
-    <p class="hero-copy">Compliance teams don't need more alerts — they need
-      clarity. KleaRance, Kaufman Rossin's regulatory intelligence platform,
-      transforms the constant stream of rule changes into measurable,
-      manageable insight your team can act on immediately.</p>
+    <p class="hero-copy">When you are the whole compliance function, more alerts
+      do not help. Klearance is a free regulatory tracker from Kaufman Rossin's
+      risk advisory team. It reads agency updates so you don't have to. One page,
+      no login.</p>
   </div>
 </div>
 
