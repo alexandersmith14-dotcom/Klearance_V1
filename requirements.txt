@@ -21,3 +21,12 @@ certifi>=2024.2.2
 # pinning this package means the lookup doesn't depend on that being true --
 # same reasoning as certifi above.
 tzdata>=2024.1
+
+# make_audio.py renders the spoken-summary clips with Kokoro (voice af_heart,
+# same as the committed backlog). kokoro pulls torch + misaki; misaki's G2P
+# needs the espeak-ng system package, installed in the workflow. soundfile
+# writes the intermediate WAV that ffmpeg re-encodes to MP3. Heavy, but only
+# this one script imports them and the clip step is non-fatal, so a broken
+# install degrades to "fewer players" rather than a failed build.
+kokoro>=0.9.4
+soundfile>=0.12.1

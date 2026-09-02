@@ -40,8 +40,22 @@ jobs:
           python-version: "3.12"
           cache: pip
 
+      # misaki (Kokoro's G2P, used by make_audio.py) shells out to espeak-ng.
+      # ffmpeg is already on the runner image. Both are only needed by the
+      # non-fatal audio step below.
+      - name: Install espeak-ng
+        run: sudo apt-get update && sudo apt-get install -y espeak-ng
+
       - name: Install dependencies
         run: pip install -r requirements.txt
+
+      # Kokoro downloads its model + voices from the HF hub on first use
+      # (~330 MB). Cache them so only the first run after a model bump pays it.
+      - name: Cache Kokoro model
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: huggingface-kokoro-v1
 
       - name: Fetch from agency sources
         run: python fetcher.py
@@ -75,6 +89,14 @@ jobs:
 
       - name: Build country-risk reference
         run: python country_risk.py
+
+      # Spoken-summary clips for new / changed items, before the dashboard build
+      # reads ./audio to decide which items get a player. Non-fatal: a broken
+      # Kokoro install or model download just means fewer players this run, not
+      # a failed publish - same rule as the agency sources.
+      - name: Render summary audio
+        continue-on-error: true
+        run: python make_audio.py
 
       - name: Build dashboard
         run: python dashboard.py
@@ -116,7 +138,7 @@ jobs:
         run: |
           git config user.name "regwatch-bot"
           git config user.email "actions@github.com"
-          git add store.json dashboard.html sdn_log.json sdn_snapshot.json csl_snapshot.json fincen311_snapshot.json audit_log.jsonl
+          git add store.json dashboard.html sdn_log.json sdn_snapshot.json csl_snapshot.json fincen311_snapshot.json audit_log.jsonl audio audio_manifest.json
           # Nothing to do when no new items were published that day.
           if git diff --staged --quiet; then
             echo "No changes to publish."
