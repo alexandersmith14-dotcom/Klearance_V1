@@ -3710,7 +3710,8 @@ def coverage_panel(store):
         + '. History depth varies by source — some publish archives going back '
         'years, others only their most recent items.')
     _n, _sam = sanctions_meta()
-    _sanc_lists_word = {6: "six", 7: "seven", 8: "eight", 9: "nine"}.get(_n, str(_n))
+    _sanc_lists_word = {6: "six", 7: "seven", 8: "eight", 9: "nine", 10: "ten",
+                        11: "eleven", 12: "twelve"}.get(_n, str(_n))
     _sanc_note = " SAM.gov Exclusions," if _sam else ""
     return (
         '<details class="coverage"><summary>What this covers, and what it does not'
@@ -3732,10 +3733,11 @@ def coverage_panel(store):
         '<p><strong>Sanctions screening:</strong> tracked separately from the '
         f'agency feed above. {_sanc_lists_word.capitalize()} lists are downloaded '
         'whole each day &mdash; OFAC SDN and Consolidated, BIS and State (via '
-        f'Trade.gov),{_sanc_note} and the UN, UK and EU consolidated lists &mdash; '
-        'and searched by name and alias, not classified or filtered for relevance '
-        'the way the rest of this page is. Only the OFAC SDN list is diffed day '
-        'over day for the change log.</p>'
+        f'Trade.gov),{_sanc_note} the UN, UK and EU consolidated lists, the World '
+        'Bank debarment list and FinCEN Section 311 special measures &mdash; and '
+        'searched by name and alias, not classified or filtered for relevance the '
+        'way the rest of this page is. The OFAC SDN and Consolidated lists and '
+        'FinCEN Section 311 are diffed day over day for the change log.</p>'
         '<p><strong>Jurisdiction risk:</strong> the FATF call-for-action and '
         'grey lists, the EU high-risk third-country list, the INCSR '
         'money-laundering jurisdictions and the Transparency International '
@@ -3980,7 +3982,8 @@ def sdn_panel(today):
         'sanctions and debarment lists &mdash; OFAC (SDN and Consolidated), BIS '
         '(Entity List, Denied Persons, Unverified, Military End-User), the State '
         f'Department (ITAR debarred, nonproliferation),{sam_intro} the UN, UK '
-        'and EU consolidated lists, and FinCEN Section 311 special measures '
+        'and EU consolidated lists, the World Bank debarment list (including MDB '
+        'cross-debarments) and FinCEN Section 311 special measures '
         '&mdash; by primary name and known alias, '
         'matched on spelling and word order, with an adjustable near-match score. '
         'Not a compliance clearance: '

@@ -12,6 +12,8 @@ Screening covers, by name and alias:
   - EU Consolidated Financial Sanctions List            source "EU"
   - SAM.gov Exclusions (US federal debarment)           source "SAM"
       needs a free SAM.gov public API key in SAM_API_KEY; skipped without it
+  - World Bank Listing of Ineligible (Debarred) Firms   source "World Bank"
+      and Individuals, incl. MDB cross-debarments
   - FinCEN Section 311 / 9714 special measures           source "FinCEN 311"
       foreign banks/jurisdictions of primary money laundering concern
 
@@ -58,6 +60,12 @@ FINCEN_311_URL = ("https://www.fincen.gov/resources/statutes-and-regulations/"
                   "311-and-9714-special-measures")
 UN_URL = "https://scsanctions.un.org/resources/xml/en/consolidated.xml"
 UK_URL = "https://ofsistorage.blob.core.windows.net/publishlive/2022format/ConList.csv"
+# World Bank Listing of Ineligible (Debarred) Firms and Individuals. JSON API
+# behind the public debarment search; the api key is baked into that page's own
+# JavaScript, not a secret.
+WORLDBANK_URL = ("https://apigwext.worldbank.org/dvsvc/v1.0/json/APPLICATION/"
+                 "ADOBE_EXPRNCE_MGR/FIRM/SANCTIONED_FIRM")
+WORLDBANK_KEY = "z9duUaFUiEUYSHs97CU38fcZO7ipOPvm"
 EU_TOKEN = "dG9rZW4tMjAxNw"
 EU_URL = ("https://webgate.ec.europa.eu/fsd/fsf/public/files/"
           f"csvFullSanctionsList_1_1/content?token={EU_TOKEN}")
@@ -261,6 +269,58 @@ def fetch_eu():
                     "country": (m.get("Address_CountryDescription")
                                 or m.get("Citizenship_CountryDescription") or "").strip(),
                     "aliases": names[1:]})
+    return out
+
+
+_WB_TYPE = {"I": "individual", "F": "entity", "U": "entity", "C": "entity"}
+
+
+def fetch_worldbank():
+    """World Bank Listing of Ineligible (Debarred) Firms and Individuals. Firms
+    and people barred from Bank-financed contracts - for fraud, corruption,
+    collusion, coercion or obstruction - plus parties cross-debarred from the
+    other MDBs under the 2010 mutual-enforcement agreement (ELIG_STAT
+    'X-DEBARRED'). JSON API behind the public debarment search."""
+    req = urllib.request.Request(WORLDBANK_URL, headers={
+        "User-Agent": fetcher.UA["User-Agent"],
+        "Accept": "application/json", "apikey": WORLDBANK_KEY,
+    })
+    with urllib.request.urlopen(req, timeout=180) as resp:
+        rows = json.load(resp)["response"]["ZPROCSUPP"]
+    out = []
+    for r in rows:
+        name = " ".join((r.get("SUPP_NAME") or "").split())
+        if not name:
+            continue
+        aliases = []
+        info = re.sub(r"\*\d+\s*$", "", (r.get("ADD_SUPP_INFO") or "").strip().lstrip(",")).strip()
+        for a in re.split(r"\balso\b", info, flags=re.I):
+            a = " ".join(a.strip(" ,;").split())
+            if a and a.lower() != name.lower():
+                aliases.append(a)
+        frm, to = r.get("DEBAR_FROM_DATE") or "", r.get("DEBAR_TO_DATE") or ""
+        permanent = to.startswith("2999")
+        status = "cross-debarred" if r.get("ELIG_STAT") == "X-DEBARRED" else "debarred"
+        span = (f"from {frm}" if frm else "") + ("" if permanent or not to else f" to {to}")
+        addr = ", ".join(x for x in ((r.get("SUPP_ADDR") or "").strip(),
+                                     (r.get("SUPP_CITY") or "").strip(),
+                                     (r.get("COUNTRY_NAME") or "").strip()) if x)
+        remarks = "; ".join(x for x in [
+            "World Bank " + status + (", permanent" if permanent else ""),
+            span.strip(),
+            f"grounds: {r['DEBAR_REASON']}" if r.get("DEBAR_REASON") else "",
+            f"address: {addr}" if addr else "",
+        ] if x)
+        out.append({
+            "key": "wb" + str(r.get("SUPP_ID")),
+            "name": name,
+            "type": _WB_TYPE.get(r.get("SUPP_TYPE_CODE"), ""),
+            "program": "World Bank " + status,
+            "source": "World Bank",
+            "remarks": remarks[:REMARKS_CAP],
+            "country": " ".join((r.get("COUNTRY_NAME") or "").split()),
+            "aliases": aliases,
+        })
     return out
 
 
@@ -704,6 +764,7 @@ def main():
     un = safe("UN Security Council", fetch_un)
     uk = safe("UK OFSI", fetch_uk_ofsi)
     eu = safe("EU FSF", fetch_eu)
+    worldbank = safe("World Bank debarment", fetch_worldbank)
     fincen311 = safe("FinCEN 311 special measures", fetch_fincen311)
     sam = safe("SAM.gov Exclusions", fetch_sam)
 
@@ -754,7 +815,7 @@ def main():
     records = (
         list(ofac_records(sdn, sdn_alt, sdn_ctry, "SDN"))
         + list(ofac_records(csl, csl_alt, csl_ctry, "Non-SDN"))
-        + bis_state + un + uk + eu + fincen311
+        + bis_state + un + uk + eu + worldbank + fincen311
     )
     index = build_index(records)
     with open(SDN_INDEX_PATH, "w", encoding="utf-8") as f:
