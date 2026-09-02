@@ -2451,6 +2451,15 @@ if (sdnListQ) {
     return [matched || r[1], r[3], r[7] ? 'Country: ' + r[7] : '', notes]
       .filter(Boolean).join('. ').replace(/\.\s*\.+/g, '.');
   }
+  // A bulk row is one screened name against several hits. One hit reads like a
+  // single result; several read as a tally plus the top few lists and programmes.
+  function saySpeechBulk(name, m, srcs) {
+    if (!m.length) return '';
+    if (m.length === 1) return saySpeech(m[0].row, m[0].matched);
+    const top = m.slice(0, 3)
+      .map(x => x.row[4] + ', ' + (x.row[3] || 'no programme')).join('. ');
+    return `${name}. Matched on ${srcs.length} ${srcs.length === 1 ? 'list' : 'lists'}. ${top}.`;
+  }
   if (results) {
     results.addEventListener('click', e => {
       const b = e.target.closest('.sdnplay');
@@ -2695,9 +2704,14 @@ if (sdnListQ) {
           ? m.slice(0, 3).map(x => esc(x.row[4]) + ' &mdash; ' + esc(x.matched) + (x.isAlias ? ' (alias)' : '') + sc(x) + ': ' + esc(x.row[3] || '—')).join('; ')
             + (m.length > 3 ? ` +${m.length - 3} more` : '')
           : 'no match';
+        const say = (TTS_OK && m.length)
+          ? ` <button type="button" class="sdnplay" aria-label="Read this result aloud"
+              data-label="Read this result aloud" data-say="${esc(saySpeechBulk(name, m, bsrcs))}"
+              ><span class="sdnplay-i" aria-hidden="true"></span><span class="sdnplay-t">Listen</span></button>`
+          : '';
         return `<div class="sdnrow sdnbulkrow${m.length ? ' hit' : ''}">
           <div class="sdnname">${esc(name)}${onLists}</div>
-          <div class="sdnmeta">${summary}</div>
+          <div class="sdnmeta">${summary}${say}</div>
         </div>`;
       }).join('');
       const tail = ms < 100 ? ` (score ${ms}+)` : '';
