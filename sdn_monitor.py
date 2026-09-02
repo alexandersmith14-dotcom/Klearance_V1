@@ -12,6 +12,8 @@ Screening covers, by name and alias:
   - EU Consolidated Financial Sanctions List            source "EU"
   - SAM.gov Exclusions (US federal debarment)           source "SAM"
       needs a free SAM.gov public API key in SAM_API_KEY; skipped without it
+  - FinCEN Section 311 / 9714 special measures           source "FinCEN 311"
+      foreign banks/jurisdictions of primary money laundering concern
 
 Only the OFAC SDN list is diffed day over day (sdn_log.json, the audit trail
 behind "Recent list activity"). The other lists are fetched fresh each run and
@@ -24,6 +26,8 @@ import csv
 import io
 import json
 import os
+import re
+import unicodedata
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -50,6 +54,8 @@ CSL_SOURCE_MAP = {
     "ITAR Debarred (DTC) - State Department": "State",
     "Nonproliferation Sanctions (ISN) - State Department": "State",
 }
+FINCEN_311_URL = ("https://www.fincen.gov/resources/statutes-and-regulations/"
+                  "311-and-9714-special-measures")
 UN_URL = "https://scsanctions.un.org/resources/xml/en/consolidated.xml"
 UK_URL = "https://ofsistorage.blob.core.windows.net/publishlive/2022format/ConList.csv"
 EU_TOKEN = "dG9rZW4tMjAxNw"
@@ -257,6 +263,198 @@ def fetch_eu():
     return out
 
 
+# Rows in the FinCEN 311 table that name a class of transactions rather than an
+# entity a name search can match. Kept out of the index; the measure still
+# exists, it just has no screenable name.
+FINCEN_311_SKIP = {
+    "Convertible Virtual Currency Mixing",
+    "Mexican Gambling Establishments",
+    "Burma",  # "Burmese banking institution" is a class, not a named entity
+}
+# Measures whose target is a whole jurisdiction, not a legal entity - kept as a
+# record (the finding is real) but carrying no address / affiliate enrichment.
+FINCEN_311_JURISDICTION = {
+    "Democratic People's Republic of Korea",
+    "Islamic Republic of Iran",
+    "Nauru",
+    "Ukraine",
+}
+FINCEN_311_DETAILS_PATH = "fincen311_details.csv"
+_FINCEN_311_DATE = re.compile(r"(\d{1,2})/(\d{1,2})/(\d{4})")
+
+
+def _fincen_311_date(cell):
+    """First MM/DD/YYYY in a stage cell, as YYYY-MM-DD. Cells can carry trailing
+    parentheticals ('6/25/2025 (Final Rule)7/9/2025 (Supplement)') - the first
+    date is the one that sets the stage."""
+    m = _FINCEN_311_DATE.search(cell or "")
+    if not m:
+        return ""
+    mm, dd, yyyy = m.groups()
+    return f"{yyyy}-{int(mm):02d}-{int(dd):02d}"
+
+
+def _fincen_311_slug(name):
+    """Stable ASCII join key for a measure name - accent-folded so a source-side
+    encoding wobble ('Institucion' vs 'Institución') maps to the same key."""
+    folded = unicodedata.normalize("NFKD", name).encode("ascii", "ignore").decode()
+    return re.sub(r"[^a-z0-9]+", "-", folded.lower()).strip("-")
+
+
+def _fincen_311_name(raw):
+    """(clean_name, aliases) from a table name cell. Trailing asterisks are
+    footnote markers; '(Includes X)' / 'renamed Y' name a covered affiliate or
+    a later name; a trailing '(Acronym)' that just repeats a word already in the
+    name is a short form, not a new fact."""
+    name = re.sub(r"[\s*’']+$", "", raw).strip()
+    aliases = []
+    inc = re.search(r"\((?:includes|formerly)\s+([^)]+)\)", name, re.I)
+    if inc:
+        aliases += [a.strip(" *") for a in re.split(r";|,| and ", inc.group(1)) if a.strip(" *")]
+    ren = re.search(r"renamed\s+([A-Za-z0-9 .,'&-]+)", name, re.I)
+    if ren:
+        aliases.append(ren.group(1).strip(" *"))
+    name = re.sub(r"\s*\((?:includes|formerly)[^)]*\)", "", name, flags=re.I)
+    name = re.sub(r";?\s*renamed\s+.*$", "", name, flags=re.I)
+    tail = re.search(r"\s*\(([A-Za-z][A-Za-z0-9 .&-]{1,40})\)\s*$", name)
+    if tail:
+        token = tail.group(1).strip()
+        earlier = name[:tail.start()].lower()
+        if re.search(r"\b" + re.escape(token.lower()) + r"\b", earlier):
+            aliases.append(token)
+            name = name[:tail.start()].rstrip(" ,")
+    return re.sub(r"[\s*]+$", "", name).strip(), aliases
+
+
+def _load_fincen_311_details():
+    """fincen311_details.csv grouped by measure slug. Rows are facts hand-mined
+    from the rulemaking documents linked in the table (addresses, aliases, and
+    the sub-entities the rules name); each row cites the document it came from.
+    See the file's header comment for the column contract."""
+    details = {}
+    if not os.path.exists(FINCEN_311_DETAILS_PATH):
+        return details
+    with open(FINCEN_311_DETAILS_PATH, encoding="utf-8", newline="") as fh:
+        for r in csv.DictReader(row for row in fh if not row.lstrip().startswith("#")):
+            details.setdefault((r.get("measure") or "").strip(), []).append(r)
+    return details
+
+
+def fetch_fincen311():
+    """FinCEN Section 311 / 9714 special measures - foreign banks, jurisdictions
+    and transaction classes found to be of primary money laundering concern. A
+    final rule most often bars US institutions from holding a correspondent
+    account for the target.
+
+    The table on fincen.gov is the only machine-readable index (no data file):
+    it gives the target name, the four stage dates and the linked rulemaking
+    documents. Addresses, aliases and the sub-entities a rule names live only
+    inside those documents - fincen311_details.csv carries what has been mined
+    from them by hand, joined here on the measure slug."""
+    parser = fetcher.TableRowParser()
+    parser.feed(fetcher.get(FINCEN_311_URL, timeout=120))
+    details = _load_fincen_311_details()
+    seen = set()
+    out = []
+    for row in parser.rows:
+        cells = row["cells"]
+        if len(cells) < 5 or cells[0].lstrip().startswith("*"):
+            continue  # footnote row / malformed
+        raw = re.sub(r"[\s*]+$", "", cells[0]).replace("’", "'").strip()
+        if raw in FINCEN_311_SKIP:
+            continue
+        name, aliases = _fincen_311_name(raw)
+        if not name:
+            continue
+        slug = _fincen_311_slug(name)
+        seen.add(slug)
+        finding, nprm, final, rescinded = (_fincen_311_date(cells[i]) for i in (1, 2, 3, 4))
+        if rescinded:
+            status = "rescinded"
+        elif final:
+            status = "final rule"
+        else:
+            status = "proposed"
+        stages = [f"Finding {finding}" if finding else "",
+                  f"NPRM {nprm}" if nprm else "",
+                  f"Final rule {final}" if final else "",
+                  f"Rescinded {rescinded}" if rescinded else ""]
+        doc = row["url"]
+        if doc.startswith("/"):
+            doc = "https://www.fincen.gov" + doc
+
+        rows = details.get(slug, [])
+        self_row = next((r for r in rows if (r.get("relationship") or "").strip() == "self"), None)
+        country = ""
+        extra = []
+        if self_row:
+            override = (self_row.get("name") or "").strip()
+            if override and override.lower() != name.lower():
+                aliases.append(name)
+                name = override
+            aliases += [a.strip() for a in (self_row.get("alias") or "").split(";") if a.strip()]
+            country = (self_row.get("country") or "").strip()
+            addr = (self_row.get("address") or "").strip()
+            note = (self_row.get("notes") or "").strip()
+            if addr:
+                extra.append(f"Address: {addr}")
+            if note:
+                extra.append(note)
+        if raw in FINCEN_311_JURISDICTION:
+            extra.append("Jurisdiction-level finding; no specific legal entity.")
+
+        remarks = "Section 311 special measure. " + "; ".join(s for s in stages if s)
+        if extra:
+            remarks += ". " + " ".join(extra)
+        if doc:
+            remarks += f" Source: {doc}"
+        # de-dup aliases, drop any equal to the name
+        seen_al, al = set(), []
+        for a in aliases:
+            a = a.strip()
+            k = a.lower()
+            if a and k != name.lower() and k not in seen_al:
+                seen_al.add(k)
+                al.append(a)
+        out.append({
+            "key": "fincen311-" + slug,
+            "name": name,
+            "type": "jurisdiction" if raw in FINCEN_311_JURISDICTION else "",
+            "program": f"FinCEN 311 - {status}", "source": "FinCEN 311",
+            "remarks": remarks[:REMARKS_CAP], "country": country, "aliases": al,
+        })
+
+        # Sub-entities the rule names: each becomes its own screenable row.
+        for r in rows:
+            rel = (r.get("relationship") or "").strip()
+            if rel in ("", "self"):
+                continue
+            sub_name = (r.get("name") or "").strip()
+            if not sub_name:
+                continue
+            sub_note = (r.get("notes") or "").strip()
+            sub_src = (r.get("source_url") or "").strip() or doc
+            sr = f"FinCEN 311 sub-entity of \"{name}\" ({rel})."
+            if sub_note:
+                sr += " " + sub_note
+            if r.get("address"):
+                sr += f" Address: {r['address'].strip()}"
+            if sub_src:
+                sr += f" Source: {sub_src}"
+            out.append({
+                "key": f"fincen311-{slug}-{_fincen_311_slug(sub_name)}",
+                "name": sub_name, "type": (r.get("type") or "").strip(),
+                "program": f"FinCEN 311 - {status} ({rel})", "source": "FinCEN 311",
+                "remarks": sr[:REMARKS_CAP], "country": (r.get("country") or "").strip(),
+                "aliases": [a.strip() for a in (r.get("alias") or "").split(";") if a.strip()],
+            })
+
+    stale = sorted(set(details) - seen)
+    if stale:
+        print(f"  FinCEN 311: details.csv rows with no matching table measure: {stale}")
+    return out
+
+
 def fetch_sam():
     """SAM.gov Exclusions: US federal debarment, suspension and other
     ineligibility records. Needs a free SAM.gov public API key in SAM_API_KEY.
@@ -365,21 +563,21 @@ def build_index(all_records):
     return rows
 
 
-def diff(previous, current, today):
+def diff(previous, current, today, list_name="SDN"):
     events = []
     prev, cur = set(previous), set(current)
     for num in sorted(cur - prev, key=int):
         r = current[num]
-        events.append({"date": today, "ent_num": num, "action": "added",
+        events.append({"date": today, "list": list_name, "ent_num": num, "action": "added",
                        "name": r["name"], "program": r["program"], "sdn_type": r["sdn_type"]})
     for num in sorted(prev - cur, key=int):
         r = previous[num]
-        events.append({"date": today, "ent_num": num, "action": "removed",
+        events.append({"date": today, "list": list_name, "ent_num": num, "action": "removed",
                        "name": r["name"], "program": r["program"], "sdn_type": r["sdn_type"]})
     for num in sorted(prev & cur, key=int):
         if previous[num] != current[num]:
             r = current[num]
-            events.append({"date": today, "ent_num": num, "action": "modified",
+            events.append({"date": today, "list": list_name, "ent_num": num, "action": "modified",
                            "name": r["name"], "program": r["program"], "sdn_type": r["sdn_type"]})
     return events
 
@@ -390,30 +588,33 @@ def write_change_feeds(log, today):
                     key=lambda e: (e["date"], e["ent_num"]), reverse=True)
     with open(CHANGES_CSV_PATH, "w", encoding="utf-8", newline="") as f:
         w = csv.writer(f)
-        w.writerow(["date", "action", "ent_num", "name", "program", "sdn_type"])
+        w.writerow(["date", "list", "action", "ent_num", "name", "program", "sdn_type"])
         for e in recent:
-            w.writerow([e["date"], e["action"], e["ent_num"], e["name"],
-                        e["program"], e.get("sdn_type", "")])
+            w.writerow([e["date"], e.get("list", "SDN"), e["action"], e["ent_num"],
+                        e["name"], e["program"], e.get("sdn_type", "")])
 
     def item(e):
+        lst = e.get("list", "SDN")
+        long_list = "SDN" if lst == "SDN" else "Consolidated (Non-SDN)"
+        prefix = "" if lst == "SDN" else f"[{lst}] "
         link = f'https://sanctionssearch.ofac.treas.gov/Details.aspx?id={e["ent_num"]}'
         try:
             dt = datetime.fromisoformat(e["date"]).replace(tzinfo=timezone.utc)
         except ValueError:
             dt = datetime.now(timezone.utc)
         return (f"    <item>\n"
-                f"      <title>{xml_escape(e['action'].title() + ': ' + (e['name'] or '(unnamed)'))}</title>\n"
-                f"      <description>{xml_escape(e['action'].title() + ' on the OFAC SDN list. Program: ' + (e['program'] or 'n/a') + '.')}</description>\n"
+                f"      <title>{xml_escape(prefix + e['action'].title() + ': ' + (e['name'] or '(unnamed)'))}</title>\n"
+                f"      <description>{xml_escape(e['action'].title() + ' on the OFAC ' + long_list + ' list. Program: ' + (e['program'] or 'n/a') + '.')}</description>\n"
                 f"      <link>{xml_escape(link)}</link>\n"
-                f"      <guid isPermaLink=\"false\">sdn-{e['date']}-{e['ent_num']}-{e['action']}</guid>\n"
+                f"      <guid isPermaLink=\"false\">{lst.lower().replace('-', '')}-{e['date']}-{e['ent_num']}-{e['action']}</guid>\n"
                 f"      <pubDate>{format_datetime(dt)}</pubDate>\n"
                 f"    </item>")
 
     xml = (f"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<rss version=\"2.0\"><channel>\n"
-           f"    <title>Klearance - OFAC SDN list changes</title>\n"
+           f"    <title>Klearance - OFAC SDN and Consolidated (Non-SDN) list changes</title>\n"
            f"    <link>{SITE_BASE}/</link>\n"
            f"    <description>Daily additions, removals and modifications on the OFAC "
-           f"Specially Designated Nationals list.</description>\n"
+           f"Specially Designated Nationals and Consolidated (Non-SDN) lists.</description>\n"
            f"    <language>en-us</language>\n"
            f"    <lastBuildDate>{format_datetime(datetime.now(timezone.utc))}</lastBuildDate>\n"
            + "\n".join(item(e) for e in recent[:200]) + "\n</channel></rss>\n")
@@ -434,32 +635,45 @@ def main():
     un = safe("UN Security Council", fetch_un)
     uk = safe("UK OFSI", fetch_uk_ofsi)
     eu = safe("EU FSF", fetch_eu)
+    fincen311 = safe("FinCEN 311 special measures", fetch_fincen311)
     sam = safe("SAM.gov Exclusions", fetch_sam)
 
-    # --- SDN diff + audit log (unchanged) ---
-    if os.path.exists(SDN_SNAPSHOT_PATH):
-        with open(SDN_SNAPSHOT_PATH, encoding="utf-8") as f:
-            events = diff(json.load(f), sdn, today)
-    else:
-        events = []
-        print(f"  No prior SDN snapshot - {len(sdn)} taken as baseline.")
-    with open(SDN_SNAPSHOT_PATH, "w", encoding="utf-8") as f:
-        json.dump(sdn, f)
-    with open(CSL_SNAPSHOT_PATH, "w", encoding="utf-8") as f:
-        json.dump(csl, f)
+    # --- SDN + Non-SDN diff + audit log ---
+    # Both OFAC lists are diffed day over day against their committed snapshot
+    # and appended to the same sdn_log.json, tagged by an event "list" field
+    # ("SDN" / "Non-SDN"). The Consolidated (Non-SDN) list is ~480 names against
+    # ~17k on the SDN list, so its changes are rare but high-impact - a new
+    # NS-CMIC company is a US investment ban, a new NS-MBS entry a menu of
+    # trade restrictions.
+    def diff_against(snapshot_path, current, list_name):
+        if os.path.exists(snapshot_path):
+            with open(snapshot_path, encoding="utf-8") as f:
+                evs = diff(json.load(f), current, today, list_name)
+        else:
+            evs = []
+            print(f"  No prior {list_name} snapshot - {len(current)} taken as baseline.")
+        with open(snapshot_path, "w", encoding="utf-8") as f:
+            json.dump(current, f)
+        return evs
+
+    events = diff_against(SDN_SNAPSHOT_PATH, sdn, "SDN")
+    csl_events = diff_against(CSL_SNAPSHOT_PATH, csl, "Non-SDN")
     log = json.load(open(SDN_LOG_PATH, encoding="utf-8")) if os.path.exists(SDN_LOG_PATH) else []
+    for e in log:                      # historical entries predate the tag; all were SDN
+        e.setdefault("list", "SDN")
     log.extend(events)
+    log.extend(csl_events)
     with open(SDN_LOG_PATH, "w", encoding="utf-8") as f:
         json.dump(log, f, indent=2)
 
     # --- combined screening index ---
-    # SAM.gov alone is ~4x the size of the other seven lists put together, so it
+    # SAM.gov alone is ~4x the size of the other lists put together, so it
     # goes in its own file the browser fetches only after the fast index is in
     # hand and searchable. Same row shape in both.
     records = (
         list(ofac_records(sdn, sdn_alt, sdn_ctry, "SDN"))
         + list(ofac_records(csl, csl_alt, csl_ctry, "Non-SDN"))
-        + bis_state + un + uk + eu
+        + bis_state + un + uk + eu + fincen311
     )
     index = build_index(records)
     with open(SDN_INDEX_PATH, "w", encoding="utf-8") as f:
@@ -507,13 +721,17 @@ def main():
 
     write_change_feeds(log, today)
 
-    added = sum(1 for e in events if e["action"] == "added")
-    removed = sum(1 for e in events if e["action"] == "removed")
-    modified = sum(1 for e in events if e["action"] == "modified")
+    def tally(evs):
+        return tuple(sum(1 for e in evs if e["action"] == a)
+                     for a in ("added", "removed", "modified"))
+
+    added, removed, modified = tally(events)
+    c_added, c_removed, c_modified = tally(csl_events)
     print(f"index: {len(index)} rows + {len(sam_index)} SAM rows "
           f"from {counts['total']} entries "
           f"({', '.join(f'{k} {v}' for k, v in sorted(counts.items()) if k not in ('total', 'index_rows'))}). "
-          f"SDN today: {added} added, {removed} removed, {modified} modified.")
+          f"SDN today: {added} added, {removed} removed, {modified} modified. "
+          f"Non-SDN today: {c_added} added, {c_removed} removed, {c_modified} modified.")
 
 
 if __name__ == "__main__":

@@ -3784,7 +3784,8 @@ def sdn_panel(today):
         rows = '<div class="sdnlist">' + "".join(
             f'<div class="sdnrow">'
             f'<span class="sdnname">{hesc(e["name"] or "(unnamed entry)")}</span>'
-            f'<span class="sdnmeta">{hesc(e["program"] or "—")} · {hesc(e["date"])}</span>'
+            f'<span class="sdnmeta">{hesc(e["program"] or "—")} · {hesc(e["date"])}'
+            f'{" · Non-SDN" if e.get("list") == "Non-SDN" else ""}</span>'
             f'</div>'
             for e in items
         ) + '</div>'
@@ -3812,7 +3813,8 @@ def sdn_panel(today):
     # Derived from the data so the copy self-corrects if a best-effort source
     # drops out or SAM.gov (which needs an API key) isn't wired up yet.
     list_count, sam_live = sanctions_meta()
-    lists_word = {6: "six", 7: "seven", 8: "eight", 9: "nine"}.get(list_count, str(list_count))
+    lists_word = {6: "six", 7: "seven", 8: "eight", 9: "nine", 10: "ten",
+                  11: "eleven", 12: "twelve"}.get(list_count, str(list_count))
     sam_intro = (" SAM.gov Exclusions (US federal debarment and suspension),"
                  if sam_live else "")
     if not total:
@@ -3859,8 +3861,9 @@ def sdn_panel(today):
         f'<p class="sdnintro">Screens a name against {lists_word} current '
         'sanctions and debarment lists &mdash; OFAC (SDN and Consolidated), BIS '
         '(Entity List, Denied Persons, Unverified, Military End-User), the State '
-        f'Department (ITAR debarred, nonproliferation),{sam_intro} and the UN, UK '
-        'and EU consolidated lists &mdash; by primary name and known alias, '
+        f'Department (ITAR debarred, nonproliferation),{sam_intro} the UN, UK '
+        'and EU consolidated lists, and FinCEN Section 311 special measures '
+        '&mdash; by primary name and known alias, '
         'matched on spelling and word order, with an adjustable near-match score. '
         'Not a compliance clearance: '
         'it does not carry PEP or adverse-media data, and the lists change daily. '
@@ -3871,9 +3874,9 @@ def sdn_panel(today):
         '<details class="sdnactivity">'
         f'<summary>Recent list activity <span class="sdnsince">({since_label})</span></summary>'
         f'{highlights}'
-        '<p class="sdnfeeds">Subscribe to SDN list changes for periodic '
-        're-screening: <a href="sdn-changes.xml">RSS</a> &middot; '
-        '<a href="sdn-changes.csv">CSV</a></p>'
+        '<p class="sdnfeeds">Subscribe to OFAC SDN and Consolidated (Non-SDN) '
+        'list changes for periodic re-screening: <a href="sdn-changes.xml">RSS</a> '
+        '&middot; <a href="sdn-changes.csv">CSV</a></p>'
         '</details>'
         '</details>'
     )
