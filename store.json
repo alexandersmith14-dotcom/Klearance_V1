@@ -19194,7 +19194,8 @@
     "sources": [
       "FDIC",
       "OCC Bulletins",
-      "NCUA Press"
+      "NCUA Press",
+      "FinCEN News"
     ],
     "url": "https://content.govdelivery.com/accounts/USFDIC/bulletins/42305d8",
     "first_seen": "2026-08-18",
@@ -20323,7 +20324,8 @@
     "sources": [
       "OCC Bulletins",
       "NCUA Press",
-      "FDIC FILs"
+      "FDIC FILs",
+      "FinCEN News"
     ],
     "url": "https://www.occ.gov/news-issuances/bulletins/2026/bulletin-2026-43.html",
     "first_seen": "2026-09-02",
@@ -20433,6 +20435,367 @@
       "NCUA Press"
     ],
     "url": "https://ncua.gov/newsroom/press-release/2026/ncua-prohibits-three-individuals-participating-affairs-any-federally-insured-depository-institution",
+    "first_seen": "2026-09-02",
+    "last_seen": "2026-09-02",
+    "fr_checked": false
+  },
+  "dd64fe78b3049928": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Notice",
+    "urgency": "Low",
+    "plain_english": "OFAC reminded filers of the 2026 Annual Report of Blocked Property deadline and issued amended Venezuela-related general licenses plus an updated FAQ. Institutions holding blocked property must file the annual report, and those with Venezuela exposure should review the amended GLs for changes to authorized activity.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "OFAC",
+      "sanctions",
+      "Venezuela",
+      "blocked property",
+      "annual report"
+    ],
+    "key": "dd64fe78b3049928",
+    "title": "Reminder to file the 2026 Annual Report of Blocked Property; Issuance of Amended Venezuela-related General Licenses and Frequently Asked Question",
+    "date": "2026-09-02",
+    "sources": [
+      "OFAC"
+    ],
+    "url": "https://ofac.treasury.gov/recent-actions/20260902",
+    "first_seen": "2026-09-02",
+    "last_seen": "2026-09-02",
+    "fr_checked": true
+  },
+  "8e0265d59fbdf1ad": {
+    "relevant": true,
+    "fintech_specific": true,
+    "credit_union": false,
+    "update_type": "Notice",
+    "urgency": "Medium",
+    "plain_english": "FinCEN reissued its Geographic Targeting Order requiring money services businesses along the Southwest border to report and keep records on certain transactions to combat illicit finance. MSBs and their sponsor banks in affected areas must comply with the lower reporting thresholds set by the GTO.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "FinCEN",
+      "GTO",
+      "MSB",
+      "BSA/AML",
+      "money transmission"
+    ],
+    "key": "8e0265d59fbdf1ad",
+    "title": "FinCEN Reissues Order Requiring Transparency from MSBs Along Southwest Border",
+    "date": "2026-09-02",
+    "sources": [
+      "FinCEN News"
+    ],
+    "url": "https://www.fincen.gov/news/news-releases/fincen-reissues-order-requiring-transparency-msbs-along-southwest-border",
+    "first_seen": "2026-09-02",
+    "last_seen": "2026-09-02",
+    "fr_checked": true
+  },
+  "441dc3d6e658c64f": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Proposed Rule",
+    "urgency": "Low",
+    "plain_english": "FinCEN proposed a rule under Operation Economic Outcast to revoke Banque Misr UAE's correspondent banking access to U.S. financial institutions. Any U.S. bank maintaining correspondent relationships would need to identify and terminate exposure to this foreign institution if finalized.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "FinCEN",
+      "correspondent banking",
+      "BSA/AML",
+      "sanctions"
+    ],
+    "key": "441dc3d6e658c64f",
+    "title": "FinCEN Proposes Rule that Would Revoke Banque Misr UAE\u2019s Correspondent Banking Access to U.S. Financial Institutions",
+    "date": "2026-08-28",
+    "sources": [
+      "FinCEN News"
+    ],
+    "url": "https://www.fincen.gov/news/news-releases/fincen-proposes-rule-would-revoke-banque-misr-uaes-correspondent-banking-access",
+    "first_seen": "2026-09-02",
+    "last_seen": "2026-09-02",
+    "fr_checked": true
+  },
+  "609986145e300ae3": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Notice",
+    "urgency": "Low",
+    "plain_english": "FinCEN held an outreach event with law enforcement and financial institutions in California focused on health care benefits fraud, including hospice care exploitation. This is an awareness/engagement readout, not a new rule or requirement, though it signals FinCEN's continued focus on health care fraud typologies relevant to AML monitoring.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "BSA/AML",
+      "FinCEN",
+      "fraud",
+      "healthcare fraud"
+    ],
+    "key": "609986145e300ae3",
+    "title": "READOUT: FinCEN Holds Engagement to Eliminate Hospice Fraud in California",
+    "date": "2026-08-19",
+    "sources": [
+      "FinCEN News"
+    ],
+    "url": "https://www.fincen.gov/news/news-releases/readout-fincen-holds-engagement-eliminate-hospice-fraud-california",
+    "first_seen": "2026-09-02",
+    "last_seen": "2026-09-02",
+    "fr_checked": true
+  },
+  "7c8375d804136550": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Notice",
+    "urgency": "Low",
+    "plain_english": "FinCEN held a public-private information-sharing event with law enforcement and financial institutions focused on combating cartels. This is a readout of an engagement, not a new rule or requirement, though it signals continued BSA/AML enforcement priorities around illicit finance.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "FinCEN",
+      "BSA/AML",
+      "information sharing",
+      "cartels",
+      "illicit finance"
+    ],
+    "key": "7c8375d804136550",
+    "title": "READOUT: FinCEN Convenes Public-Private Engagement to Combat Cartels",
+    "date": "2026-08-13",
+    "sources": [
+      "FinCEN News"
+    ],
+    "url": "https://www.fincen.gov/news/news-releases/readout-fincen-convenes-public-private-engagement-combat-cartels",
+    "first_seen": "2026-09-02",
+    "last_seen": "2026-09-02",
+    "fr_checked": true
+  },
+  "1162a6b5d4917306": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Notice",
+    "urgency": "Low",
+    "plain_english": "FinCEN published a Financial Trend Analysis showing institutions flagged nearly $5 billion in suspicious activity linked to suspected human smuggling. This is informational BSA/AML context that may sharpen SAR-filing expectations and typologies, but imposes no new requirements.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "BSA/AML",
+      "FinCEN",
+      "SAR",
+      "human smuggling",
+      "financial trend analysis"
+    ],
+    "key": "1162a6b5d4917306",
+    "title": "FinCEN Analysis: Financial Institutions Flagged Nearly $5 Billion Linked to Suspected Human Smuggling",
+    "date": "2026-08-13",
+    "sources": [
+      "FinCEN News"
+    ],
+    "url": "https://www.fincen.gov/news/news-releases/fincen-analysis-financial-institutions-flagged-nearly-5-billion-linked-suspected",
+    "first_seen": "2026-09-02",
+    "last_seen": "2026-09-02",
+    "fr_checked": true
+  },
+  "a6522d2a7326df40": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Final Rule",
+    "urgency": "Medium",
+    "plain_english": "FinCEN issued a final rule permanently eliminating the Corporate Transparency Act's beneficial ownership information (BOI) reporting requirement for US companies and US persons. This removes a compliance/data source many banks referenced during CDD, but institutions still must independently collect beneficial ownership under existing customer due diligence rules.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "BSA/AML",
+      "Beneficial Ownership",
+      "Corporate Transparency Act",
+      "FinCEN",
+      "CDD"
+    ],
+    "key": "a6522d2a7326df40",
+    "title": "FinCEN Permanently Ends Beneficial Ownership Reporting Requirements for Millions of Small Business Owners",
+    "date": "2026-08-11",
+    "sources": [
+      "FinCEN News"
+    ],
+    "url": "https://www.fincen.gov/news/news-releases/fincen-permanently-ends-beneficial-ownership-reporting-requirements-millions",
+    "first_seen": "2026-09-02",
+    "last_seen": "2026-09-02",
+    "fr_checked": true
+  },
+  "f28a4e13f4f1d880": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Notice",
+    "urgency": "Medium",
+    "plain_english": "FinCEN renewed its Minnesota Geographic Targeting Order aimed at combating fraud schemes. Financial institutions operating in the covered area face continued enhanced reporting/recordkeeping obligations under the GTO's terms.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "FinCEN",
+      "GTO",
+      "BSA/AML",
+      "fraud",
+      "Minnesota"
+    ],
+    "key": "f28a4e13f4f1d880",
+    "title": "FinCEN Renews Minnesota Geographic Targeting Order",
+    "date": "2026-08-07",
+    "sources": [
+      "FinCEN News"
+    ],
+    "url": "https://www.fincen.gov/news/news-releases/fincen-renews-minnesota-geographic-targeting-order",
+    "first_seen": "2026-09-02",
+    "last_seen": "2026-09-02",
+    "fr_checked": true
+  },
+  "a33c45db94a20eb5": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Enforcement Action",
+    "urgency": "Low",
+    "plain_english": "FinCEN hit UBS Financial Services with a record $125M penalty for willful, repeat BSA violations. It's a large-firm enforcement action but signals FinCEN's continued aggressive posture on AML program failures, relevant as a compliance benchmark though the target is not a community institution.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "BSA/AML",
+      "FinCEN",
+      "enforcement",
+      "civil money penalty"
+    ],
+    "key": "a33c45db94a20eb5",
+    "title": "FinCEN Assesses Historic $125 Million Penalty Against UBS Financial Services Inc. for Recidivist BSA Violations",
+    "date": "2026-08-03",
+    "sources": [
+      "FinCEN News"
+    ],
+    "url": "https://www.fincen.gov/news/news-releases/fincen-assesses-historic-125-million-penalty-against-ubs-financial-services-inc",
+    "first_seen": "2026-09-02",
+    "last_seen": "2026-09-02",
+    "fr_checked": false
+  },
+  "f114c293a640e8d1": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Guidance",
+    "urgency": "Medium",
+    "plain_english": "FinCEN issued an alert urging financial institutions to detect and report suspicious activity tied to fraud schemes targeting federal student aid programs. Institutions should apply the alert's red flags to their SAR filing and BSA/AML monitoring. This is general BSA/AML fraud guidance applicable across all institution types.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "BSA/AML",
+      "fraud",
+      "FinCEN",
+      "SAR",
+      "student aid"
+    ],
+    "key": "f114c293a640e8d1",
+    "title": "FinCEN Issues Alert on Fraud Schemes Targeting Federal Student Aid",
+    "date": "2026-07-24",
+    "sources": [
+      "FinCEN News"
+    ],
+    "url": "https://www.fincen.gov/news/news-releases/fincen-issues-alert-fraud-schemes-targeting-federal-student-aid",
+    "first_seen": "2026-09-02",
+    "last_seen": "2026-09-02",
+    "fr_checked": false
+  },
+  "0cc468a06cf70c70": {
+    "relevant": true,
+    "fintech_specific": true,
+    "credit_union": false,
+    "update_type": "Notice",
+    "urgency": "Low",
+    "plain_english": "FinCEN extended the comment period for its June NPRM amending the definition of Huione Group (a Section 311/9714 special-measures action targeting an illicit-finance/crypto-linked network), after a technical glitch blocked electronic filing. The extension itself is administrative, but the underlying rule affects AML/sanctions exposure for firms with crypto or cross-border payment connections.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "FinCEN",
+      "BSA/AML",
+      "special measures",
+      "crypto",
+      "comment period"
+    ],
+    "key": "0cc468a06cf70c70",
+    "title": "FinCEN Extends Comment Period for Proposed Rule To Amend the Definition of Huione Group",
+    "date": "2026-07-22",
+    "sources": [
+      "FinCEN News"
+    ],
+    "url": "https://www.fincen.gov/news/news-releases/fincen-extends-comment-period-proposed-rule-amend-definition-huione-group",
+    "first_seen": "2026-09-02",
+    "last_seen": "2026-09-02",
+    "fr_checked": true
+  },
+  "1cb84bafe57cc217": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Guidance",
+    "urgency": "Medium",
+    "plain_english": "FinCEN issued a supplemental alert urging financial institutions to detect and report suspicious activity tied to fuel smuggling and tax evasion schemes linked to Mexico-based cartels including CJNG. It updates SAR-filing expectations and red flags for BSA/AML compliance teams. Applies broadly to all financial institutions, not just a specific sector.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "BSA/AML",
+      "FinCEN",
+      "SAR",
+      "cartels",
+      "fuel smuggling",
+      "suspicious activity"
+    ],
+    "key": "1cb84bafe57cc217",
+    "title": "FinCEN Issues Supplemental Alert on Fuel Smuggling and Tax Evasion Schemes on the Southern Border Associated with Mexico-Based Cartels",
+    "date": "2026-06-30",
+    "sources": [
+      "FinCEN News"
+    ],
+    "url": "https://www.fincen.gov/news/news-releases/fincen-issues-supplemental-alert-fuel-smuggling-and-tax-evasion-schemes-southern",
+    "first_seen": "2026-09-02",
+    "last_seen": "2026-09-02",
+    "fr_checked": false
+  },
+  "19092ae34e349245": {
+    "relevant": true,
+    "fintech_specific": true,
+    "credit_union": false,
+    "update_type": "Proposed Rule",
+    "urgency": "Medium",
+    "plain_english": "FinCEN proposed amending its October 2025 Huione Group order to designate successor entities including H-Pay Service PLC as primary money laundering concerns, aiming to cut them off from the US financial system. Banks and fintechs (especially payments/MSB and crypto-facing firms) would need to screen for and block transactions involving these named entities under Section 311 special measures.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "FinCEN",
+      "Section 311",
+      "AML",
+      "payments",
+      "sanctions-adjacent",
+      "money laundering"
+    ],
+    "key": "19092ae34e349245",
+    "title": "FinCEN Proposes to Sever H-Pay Service PLC and Other Huione Group Successor Entities from the U.S. Financial System",
+    "date": "2026-06-23",
+    "sources": [
+      "FinCEN News"
+    ],
+    "url": "https://www.fincen.gov/news/news-releases/fincen-proposes-sever-h-pay-service-plc-and-other-huione-group-successor",
+    "first_seen": "2026-09-02",
+    "last_seen": "2026-09-02",
+    "fr_checked": true
+  },
+  "00317fb071ec23ea": {
+    "relevant": false,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Notice",
+    "urgency": "Low",
+    "plain_english": "FinCEN announced the recipients of its 11th Law Enforcement Awards Program, recognizing cases that used BSA data in criminal prosecutions. This is a ceremonial announcement with no rule change or new compliance obligation.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "FinCEN",
+      "BSA",
+      "awards"
+    ],
+    "key": "00317fb071ec23ea",
+    "title": "FinCEN Announces Recipients of Its 11th Law Enforcement Awards Program",
+    "date": "2026-06-22",
+    "sources": [
+      "FinCEN News"
+    ],
+    "url": "https://www.fincen.gov/news/news-releases/fincen-announces-recipients-its-11th-law-enforcement-awards-program",
     "first_seen": "2026-09-02",
     "last_seen": "2026-09-02",
     "fr_checked": false
