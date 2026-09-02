@@ -8,7 +8,9 @@
 # items and failed the first day one appeared. Two days of green runs had never
 # executed the import.
 feedparser>=6.0.10
-anthropic>=0.40.0
+# Upper bound: a new major (anthropic 2.x) could change messages.create /
+# message.content, which classifier.py relies on. 1.x is API-compatible.
+anthropic>=0.40.0,<2
 python-dotenv>=1.0.0
 # fetcher.py uses certifi's CA bundle to complete the TX Dept of Banking cert
 # chain. Usually present transitively (via anthropic/httpx); pinned so CI never
