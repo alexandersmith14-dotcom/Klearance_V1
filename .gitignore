@@ -40,10 +40,14 @@ sitemap.xml
 # Derived SDN artefacts, regenerated every run from the committed snapshots
 # and log (see sdn_monitor.py); the workflow copies them into site/.
 sdn_index.json
-sdn_index_sam.json
 sdn_counts.json
-sam_meta.json
 country_risk.json
+# sdn_index_sam.json + sam_meta.json are committed on purpose, as a cold-start
+# fallback: SAM.gov is fetched on scheduled runs only (its API key has a low
+# daily quota) and a failed fetch would otherwise leave the live list empty.
+# The committed copy can lag a few days; each scheduled run refreshes the live
+# site from its own fetch and the actions/cache. Re-seed with a fresh copy if
+# it drifts too far.
 sdn-changes.xml
 sdn-changes.csv
 
