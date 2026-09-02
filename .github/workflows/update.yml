@@ -68,7 +68,10 @@ jobs:
           # URL can be a repo Variable or Secret; the key must be a Secret.
           PROXY_WORKER_URL: ${{ vars.PROXY_WORKER_URL || secrets.PROXY_WORKER_URL }}
           WORKER_PROXY_KEY: ${{ secrets.WORKER_PROXY_KEY }}
-        run: python sdn_monitor.py
+        run: |
+          [ -n "$PROXY_WORKER_URL" ] && echo "proxy url: set (${#PROXY_WORKER_URL} chars)" || echo "proxy url: EMPTY"
+          [ -n "$WORKER_PROXY_KEY" ] && echo "proxy key: set (${#WORKER_PROXY_KEY} chars)" || echo "proxy key: EMPTY"
+          python sdn_monitor.py
 
       - name: Build country-risk reference
         run: python country_risk.py
