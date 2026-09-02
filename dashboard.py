@@ -721,8 +721,8 @@ button:hover{background:var(--raised)}
    Anyone landing here needs to know the summaries are generated before they
    read any of them. */
 .notice{background:var(--surface);border:1px solid var(--border);
-  border-left:4px solid var(--crit);border-radius:12px;padding:13px 16px;
-  margin-bottom:18px;font-size:13px;color:var(--ink-2);text-align:justify;
+  border-left:4px solid var(--brand);border-radius:12px;padding:13px 16px;
+  margin:4px 0 18px;font-size:13px;color:var(--ink-2);text-align:justify;
   text-align-last:left;hyphens:auto;box-shadow:var(--shadow-sm)}
 @keyframes noticeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 .notice strong{color:var(--ink)}
@@ -743,8 +743,8 @@ button:hover{background:var(--raised)}
 header.krheader{animation-delay:.08s}
 .krcrumb{animation-delay:.16s}
 .herowrap{animation-delay:.24s}
-.notice{animation-delay:.32s}
-.kpis{animation-delay:.4s}
+.kpis{animation-delay:.32s}
+.notice{animation-delay:.4s}
 .colmain,.colside{animation-delay:.48s}
 @media (prefers-reduced-motion:reduce){
   .krtop,header.krheader,.krcrumb,.herowrap,.notice,.kpis,.colmain,.colside{animation:none}
@@ -4284,19 +4284,6 @@ def main():
   <div class="qs-foot"><button id="qsDismiss" type="button">Got it</button></div>
 </div>
 
-<!-- The visible caveat is now the instruction only: what the summaries are, and
-     what to do about it. How deadlines are derived moved into "What this covers"
-     with the other scope caveats — it explains rather than instructs, and it was
-     costing two of six lines on a phone. Nothing was deleted.
-     Title + icon toolbar now live inside this same tile (merged with the old
-     standalone .pagehead card, per Alexander — one tile, not two). -->
-<div class="notice">
-  <strong>Read this first.</strong> The summaries are based on agency listings.
-  Always open the source document before acting on anything here.
-  <div style="margin-top:9px">{coverage_html}</div>
-  <div style="margin-top:6px">{regref_html}</div>
-</div>
-
 <div class="kpis">{kpi_html}
   <!-- Sits inside .kpis, not the sidebar — grouped with the KPI tiles since
        both are quick-glance summary stats, per Alexander. It takes tile3/4's
@@ -4307,6 +4294,18 @@ def main():
         id="agencycount"></span></h2>
     <div class="agrow" id="agencies"></div>
   </div>
+</div>
+
+<!-- Scope note. Sits below the summary tiles, not above them: a cold visitor
+     should meet the numbers first, then the "what this is / how to use it"
+     caveat before reaching the feed. Neutral navy rule, not a red warning —
+     it explains, it does not flag an error. The two collapsibles carry the
+     real detail (coverage limits, the Fed regulation reference). -->
+<div class="notice">
+  <strong>How to use this.</strong> The summaries are based on what agencies
+  post. Open the source document before acting on anything here.
+  <div style="margin-top:9px">{coverage_html}</div>
+  <div style="margin-top:6px">{regref_html}</div>
 </div>
 
 <!-- Section marker: everything below (filters, search, the deadline and update
