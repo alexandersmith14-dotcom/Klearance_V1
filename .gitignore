@@ -50,4 +50,8 @@ country_risk.json
 # it drifts too far.
 sdn-changes.xml
 sdn-changes.csv
+# FinCEN 311 freshness-check output; the workflow reads it to raise/close a
+# GitHub issue. fincen311_details.csv (the hand-mined facts) IS committed.
+fincen311_stale.json
+_fincen311_issue_body.md
 

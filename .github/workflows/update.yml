@@ -21,6 +21,7 @@ on:
 
 permissions:
   contents: write            # needed to commit the refreshed store and dashboard
+  issues: write              # FinCEN 311 freshness check raises/closes an issue
 
 concurrency:
   group: update-tracker      # never let two runs fight over store.json
@@ -91,6 +92,17 @@ jobs:
             health.json
             fetch_report.json
           retention-days: 90
+
+      # sdn_monitor.py writes fincen311_stale.json listing FinCEN 311 measures
+      # whose hand-mined enrichment (fincen311_details.csv) has fallen behind
+      # the FinCEN table - a new/updated rule the docs were never mined from.
+      # Keep one standing issue in sync with that list; close it when empty.
+      # Scheduled/manual runs only, so a burst of code pushes doesn't churn it.
+      - name: FinCEN 311 freshness issue
+        if: github.event_name != 'push'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python fincen311_issue.py
 
       - name: Commit refreshed data
         run: |

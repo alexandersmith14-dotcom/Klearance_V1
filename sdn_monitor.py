@@ -280,6 +280,7 @@ FINCEN_311_JURISDICTION = {
     "Ukraine",
 }
 FINCEN_311_DETAILS_PATH = "fincen311_details.csv"
+FINCEN_311_STALE_PATH = "fincen311_stale.json"   # derived; the freshness check's output
 _FINCEN_311_DATE = re.compile(r"(\d{1,2})/(\d{1,2})/(\d{4})")
 
 
@@ -373,6 +374,7 @@ def fetch_fincen311():
     parser.feed(fetcher.get(FINCEN_311_URL, timeout=120))
     details = _load_fincen_311_details()
     seen = set()
+    needs_mining = []
     out = []
     for row in parser.rows:
         cells = row["cells"]
@@ -423,6 +425,30 @@ def fetch_fincen311():
         if raw in FINCEN_311_JURISDICTION:
             extra.append("Jurisdiction-level finding; no specific legal entity.")
 
+        # Freshness: does the hand-mined enrichment keep up with the table? A
+        # rescinded or jurisdiction measure needs none; otherwise flag it when
+        # there is no self row, no mined_date, or the table shows a rule newer
+        # than the last mine. Written to fincen311_stale.json for the workflow
+        # to raise as a GitHub issue.
+        if status != "rescinded" and raw not in FINCEN_311_JURISDICTION:
+            stage_dates = [d for d in (finding, nprm, final, rescinded) if d]
+            latest = max(stage_dates) if stage_dates else ""
+            md = (self_row.get("mined_date") or "").strip() if self_row else ""
+            if not self_row or not (self_row.get("address") or self_row.get("notes")):
+                reason = "no details.csv self row - never enriched"
+            elif not md:
+                reason = "details.csv self row has no mined_date"
+            elif latest and latest > md:
+                reason = f"table shows a {status} dated {latest}, newer than mined_date {md}"
+            else:
+                reason = ""
+            if reason:
+                needs_mining.append({
+                    "measure": slug, "name": name, "status": status,
+                    "reason": reason, "latest_doc_date": latest,
+                    "mined_date": md, "doc": doc,
+                })
+
         remarks = _fincen_311_remarks(
             ["Section 311 special measure. " + "; ".join(s for s in stages if s)] + extra,
             main_src,
@@ -466,9 +492,22 @@ def fetch_fincen311():
                 "aliases": [a.strip() for a in (r.get("alias") or "").split(";") if a.strip()],
             })
 
-    stale = sorted(set(details) - seen)
-    if stale:
-        print(f"  FinCEN 311: details.csv rows with no matching table measure: {stale}")
+    orphans = sorted(set(details) - seen)
+    if orphans:
+        print(f"  FinCEN 311: details.csv measures with no matching table row: {orphans}")
+    if needs_mining:
+        print(f"  FinCEN 311: {len(needs_mining)} measure(s) need (re-)mining: "
+              + ", ".join(m["measure"] for m in needs_mining))
+    try:
+        with open(FINCEN_311_STALE_PATH, "w", encoding="utf-8") as f:
+            json.dump({
+                "generated": datetime.now(timezone.utc).date().isoformat(),
+                "table_url": FINCEN_311_URL,
+                "orphans": orphans,
+                "measures": needs_mining,
+            }, f, indent=2)
+    except OSError:
+        pass
     return out
 
 
