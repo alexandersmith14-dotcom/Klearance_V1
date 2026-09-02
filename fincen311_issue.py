@@ -13,16 +13,24 @@ The issue is found by the `fincen311-freshness` label so the match is exact.
 Never fails the build: any error is logged and swallowed (exit 0).
 """
 import json
+import re
 import subprocess
 import sys
 
 LABEL = "fincen311-freshness"
 TITLE = "FinCEN 311 measures need re-mining"
 STALE_PATH = "fincen311_stale.json"
+ASSIGNEE = "kaufman2699"
 
 
 def gh(*args, check=True):
     return subprocess.run(["gh", *args], capture_output=True, text=True, check=check)
+
+
+def _issue_number(text):
+    """Issue number from `gh issue create` output (it prints the issue URL)."""
+    m = re.search(r"/issues/(\d+)", text or "")
+    return m.group(1) if m else None
 
 
 def find_issue():
@@ -118,6 +126,15 @@ def main():
                "--body-file", "_fincen311_issue_body.md", check=False)
         print(r.stdout.strip() if r.returncode == 0
               else f"create failed: {r.stderr.strip()}")
+        number = _issue_number(r.stdout) if r.returncode == 0 else None
+
+    # Assign the repo owner so the issue notifies them regardless of watch
+    # settings. Separate from create/edit: a bad assignee (not a collaborator,
+    # or an org account) must not sink the whole step.
+    if number:
+        a = gh("issue", "edit", str(number), "--add-assignee", ASSIGNEE, check=False)
+        if a.returncode != 0:
+            print(f"could not assign {ASSIGNEE}: {a.stderr.strip()}")
 
 
 if __name__ == "__main__":
