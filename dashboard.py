@@ -1151,6 +1151,17 @@ details.jurgroup>summary:hover h3{color:var(--brand)}
 .sdnscorebadge.exact{background:transparent;color:var(--ink-muted);
   border:1px solid var(--border);font-weight:600}
 .sdnrow.near .sdnname{opacity:.92}
+/* Withdrawn FinCEN 311 measures stay in the index for the historical signal
+   but must not read as an active designation. The name keeps full contrast
+   (it is still the screened target); only the chrome and secondary text
+   step back. No strikethrough — the name has to stay readable. */
+.sdnrow.rescinded .sdnsrc{background:transparent;color:var(--ink-muted);
+  box-shadow:inset 0 0 0 1px var(--border)}
+.sdnrow.rescinded .sdnmeta,.sdnrow.rescinded .sdndetail{opacity:.8}
+.sdnrow.rescinded .sdnscorebadge{opacity:.5}
+.pill-resc{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.04em;
+  text-transform:uppercase;padding:2px 7px;border-radius:999px;vertical-align:middle;
+  background:var(--raised);color:var(--ink-muted);border:1px solid var(--border)}
 .card .agency{font-size:12px;color:var(--ink-muted)}
 .card h3{font-size:14.5px;margin:0 0 5px;font-weight:600;line-height:1.35;
   text-align:justify;text-align-last:left}
@@ -2547,9 +2558,15 @@ if (sdnListQ) {
     // consistent column; an exact/prefix hit (100) gets the quiet outline.
     const badge = scoreVisible
       ? ` <span class="sdnscorebadge${m.score >= 100 ? ' exact' : ''}" title="Approximate name-match score">${m.score}</span>` : '';
-    return `<div class="sdnrow${m.score < 100 ? ' near' : ''}">
-      <div class="sdnname">${src} ${esc(m.matched || '(unnamed entry)')}${aka}${badge}</div>
-      <div class="sdnmeta">${esc(r[3] || '—')}${r[2] ? ' · ' + esc(r[2]) : ''}</div>
+    // A withdrawn FinCEN 311 measure stays findable but must not read as live.
+    const resc = r[4] === 'FinCEN 311' && /rescinded/i.test(r[3] || '');
+    const rescYr = resc ? ((r[6] || '').match(/Rescinded\s+(\d{4})/) || [])[1] || '' : '';
+    const rescPill = resc
+      ? ` <span class="pill-resc">rescinded${rescYr ? ' ' + rescYr : ''}</span>` : '';
+    const prog = resc ? esc(r[3]) + ', not in force' : esc(r[3] || '—');
+    return `<div class="sdnrow${m.score < 100 ? ' near' : ''}${resc ? ' rescinded' : ''}">
+      <div class="sdnname">${src} ${esc(m.matched || '(unnamed entry)')}${rescPill}${aka}${badge}</div>
+      <div class="sdnmeta">${prog}${r[2] ? ' · ' + esc(r[2]) : ''}</div>
       ${detail(r)}
     </div>`;
   }
