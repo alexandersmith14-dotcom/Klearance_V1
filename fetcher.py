@@ -264,10 +264,11 @@ def get(url, timeout=60, via_worker=False):
             with urllib.request.urlopen(req, timeout=timeout) as r:
                 return r.read().decode("utf-8", "ignore")
         except urllib.error.HTTPError as e:
-            body = e.read()[:300].decode("utf-8", "ignore")
-            print(f"    [worker-proxy {e.code}] server={e.headers.get('server')!r} "
-                  f"cf-ray={e.headers.get('cf-ray')!r} cf-mitigated={e.headers.get('cf-mitigated')!r} "
-                  f"body={body!r}")
+            # A 403/503 here is usually the target site's Cloudflare WAF
+            # challenging the Worker's egress (passed straight through), not the
+            # Worker itself. Log a short slice so a real break is still legible.
+            body = e.read()[:200].decode("utf-8", "ignore").replace("\n", " ")
+            print(f"    [worker-proxy {e.code}] {body!r}")
             raise
     # dob.texas.gov needs the completed cert chain; everything else uses the
     # default context.

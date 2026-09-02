@@ -33,6 +33,7 @@ import io
 import json
 import os
 import re
+import time
 import unicodedata
 import urllib.error
 import urllib.parse
@@ -392,11 +393,25 @@ def fetch_afdb():
     HTML table on a Cloudflare-fronted page - fetched through the Worker proxy
     (via_worker) since a plain datacenter request is 403'd. ~1,300 rows: firms
     and individuals, ~55 AfDB-own debarments plus cross-debarments from the
-    World Bank, ADB, IDB and EBRD (the Basis column names the origin)."""
-    html = fetcher.get(AFDB_URL, timeout=150, via_worker=True)
-    m = re.search(r"<table[^>]*>(.*?)</table>", html, re.S | re.I)
-    if not m:
-        raise RuntimeError("AfDB: no table found (page layout changed, or proxy blocked)")
+    World Bank, ADB, IDB and EBRD (the Basis column names the origin).
+
+    afdb.org's Cloudflare WAF challenges the Worker's egress intermittently
+    (a passthrough 403), so retry a few times before giving up - a single
+    challenge would otherwise drop the whole list from screening for the day."""
+    last = None
+    for attempt in range(4):
+        try:
+            html = fetcher.get(AFDB_URL, timeout=150, via_worker=True)
+            m = re.search(r"<table[^>]*>(.*?)</table>", html, re.S | re.I)
+            if m:
+                break
+            last = RuntimeError("AfDB: no table found (page layout changed, or proxy blocked)")
+        except urllib.error.HTTPError as e:
+            last = e
+        if attempt < 3:
+            time.sleep(5 * (attempt + 1))
+    else:
+        raise last
     out = []
     for tr in _AFDB_TR.findall(m.group(1)):
         c = [" ".join(_AFDB_TAGS.sub(" ", x).split()) for x in _AFDB_TD.findall(tr)]
