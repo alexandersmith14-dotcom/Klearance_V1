@@ -1869,3 +1869,22 @@
 {"run_date": "2026-09-02", "source": "OFAC", "items_this_run": 10, "records_in_store": 27, "status": "OK"}
 {"run_date": "2026-09-02", "source": "TX Dept of Banking", "items_this_run": 137, "records_in_store": 128, "status": "OK"}
 {"run_date": "2026-09-02", "source": "_TOTAL", "items_this_run": null, "records_in_store": 794, "status": "OK"}
+{"run_date": "2026-09-02", "source": "CFPB", "items_this_run": 21, "records_in_store": 19, "status": "OK"}
+{"run_date": "2026-09-02", "source": "CFPB Rules", "items_this_run": 25, "records_in_store": 17, "status": "OK"}
+{"run_date": "2026-09-02", "source": "CSBS", "items_this_run": 6, "records_in_store": 9, "status": "OK"}
+{"run_date": "2026-09-02", "source": "FDIC", "items_this_run": 25, "records_in_store": 27, "status": "OK"}
+{"run_date": "2026-09-02", "source": "FDIC FILs", "items_this_run": 25, "records_in_store": 32, "status": "OK"}
+{"run_date": "2026-09-02", "source": "FL OFR Press", "items_this_run": 20, "records_in_store": 20, "status": "OK"}
+{"run_date": "2026-09-02", "source": "Fed Enforcement", "items_this_run": 15, "records_in_store": 11, "status": "OK"}
+{"run_date": "2026-09-02", "source": "Fed SR/CA Letters", "items_this_run": 15, "records_in_store": 15, "status": "OK"}
+{"run_date": "2026-09-02", "source": "Federal Reserve", "items_this_run": 20, "records_in_store": 23, "status": "OK"}
+{"run_date": "2026-09-02", "source": "FinCEN", "items_this_run": 100, "records_in_store": 92, "status": "OK"}
+{"run_date": "2026-09-02", "source": "FinCEN Advisories", "items_this_run": 77, "records_in_store": 58, "status": "OK"}
+{"run_date": "2026-09-02", "source": "FinCEN News", "items_this_run": 15, "records_in_store": 13, "status": "OK"}
+{"run_date": "2026-09-02", "source": "NCUA", "items_this_run": 100, "records_in_store": 74, "status": "OK"}
+{"run_date": "2026-09-02", "source": "NCUA Press", "items_this_run": 60, "records_in_store": 60, "status": "OK"}
+{"run_date": "2026-09-02", "source": "OCC", "items_this_run": 10, "records_in_store": 19, "status": "OK"}
+{"run_date": "2026-09-02", "source": "OCC Bulletins", "items_this_run": 10, "records_in_store": 15, "status": "OK"}
+{"run_date": "2026-09-02", "source": "OFAC", "items_this_run": 10, "records_in_store": 27, "status": "OK"}
+{"run_date": "2026-09-02", "source": "TX Dept of Banking", "items_this_run": 137, "records_in_store": 128, "status": "OK"}
+{"run_date": "2026-09-02", "source": "_TOTAL", "items_this_run": null, "records_in_store": 796, "status": "OK"}

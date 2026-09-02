@@ -700,7 +700,8 @@
     "source_type": "rss",
     "key": "b5c44e60f9484370",
     "sources": [
-      "Federal Reserve"
+      "Federal Reserve",
+      "Fed Enforcement"
     ],
     "first_seen": "2026-07-18",
     "last_seen": "2026-09-02",
@@ -776,7 +777,8 @@
     "source_type": "rss",
     "key": "d4d6c518afcd8f09",
     "sources": [
-      "Federal Reserve"
+      "Federal Reserve",
+      "Fed Enforcement"
     ],
     "first_seen": "2026-07-18",
     "last_seen": "2026-09-02",
@@ -853,10 +855,11 @@
     "source_type": "rss",
     "key": "fac7edb635d62bc0",
     "sources": [
-      "Federal Reserve"
+      "Federal Reserve",
+      "Fed Enforcement"
     ],
     "first_seen": "2026-07-18",
-    "last_seen": "2026-08-20",
+    "last_seen": "2026-09-02",
     "fr_checked": false,
     "fintech_specific": false,
     "credit_union": false
@@ -4368,11 +4371,12 @@
     "title": "Federal Reserve Board issues enforcement action with employee of Bank of Eufaula and S N B Bancshares, Inc.",
     "date": "2026-06-25",
     "sources": [
-      "Federal Reserve"
+      "Federal Reserve",
+      "Fed Enforcement"
     ],
     "url": "https://www.federalreserve.gov/newsevents/pressreleases/enforcement20260625b.htm",
     "first_seen": "2026-07-18",
-    "last_seen": "2026-08-19",
+    "last_seen": "2026-09-02",
     "fr_checked": false
   },
   "f25a1b5a3a7a2093": {
@@ -4392,11 +4396,12 @@
     "title": "Federal Reserve Board announces termination of enforcement action with Jiko Group, Inc.",
     "date": "2026-06-25",
     "sources": [
-      "Federal Reserve"
+      "Federal Reserve",
+      "Fed Enforcement"
     ],
     "url": "https://www.federalreserve.gov/newsevents/pressreleases/enforcement20260625a.htm",
     "first_seen": "2026-07-18",
-    "last_seen": "2026-08-13",
+    "last_seen": "2026-09-02",
     "fr_checked": false,
     "credit_union": false
   },
@@ -4461,11 +4466,12 @@
     "title": "Federal Reserve Board issues enforcement action with former employee of Bank of Eufaula and S N B Bancshares, Inc.",
     "date": "2026-06-18",
     "sources": [
-      "Federal Reserve"
+      "Federal Reserve",
+      "Fed Enforcement"
     ],
     "url": "https://www.federalreserve.gov/newsevents/pressreleases/enforcement20260618b.htm",
     "first_seen": "2026-07-18",
-    "last_seen": "2026-08-04",
+    "last_seen": "2026-09-02",
     "fr_checked": false
   },
   "47c281cd5c37cf30": {
@@ -4484,11 +4490,12 @@
     "title": "Federal Reserve Board issues enforcement action with former employee of Manufacturers and Traders Trust Company",
     "date": "2026-06-18",
     "sources": [
-      "Federal Reserve"
+      "Federal Reserve",
+      "Fed Enforcement"
     ],
     "url": "https://www.federalreserve.gov/newsevents/pressreleases/enforcement20260618a.htm",
     "first_seen": "2026-07-18",
-    "last_seen": "2026-07-31",
+    "last_seen": "2026-09-02",
     "fr_checked": false
   },
   "f0a2125068f6998a": {
@@ -17815,7 +17822,8 @@
     "title": "Federal Reserve Board issues enforcement action with former employee of Regions Bank",
     "date": "2026-08-13",
     "sources": [
-      "Federal Reserve"
+      "Federal Reserve",
+      "Fed Enforcement"
     ],
     "url": "https://www.federalreserve.gov/newsevents/pressreleases/enforcement20260813a.htm",
     "first_seen": "2026-08-18",
@@ -17962,7 +17970,8 @@
     "title": "Federal Reserve Board issues enforcement action with Iuka Bancshares, Inc. and The Iuka State Bank",
     "date": "2026-07-30",
     "sources": [
-      "Federal Reserve"
+      "Federal Reserve",
+      "Fed Enforcement"
     ],
     "url": "https://www.federalreserve.gov/newsevents/pressreleases/enforcement20260730b.htm",
     "first_seen": "2026-08-18",
@@ -17986,7 +17995,8 @@
     "title": "Federal Reserve Board issues enforcement actions with former employee of Regions Bank and former employee of First Interstate Bank",
     "date": "2026-07-30",
     "sources": [
-      "Federal Reserve"
+      "Federal Reserve",
+      "Fed Enforcement"
     ],
     "url": "https://www.federalreserve.gov/newsevents/pressreleases/enforcement20260730a.htm",
     "first_seen": "2026-08-18",
@@ -19567,7 +19577,8 @@
     "title": "Federal Reserve Board issues enforcement action with SouthPoint Bancshares, Inc. and announces termination of enforcement action with Deutsche Bank AG, DB USA Corporation, and Deutsche Bank AG New York Branch",
     "date": "2026-08-20",
     "sources": [
-      "Federal Reserve"
+      "Federal Reserve",
+      "Fed Enforcement"
     ],
     "url": "https://www.federalreserve.gov/newsevents/pressreleases/enforcement20260820b.htm",
     "first_seen": "2026-08-21",
@@ -19591,7 +19602,8 @@
     "title": "Federal Reserve Board issues enforcement actions with former employee of Regions Bank and former employee of United Community Bank",
     "date": "2026-08-20",
     "sources": [
-      "Federal Reserve"
+      "Federal Reserve",
+      "Fed Enforcement"
     ],
     "url": "https://www.federalreserve.gov/newsevents/pressreleases/enforcement20260820a.htm",
     "first_seen": "2026-08-21",
@@ -20120,7 +20132,8 @@
     "title": "Federal Reserve Board issues enforcement action with former employee of Banco Popular de Puerto Rico",
     "date": "2026-08-27",
     "sources": [
-      "Federal Reserve"
+      "Federal Reserve",
+      "Fed Enforcement"
     ],
     "url": "https://www.federalreserve.gov/newsevents/pressreleases/enforcement20260827a.htm",
     "first_seen": "2026-08-28",
@@ -20796,6 +20809,53 @@
       "FinCEN News"
     ],
     "url": "https://www.fincen.gov/news/news-releases/fincen-announces-recipients-its-11th-law-enforcement-awards-program",
+    "first_seen": "2026-09-02",
+    "last_seen": "2026-09-02",
+    "fr_checked": false
+  },
+  "78d1d563a9346b5f": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Enforcement Action",
+    "urgency": "Low",
+    "plain_english": "The Fed issued enforcement actions against former individual employees of Atlantic Union Bank and Frost Bank. These are personnel-level actions targeting specific individuals, not new rules or industry-wide obligations.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "enforcement action",
+      "Federal Reserve",
+      "individual accountability"
+    ],
+    "key": "78d1d563a9346b5f",
+    "title": "Federal Reserve Board issues enforcement actions with former employee of Atlantic Union Bank and former employee of Frost Bank",
+    "date": "2026-05-28",
+    "sources": [
+      "Fed Enforcement"
+    ],
+    "url": "https://www.federalreserve.gov/newsevents/pressreleases/enforcement20260528a.htm",
+    "first_seen": "2026-09-02",
+    "last_seen": "2026-09-02",
+    "fr_checked": false
+  },
+  "b4f5bdcddd41e586": {
+    "relevant": false,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Enforcement Action",
+    "urgency": "Low",
+    "plain_english": "The Fed issued an enforcement action against a former individual employee of Commerce Bank. This is a personnel-specific enforcement matter with no broader regulatory or policy change.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "enforcement",
+      "individual"
+    ],
+    "key": "b4f5bdcddd41e586",
+    "title": "Federal Reserve Board issues enforcement action with former employee of Commerce Bank",
+    "date": "2026-05-21",
+    "sources": [
+      "Fed Enforcement"
+    ],
+    "url": "https://www.federalreserve.gov/newsevents/pressreleases/enforcement20260521a.htm",
     "first_seen": "2026-09-02",
     "last_seen": "2026-09-02",
     "fr_checked": false
