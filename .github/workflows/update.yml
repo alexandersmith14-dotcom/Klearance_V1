@@ -64,8 +64,9 @@ jobs:
           # Set for schedule + workflow_dispatch, empty for push.
           FETCH_SAM: ${{ github.event_name != 'push' && '1' || '' }}
           # Cloudflare Worker fetch proxy for the AfDB debarment list. Both must
-          # be set or fetch_afdb() raises and that one source is skipped.
-          PROXY_WORKER_URL: ${{ vars.PROXY_WORKER_URL }}
+          # be set or fetch_afdb() raises and that one source is skipped. The
+          # URL can be a repo Variable or Secret; the key must be a Secret.
+          PROXY_WORKER_URL: ${{ vars.PROXY_WORKER_URL || secrets.PROXY_WORKER_URL }}
           WORKER_PROXY_KEY: ${{ secrets.WORKER_PROXY_KEY }}
         run: python sdn_monitor.py
 
