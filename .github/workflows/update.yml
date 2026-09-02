@@ -40,11 +40,11 @@ jobs:
           python-version: "3.12"
           cache: pip
 
-      # misaki (Kokoro's G2P, used by make_audio.py) shells out to espeak-ng.
-      # ffmpeg is already on the runner image. Both are only needed by the
-      # non-fatal audio step below.
-      - name: Install espeak-ng
-        run: sudo apt-get update && sudo apt-get install -y espeak-ng
+      # make_audio.py needs espeak-ng (misaki's G2P shells out to it) and ffmpeg
+      # (re-encodes Kokoro's WAV to MP3). Both only feed the non-fatal audio
+      # step below.
+      - name: Install espeak-ng and ffmpeg
+        run: sudo apt-get update && sudo apt-get install -y espeak-ng ffmpeg
 
       - name: Install dependencies
         run: pip install -r requirements.txt
