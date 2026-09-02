@@ -326,6 +326,24 @@ def _fincen_311_name(raw):
     return re.sub(r"[\s*]+$", "", name).strip(), aliases
 
 
+def _fincen_311_remarks(parts, source_url):
+    """Join remark fragments with sentence spacing, then trim on a word boundary
+    so the ' Source: <url>' tail always survives REMARKS_CAP intact."""
+    text = ""
+    for p in parts:
+        p = (p or "").strip()
+        if not p:
+            continue
+        text += (" " if text else "") + p
+        if not text.endswith((".", '"', "!", "?", "…")):
+            text += "."
+    tail = f" Source: {source_url}" if source_url else ""
+    room = max(120, REMARKS_CAP - len(tail))
+    if len(text) > room:
+        text = text[:room].rsplit(" ", 1)[0].rstrip(" ,;.") + "…"
+    return text + tail
+
+
 def _load_fincen_311_details():
     """fincen311_details.csv grouped by measure slug. Rows are facts hand-mined
     from the rulemaking documents linked in the table (addresses, aliases, and
@@ -387,6 +405,7 @@ def fetch_fincen311():
         self_row = next((r for r in rows if (r.get("relationship") or "").strip() == "self"), None)
         country = ""
         extra = []
+        main_src = doc  # table's first link, unless a mined self row cites a better one
         if self_row:
             override = (self_row.get("name") or "").strip()
             if override and override.lower() != name.lower():
@@ -396,6 +415,7 @@ def fetch_fincen311():
             country = (self_row.get("country") or "").strip()
             addr = (self_row.get("address") or "").strip()
             note = (self_row.get("notes") or "").strip()
+            main_src = (self_row.get("source_url") or "").strip() or doc
             if addr:
                 extra.append(f"Address: {addr}")
             if note:
@@ -403,11 +423,10 @@ def fetch_fincen311():
         if raw in FINCEN_311_JURISDICTION:
             extra.append("Jurisdiction-level finding; no specific legal entity.")
 
-        remarks = "Section 311 special measure. " + "; ".join(s for s in stages if s)
-        if extra:
-            remarks += ". " + " ".join(extra)
-        if doc:
-            remarks += f" Source: {doc}"
+        remarks = _fincen_311_remarks(
+            ["Section 311 special measure. " + "; ".join(s for s in stages if s)] + extra,
+            main_src,
+        )
         # de-dup aliases, drop any equal to the name
         seen_al, al = set(), []
         for a in aliases:
@@ -434,18 +453,16 @@ def fetch_fincen311():
                 continue
             sub_note = (r.get("notes") or "").strip()
             sub_src = (r.get("source_url") or "").strip() or doc
-            sr = f"FinCEN 311 sub-entity of \"{name}\" ({rel})."
-            if sub_note:
-                sr += " " + sub_note
-            if r.get("address"):
-                sr += f" Address: {r['address'].strip()}"
-            if sub_src:
-                sr += f" Source: {sub_src}"
+            sr = _fincen_311_remarks(
+                [f'FinCEN 311 sub-entity of "{name}" ({rel}).', sub_note,
+                 f"Address: {r['address'].strip()}" if r.get("address") else ""],
+                sub_src,
+            )
             out.append({
                 "key": f"fincen311-{slug}-{_fincen_311_slug(sub_name)}",
                 "name": sub_name, "type": (r.get("type") or "").strip(),
                 "program": f"FinCEN 311 - {status} ({rel})", "source": "FinCEN 311",
-                "remarks": sr[:REMARKS_CAP], "country": (r.get("country") or "").strip(),
+                "remarks": sr, "country": (r.get("country") or "").strip(),
                 "aliases": [a.strip() for a in (r.get("alias") or "").split(";") if a.strip()],
             })
 
