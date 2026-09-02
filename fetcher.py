@@ -244,7 +244,24 @@ TIME = re.compile(r'<time[^>]*datetime="([^"]{10})', re.I)
 TEXTDATE = re.compile(r"([A-Z][a-z]{2,8})\s+(\d{1,2}),\s*(\d{4})")
 
 
-def get(url, timeout=60):
+# Optional Cloudflare Worker fetch proxy (worker/worker.js, GET /proxy?url=).
+# Requests leave from Cloudflare's network, which clears the passive bot check
+# on a few sites that 403 a plain datacenter request. Set both env vars to use
+# it; without them get(..., via_worker=True) raises and the source is skipped.
+PROXY_WORKER_URL = os.environ.get("PROXY_WORKER_URL", "").rstrip("/")
+PROXY_KEY = os.environ.get("WORKER_PROXY_KEY", "")
+
+
+def get(url, timeout=60, via_worker=False):
+    if via_worker:
+        if not (PROXY_WORKER_URL and PROXY_KEY):
+            raise RuntimeError("via_worker set but PROXY_WORKER_URL / WORKER_PROXY_KEY missing")
+        req = urllib.request.Request(
+            PROXY_WORKER_URL + "/proxy?url=" + urllib.parse.quote(url, safe=""),
+            headers={**UA, "X-Proxy-Key": PROXY_KEY},
+        )
+        with urllib.request.urlopen(req, timeout=timeout) as r:
+            return r.read().decode("utf-8", "ignore")
     # dob.texas.gov needs the completed cert chain; everything else uses the
     # default context.
     ctx = _dob_context() if DOB_HOST in urllib.parse.urlsplit(url).netloc else None

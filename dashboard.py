@@ -3734,7 +3734,7 @@ def coverage_panel(store):
         f'agency feed above. {_sanc_lists_word.capitalize()} lists are downloaded '
         'whole each day &mdash; OFAC SDN and Consolidated, BIS and State (via '
         f'Trade.gov),{_sanc_note} the UN, UK and EU consolidated lists, the World '
-        'Bank and Asian Development Bank debarment lists and FinCEN Section 311 '
+        'Bank, ADB and AfDB debarment lists and FinCEN Section 311 '
         'special measures &mdash; and '
         'searched by name and alias, not classified or filtered for relevance the '
         'way the rest of this page is. The OFAC SDN and Consolidated lists and '

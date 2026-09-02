@@ -5,6 +5,11 @@ compatibility_date = "2026-07-01"
 # The API key is a SECRET, never in this file and never in the published page:
 #   npx wrangler secret put GROQ_API_KEY
 #
+# PROXY_KEY gates the GET /proxy?url= fetch-proxy route (used by fetcher.py to
+# reach Cloudflare-fronted sources like the AfDB debarment list). Set the same
+# value here and as the WORKER_PROXY_KEY GitHub Actions secret:
+#   npx wrangler secret put PROXY_KEY
+#
 # Optional per-IP rate limiting. Create a KV namespace and uncomment to bind it:
 #   npx wrangler kv namespace create RATELIMIT
 # then paste the returned id below. Without it the Worker still enforces the

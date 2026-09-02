@@ -16,6 +16,8 @@ Screening covers, by name and alias:
       and Individuals, incl. MDB cross-debarments
   - Asian Development Bank sanctions list                source "ADB"
       debarments + cross-debarments from WB / IDB / EBRD / AfDB
+  - African Development Bank debarment list              source "AfDB"
+      HTML table via the Worker proxy; mostly cross-debarments
   - FinCEN Section 311 / 9714 special measures           source "FinCEN 311"
       foreign banks/jurisdictions of primary money laundering concern
 
@@ -374,6 +376,51 @@ def fetch_adb():
             "country": re.sub(r"\s*\*\d+\s*$", "",
                               " ".join((a.get("nationality") or "").split())),
             "aliases": aliases,
+        })
+    return out
+
+
+AFDB_URL = ("https://www.afdb.org/en/projects-operations/"
+            "debarment-and-sanctions-procedures")
+_AFDB_TR = re.compile(r"<tr[^>]*>(.*?)</tr>", re.S | re.I)
+_AFDB_TD = re.compile(r"<td[^>]*>(.*?)</td>", re.S | re.I)
+_AFDB_TAGS = re.compile(r"<[^>]+>")
+
+
+def fetch_afdb():
+    """African Development Bank list of debarred and sanctioned entities. One
+    HTML table on a Cloudflare-fronted page - fetched through the Worker proxy
+    (via_worker) since a plain datacenter request is 403'd. ~1,300 rows: firms
+    and individuals, ~55 AfDB-own debarments plus cross-debarments from the
+    World Bank, ADB, IDB and EBRD (the Basis column names the origin)."""
+    html = fetcher.get(AFDB_URL, timeout=150, via_worker=True)
+    m = re.search(r"<table[^>]*>(.*?)</table>", html, re.S | re.I)
+    if not m:
+        raise RuntimeError("AfDB: no table found (page layout changed, or proxy blocked)")
+    out = []
+    for tr in _AFDB_TR.findall(m.group(1)):
+        c = [" ".join(_AFDB_TAGS.sub(" ", x).split()) for x in _AFDB_TD.findall(tr)]
+        if len(c) < 7 or not c[1]:
+            continue
+        name, frm, to, country, basis = c[1], c[3], c[4], c[5], c[6]
+        note = c[7] if len(c) > 7 else ""
+        cross = "cross" in basis.lower()
+        remarks = "; ".join(x for x in [
+            "AfDB " + ("cross-debarred" if cross else "debarred"),
+            f"from {frm}" if frm else "",
+            f"to {to}" if to else "",
+            f"basis: {basis}" if basis else "",
+            note,
+        ] if x)
+        out.append({
+            "key": "afdb" + re.sub(r"[^a-z0-9]+", "", (name + frm).lower())[:48],
+            "name": name,
+            "type": {"FIRM": "entity", "INDIVIDUAL": "individual"}.get(c[2].upper(), ""),
+            "program": "AfDB " + ("cross-debarred" if cross else "debarred"),
+            "source": "AfDB",
+            "remarks": remarks[:REMARKS_CAP],
+            "country": country,
+            "aliases": [],
         })
     return out
 
@@ -820,6 +867,7 @@ def main():
     eu = safe("EU FSF", fetch_eu)
     worldbank = safe("World Bank debarment", fetch_worldbank)
     adb = safe("ADB sanctions", fetch_adb)
+    afdb = safe("AfDB debarment", fetch_afdb)
     fincen311 = safe("FinCEN 311 special measures", fetch_fincen311)
     sam = safe("SAM.gov Exclusions", fetch_sam)
 
@@ -870,7 +918,7 @@ def main():
     records = (
         list(ofac_records(sdn, sdn_alt, sdn_ctry, "SDN"))
         + list(ofac_records(csl, csl_alt, csl_ctry, "Non-SDN"))
-        + bis_state + un + uk + eu + worldbank + adb + fincen311
+        + bis_state + un + uk + eu + worldbank + adb + afdb + fincen311
     )
     index = build_index(records)
     with open(SDN_INDEX_PATH, "w", encoding="utf-8") as f:

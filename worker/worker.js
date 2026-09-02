@@ -196,6 +196,55 @@ Rules:
 - Do not name the models or vendors, and do not describe your own process.
 - Be concise and practical.`;
 
+// --- URL fetch proxy -------------------------------------------------------
+// A GET /proxy?url=<encoded> route, separate from the Ask feature. Requests
+// leave from Cloudflare's own network, which clears the *passive* bot check on
+// some sites that 403 a plain datacenter request (AfDB's debarment list; the
+// FFIEC BSA/AML manual). It does NOT solve an interactive JS challenge (IDB).
+// Locked to an allowlist of hosts and a shared secret (PROXY_KEY); the pipeline
+// makes a handful of calls a day, far under any free-tier limit.
+const PROXY_HOSTS = new Set([
+  "www.afdb.org", "afdb.org",
+  "www.ffiec.gov", "ffiec.gov", "bsaaml.ffiec.gov",
+  "www.iadb.org", "iadb.org",
+]);
+const PROXY_MAX_BYTES = 12 * 1024 * 1024;
+
+async function handleProxy(request, env) {
+  const u = new URL(request.url);
+  if (u.pathname !== "/proxy") return null;            // not this route
+  if (!env.PROXY_KEY || request.headers.get("X-Proxy-Key") !== env.PROXY_KEY)
+    return new Response("forbidden", { status: 403 });
+  let t;
+  try { t = new URL(u.searchParams.get("url") || ""); }
+  catch { return new Response("bad url", { status: 400 }); }
+  if (t.protocol !== "https:" || !PROXY_HOSTS.has(t.hostname))
+    return new Response("host not allowed", { status: 400 });
+  let upstream;
+  try {
+    upstream = await fetch(t.toString(), {
+      redirect: "follow",
+      headers: {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+          + "(KHTML, like Gecko) Chrome/124.0 Safari/537.36",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Language": "en-US,en;q=0.9",
+      },
+    });
+  } catch (e) {
+    return new Response("upstream fetch failed", { status: 502 });
+  }
+  const buf = await upstream.arrayBuffer();
+  if (buf.byteLength > PROXY_MAX_BYTES)
+    return new Response("response too large", { status: 502 });
+  return new Response(buf, {
+    status: upstream.status,
+    headers: {
+      "Content-Type": upstream.headers.get("Content-Type") || "text/plain",
+    },
+  });
+}
+
 function cors(origin) {
   const allowed = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
   return {
@@ -270,6 +319,10 @@ async function reconcile(question, answers, env, tokens) {
 
 export default {
   async fetch(request, env) {
+    if (request.method === "GET") {
+      const proxied = await handleProxy(request, env);
+      if (proxied) return proxied;
+    }
     const origin = request.headers.get("Origin") || "";
     if (request.method === "OPTIONS")
       return new Response(null, { status: 204, headers: cors(origin) });
