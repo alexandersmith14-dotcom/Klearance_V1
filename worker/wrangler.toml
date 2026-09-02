@@ -1,6 +1,10 @@
 name = "regwatch-ask"
 main = "worker.js"
 compatibility_date = "2026-07-01"
+# afdb.org (and other proxy targets) sit behind Cloudflare. Without this flag a
+# Worker subrequest to another Cloudflare zone is rejected with error 1042. The
+# flag routes the fetch over the public internet like any external client.
+compatibility_flags = ["global_fetch_strictly_public"]
 
 # The API key is a SECRET, never in this file and never in the published page:
 #   npx wrangler secret put GROQ_API_KEY
