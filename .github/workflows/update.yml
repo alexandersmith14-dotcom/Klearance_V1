@@ -71,6 +71,7 @@ jobs:
         run: |
           [ -n "$PROXY_WORKER_URL" ] && echo "proxy url: set (${#PROXY_WORKER_URL} chars)" || echo "proxy url: EMPTY"
           [ -n "$WORKER_PROXY_KEY" ] && echo "proxy key: set (${#WORKER_PROXY_KEY} chars)" || echo "proxy key: EMPTY"
+          echo "proxy key md5: $(printf %s "$WORKER_PROXY_KEY" | md5sum | cut -d' ' -f1)"
           python sdn_monitor.py
 
       - name: Build country-risk reference
