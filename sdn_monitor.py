@@ -94,6 +94,11 @@ SDN_SNAPSHOT_PATH = "sdn_snapshot.json"
 CSL_SNAPSHOT_PATH = "csl_snapshot.json"
 FINCEN_311_SNAPSHOT_PATH = "fincen311_snapshot.json"
 SDN_LOG_PATH = "sdn_log.json"
+# Cold-start fallback for AfDB, same idea as sdn_index_sam.json: afdb.org sits
+# behind an interactive Cloudflare challenge the Worker proxy clears only some
+# of the time, and safe() would otherwise drop the whole list on a bad day.
+# Every successful fetch rewrites this; a failed one falls back to it.
+AFDB_SNAPSHOT_PATH = "afdb_snapshot.json"
 
 # Derived, gitignored; the workflow copies them into site/.
 SDN_INDEX_PATH = "sdn_index.json"          # everything except SAM (~3 MB gz)
@@ -388,30 +393,10 @@ _AFDB_TD = re.compile(r"<td[^>]*>(.*?)</td>", re.S | re.I)
 _AFDB_TAGS = re.compile(r"<[^>]+>")
 
 
-def fetch_afdb():
-    """African Development Bank list of debarred and sanctioned entities. One
-    HTML table on a Cloudflare-fronted page - fetched through the Worker proxy
-    (via_worker) since a plain datacenter request is 403'd. ~1,300 rows: firms
-    and individuals, ~55 AfDB-own debarments plus cross-debarments from the
-    World Bank, ADB, IDB and EBRD (the Basis column names the origin).
-
-    afdb.org's Cloudflare WAF challenges the Worker's egress intermittently
-    (a passthrough 403), so retry a few times before giving up - a single
-    challenge would otherwise drop the whole list from screening for the day."""
-    last = None
-    for attempt in range(4):
-        try:
-            html = fetcher.get(AFDB_URL, timeout=150, via_worker=True)
-            m = re.search(r"<table[^>]*>(.*?)</table>", html, re.S | re.I)
-            if m:
-                break
-            last = RuntimeError("AfDB: no table found (page layout changed, or proxy blocked)")
-        except urllib.error.HTTPError as e:
-            last = e
-        if attempt < 3:
-            time.sleep(5 * (attempt + 1))
-    else:
-        raise last
+def _parse_afdb(html):
+    m = re.search(r"<table[^>]*>(.*?)</table>", html, re.S | re.I)
+    if not m:
+        raise RuntimeError("AfDB: no table found (page layout changed, or proxy blocked)")
     out = []
     for tr in _AFDB_TR.findall(m.group(1)):
         c = [" ".join(_AFDB_TAGS.sub(" ", x).split()) for x in _AFDB_TD.findall(tr)]
@@ -438,6 +423,40 @@ def fetch_afdb():
             "aliases": [],
         })
     return out
+
+
+def fetch_afdb():
+    """African Development Bank list of debarred and sanctioned entities. One
+    HTML table on a Cloudflare-fronted page - fetched through the Worker proxy
+    (via_worker) since a plain datacenter request is 403'd. ~1,300 rows: firms
+    and individuals, ~55 AfDB-own debarments plus cross-debarments from the
+    World Bank, ADB, IDB and EBRD (the Basis column names the origin).
+
+    afdb.org sits behind an interactive Cloudflare challenge the Worker proxy
+    clears only intermittently. Retry a few times; if every attempt is blocked,
+    fall back to the committed snapshot (AFDB_SNAPSHOT_PATH) so the list stays
+    in screening - the debarment list moves slowly, so a few days stale is far
+    better than the source vanishing. Each success refreshes the snapshot."""
+    last = None
+    for attempt in range(4):
+        try:
+            html = fetcher.get(AFDB_URL, timeout=150, via_worker=True)
+            rows = _parse_afdb(html)
+            with open(AFDB_SNAPSHOT_PATH, "w", encoding="utf-8") as f:
+                json.dump(rows, f)
+            return rows
+        except (urllib.error.HTTPError, urllib.error.URLError, RuntimeError) as e:
+            last = e
+        if attempt < 3:
+            time.sleep(5 * (attempt + 1))
+    try:
+        with open(AFDB_SNAPSHOT_PATH, encoding="utf-8") as f:
+            rows = json.load(f)
+        print(f"    AfDB: live fetch blocked ({type(last).__name__}); "
+              f"using committed snapshot ({len(rows)} rows)")
+        return rows
+    except (OSError, ValueError):
+        raise last
 
 
 # Rows in the FinCEN 311 table that name a class of transactions rather than an
