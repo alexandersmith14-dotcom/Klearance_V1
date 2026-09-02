@@ -1900,6 +1900,26 @@ function deadlineItems(rs) {
   return items;
 }
 
+// The deadline column shows each item's full regulator headline. Several are
+// long boilerplate differing only in a trailing number, so a run of them reads
+// as one wall of text. Trim the visible text to `max` chars on a word
+// boundary; the full title stays as the link's tooltip, on the detail page,
+// and in the calendar event. The main feed cards keep their full headlines.
+function shortTitle(t, max) {
+  t = (t || '').trim();
+  if (t.length <= max) return t;
+  // Keep a short trailing code (e.g. "08-2", "SR 26-4") — it is often the only
+  // thing distinguishing two otherwise identical boilerplate titles.
+  const tail = t.split(/\s+/).pop();
+  const keepTail = tail.length <= 8 && /\d/.test(tail) && tail.length + 4 < max;
+  const budget = keepTail ? max - tail.length - 3 : max;
+  let cut = t.slice(0, budget);
+  const sp = cut.lastIndexOf(' ');
+  if (sp > budget * 0.6) cut = cut.slice(0, sp);
+  cut = cut.replace(/[\s.,;:\-–]+$/, '');
+  return keepTail ? cut + ' … ' + tail : cut + '…';
+}
+
 // Same two dates deadlineItems checks, but rendered inline on the update card
 // itself rather than only in the sidebar — a reader scanning the feed can add
 // a comment deadline or effective date to their calendar without hunting for
@@ -2043,7 +2063,8 @@ function renderDeadlines(rs) {
     return `<div class="dl">
       <div class="body">
         <div class="agency"><span class="dot" style="background:${col}"></span>${esc(d.sources.join(' · '))}</div>
-        <div class="ttl"><a href="${esc(d.fr_url || d.url)}" target="_blank" rel="noopener">${esc(d.title)}</a></div>
+        <div class="ttl"><a href="${esc(d.fr_url || d.url)}" target="_blank" rel="noopener"
+          title="${esc(d.title)}">${esc(shortTitle(d.title, 64))}</a></div>
         <div class="dlfoot">
           <div class="when ${cls}">${esc(what)} ${esc(when)} · ${n} day${n === 1 ? '' : 's'}</div>
           <div class="actions">
