@@ -20277,5 +20277,164 @@
     "first_seen": "2026-08-29",
     "last_seen": "2026-09-02",
     "fr_checked": true
+  },
+  "8eb52fe5b5385ade": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Notice",
+    "urgency": "Low",
+    "plain_english": "The OCC published its monthly list of CRA performance evaluations for 23 national banks and federal savings associations. This is a routine transparency release with no rule change or new obligation.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "OCC",
+      "CRA",
+      "performance evaluation"
+    ],
+    "key": "8eb52fe5b5385ade",
+    "title": "OCC Releases CRA Performance Evaluations for 23 National Banks and Federal Savings Associations",
+    "date": "2026-09-01",
+    "sources": [
+      "OCC"
+    ],
+    "url": "https://www.occ.gov/news-issuances/news-releases/2026/nr-occ-2026-74.html",
+    "first_seen": "2026-09-02",
+    "last_seen": "2026-09-02",
+    "fr_checked": true
+  },
+  "59e9a5ce89b02ef1": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Guidance",
+    "urgency": "Medium",
+    "plain_english": "Federal banking regulators, NCUA, and FinCEN issued a joint statement clarifying how SAR confidentiality rules apply when institutions communicate with customers about potentially fraudulent transactions. It gives institutions guidance on what they can and cannot disclose to customers without violating SAR confidentiality, relevant to fraud-response and BSA/AML programs.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "BSA/AML",
+      "SAR",
+      "FinCEN",
+      "fraud",
+      "interagency guidance"
+    ],
+    "key": "59e9a5ce89b02ef1",
+    "title": "Suspicious Activity Reporting: Joint Statement on Suspicious Activity Report Confidentiality Considerations Regarding Communications with Customers",
+    "date": "2026-09-02",
+    "sources": [
+      "OCC Bulletins",
+      "NCUA Press",
+      "FDIC FILs"
+    ],
+    "url": "https://www.occ.gov/news-issuances/bulletins/2026/bulletin-2026-43.html",
+    "first_seen": "2026-09-02",
+    "last_seen": "2026-09-02",
+    "fr_checked": false
+  },
+  "255370f945a71e1b": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Guidance",
+    "urgency": "Medium",
+    "plain_english": "Interagency joint statement clarifying SAR confidentiality rules when communicating with customers, addressing what institutions can and cannot disclose about suspicious activity. Applies to all BSA-covered institutions and reinforces prohibitions on tipping off customers about SAR filings.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "BSA/AML",
+      "SAR",
+      "confidentiality",
+      "interagency guidance"
+    ],
+    "key": "255370f945a71e1b",
+    "title": "SR 26-5",
+    "date": "2026-09-02",
+    "sources": [
+      "Fed SR/CA Letters"
+    ],
+    "url": "https://www.federalreserve.gov/supervisionreg/srletters/SR2605.htm",
+    "first_seen": "2026-09-02",
+    "last_seen": "2026-09-02",
+    "fr_checked": false
+  },
+  "f2cc63ae5eb65b86": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": false,
+    "update_type": "Proposed Rule",
+    "urgency": "Medium",
+    "plain_english": "FinCEN proposes a section 311 special measure designating the UAE branches of Banque Misr as a primary money-laundering concern, which would bar U.S. financial institutions from maintaining correspondent accounts tied to the bank and require enhanced due diligence on foreign correspondent accounts to screen out related transactions. Any institution with correspondent banking or international payment exposure would need to update screening and correspondent-account controls.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "FinCEN",
+      "BSA/AML",
+      "Section 311",
+      "correspondent banking",
+      "special measure",
+      "sanctions-adjacent"
+    ],
+    "key": "f2cc63ae5eb65b86",
+    "title": "Proposal of Special Measure Regarding Banque Misr UAE as a Financial Institution Operating Outside of the United States of Primary Money Laundering Concern",
+    "date": "2026-09-01",
+    "sources": [
+      "FinCEN"
+    ],
+    "url": "https://www.federalregister.gov/documents/2026/09/01/2026-17871/proposal-of-special-measure-regarding-banque-misr-uae-as-a-financial-institution-operating-outside",
+    "first_seen": "2026-09-02",
+    "last_seen": "2026-09-02",
+    "fr_checked": true,
+    "fr_url": "https://www.federalregister.gov/documents/2026/09/01/2026-17871/proposal-of-special-measure-regarding-banque-misr-uae-as-a-financial-institution-operating-outside",
+    "fr_title": "Proposal of Special Measure Regarding Banque Misr UAE as a Financial Institution Operating Outside of the United States of Primary Money Laundering Concern",
+    "fr_match_score": 1.0,
+    "comments_close_on": "2026-10-01",
+    "effective_on": null,
+    "fr_dates_text": "Written comments on the notice of proposed rulemaking must be submitted on or before October 1, 2026."
+  },
+  "cb9bb1eff28ac2a2": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": true,
+    "update_type": "Notice",
+    "urgency": "Low",
+    "plain_english": "WeDevelopment FCU merged into CommunityAmerica FCU. This is a routine credit-union merger notice from NCUA affecting the members and operations of the merging institutions.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "credit union",
+      "merger",
+      "NCUA"
+    ],
+    "key": "cb9bb1eff28ac2a2",
+    "title": "WeDevelopment Federal Credit Union Merges into CommunityAmerica Federal Credit Union",
+    "date": "2026-09-01",
+    "sources": [
+      "NCUA Press"
+    ],
+    "url": "https://ncua.gov/newsroom/press-release/2026/wedevelopment-federal-credit-union-merges-communityamerica-federal-credit-union",
+    "first_seen": "2026-09-02",
+    "last_seen": "2026-09-02",
+    "fr_checked": true
+  },
+  "56c5317f1cc58a1a": {
+    "relevant": true,
+    "fintech_specific": false,
+    "credit_union": true,
+    "update_type": "Enforcement Action",
+    "urgency": "Low",
+    "plain_english": "NCUA issued prohibition orders barring three individuals from participating in the affairs of any federally insured depository institution. These are routine enforcement actions against specific individuals, not a rule change.",
+    "effective_or_comment_date": "Not stated",
+    "tags": [
+      "NCUA",
+      "enforcement",
+      "prohibition order",
+      "credit union"
+    ],
+    "key": "56c5317f1cc58a1a",
+    "title": "NCUA Prohibits Three Individuals from Participating in the Affairs of Any Federally Insured Depository Institution",
+    "date": "2026-08-31",
+    "sources": [
+      "NCUA Press"
+    ],
+    "url": "https://ncua.gov/newsroom/press-release/2026/ncua-prohibits-three-individuals-participating-affairs-any-federally-insured-depository-institution",
+    "first_seen": "2026-09-02",
+    "last_seen": "2026-09-02",
+    "fr_checked": false
   }
 }
