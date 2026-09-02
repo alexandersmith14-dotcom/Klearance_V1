@@ -47,6 +47,9 @@ RSS_FEEDS = [
     # SR/CA letters — the Fed's supervisory guidance channel. Titles are bare
     # codes ("SR 26-3"); the real subject line is in the summary field.
     {"agency": "Fed SR/CA Letters", "url": "https://www.federalreserve.gov/feeds/bankinginfo-rss.xml"},
+    # Enforcement actions — its own feed because they drop off press_all faster
+    # than off here; measured at ~7 of 15 items not present in press_all.
+    {"agency": "Fed Enforcement", "url": "https://www.federalreserve.gov/feeds/press_enforcement.xml"},
     {"agency": "CFPB", "url": "https://www.consumerfinance.gov/about-us/newsroom/feed/"},
     {"agency": "CFPB Rules", "url": "https://www.consumerfinance.gov/rules-policy/final-rules/feed/"},
 ]

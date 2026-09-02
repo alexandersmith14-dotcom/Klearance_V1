@@ -35,6 +35,7 @@ import argparse
 import collections
 import json
 import os
+import re
 import statistics
 import sys
 from datetime import date
@@ -63,6 +64,20 @@ QUIET_FLOOR_DAYS = 21
 # Below this many dated records we have no basis for a per-source threshold and
 # fall back to the floor alone.
 MIN_HISTORY = 4
+
+# Coverage watch: regulators / standard-setters that could plausibly issue
+# something relevant to community banks, credit unions or fintechs. Any that
+# turns up in a RELEVANT item's text without being a tracked source is
+# reported for a human to judge - it is how the missing FinCEN /news feed was
+# found (items named FinCEN but no FinCEN source on them). Informational only;
+# never fails the run. A name here that is already a tracked source is skipped.
+COVERAGE_WATCH_NAMES = [
+    "SEC", "FINRA", "CFTC", "FFIEC", "FSOC", "Treasury", "IRS", "FTC", "FHFA",
+    "DOJ", "Department of Justice", "SBA", "Farm Credit", "NCUA", "OCC", "FDIC",
+    "CFPB", "FinCEN", "OFAC", "Federal Reserve", "NYDFS", "DFPI", "MSRB",
+    "NACHA", "Basel", "FATF", "Wolfsberg", "GAO", "HUD",
+]
+COVERAGE_WATCH_MIN = 3          # mentions before it is worth surfacing
 
 
 def active_sources():
@@ -230,6 +245,34 @@ def assess(store, fetch_report):
     return run_date, findings
 
 
+def coverage_watch(store):
+    """Regulators named in relevant items that are not a tracked source.
+
+    Matches whole words in the title + plain-English summary of relevant
+    records. A name that is already a tracked source (e.g. "OCC", "FinCEN")
+    is dropped - it is only interesting when the issuing body has no feed of
+    its own here. Purely informational: the caller prints it, it never sets
+    a non-zero exit.
+    """
+    tracked = " ".join(active_sources()).lower()
+    watch = [n for n in COVERAGE_WATCH_NAMES if n.lower() not in tracked]
+    pats = {n: re.compile(r"\b" + re.escape(n) + r"\b") for n in watch}
+    counts, example = {}, {}
+    for rec in store.values():
+        if not rec.get("relevant"):
+            continue
+        blob = f"{rec.get('title', '')} {rec.get('plain_english', '')}".replace("\n", " ")
+        for n, pat in pats.items():
+            if pat.search(blob):
+                counts[n] = counts.get(n, 0) + 1
+                example.setdefault(n, blob[:140])
+    return sorted(
+        ({"body": n, "mentions": c, "example": example[n]}
+         for n, c in counts.items() if c >= COVERAGE_WATCH_MIN),
+        key=lambda r: -r["mentions"],
+    )
+
+
 RANK = {"BROKEN": 0, "QUIET": 1, "OK": 2}
 
 
@@ -314,6 +357,13 @@ def main():
 
     broken, quiet = report(run_date, findings)
 
+    gaps = coverage_watch(store)
+    if gaps:
+        print("\nCoverage watch — named in relevant items, no feed of its own:")
+        for g in gaps:
+            print(f"  {g['body']:14} {g['mentions']:3} mentions   e.g. {g['example']}")
+        print("  (informational — check whether the issuer has a feed worth adding)")
+
     append_audit_log(AUDIT_LOG_PATH, audit_rows)
 
     with open(HEALTH_PATH, "w", encoding="utf-8") as f:
@@ -324,6 +374,7 @@ def main():
             "quiet": len(quiet),
             "total_records": len(store),
             "sources": findings,
+            "coverage_watch": gaps,
         }, f, indent=2)
 
     return 1 if (broken and not args.report_only) else 0
