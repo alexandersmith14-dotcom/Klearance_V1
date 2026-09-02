@@ -14,6 +14,8 @@ Screening covers, by name and alias:
       needs a free SAM.gov public API key in SAM_API_KEY; skipped without it
   - World Bank Listing of Ineligible (Debarred) Firms   source "World Bank"
       and Individuals, incl. MDB cross-debarments
+  - Asian Development Bank sanctions list                source "ADB"
+      debarments + cross-debarments from WB / IDB / EBRD / AfDB
   - FinCEN Section 311 / 9714 special measures           source "FinCEN 311"
       foreign banks/jurisdictions of primary money laundering concern
 
@@ -319,6 +321,58 @@ def fetch_worldbank():
             "source": "World Bank",
             "remarks": remarks[:REMARKS_CAP],
             "country": " ".join((r.get("COUNTRY_NAME") or "").split()),
+            "aliases": aliases,
+        })
+    return out
+
+
+ADB_URL = "https://apim.adb.org/sanctions/lists/v1/published-list?size=100&offset="
+_ADB_TYPE = {"Individual": "individual", "Firm": "entity"}
+_ADB_REGNO = re.compile(r",?\s*(?:Registration|Reg\.?)\s*No\.?.*$", re.I)
+
+
+def fetch_adb():
+    """Asian Development Bank sanctions list: firms and individuals debarred, or
+    with a proposed sanction accepted, for integrity violations in ADB-financed
+    activity. The list also carries parties cross-debarred from the World Bank,
+    IDB, EBRD and AfDB under the 2010 mutual-enforcement agreement - the grounds
+    field names the originating institution. Paginated JSON API, 100 a page."""
+    rows, offset = [], 0
+    while True:
+        page = json.loads(fetcher.get(ADB_URL + str(offset), timeout=120)).get("data", [])
+        rows.extend(page)
+        if len(page) < 100 or offset > 20000:
+            break
+        offset += 100
+    out = []
+    for r in rows:
+        a = r.get("attributes", {})
+        name = " ".join((a.get("name") or "").split())
+        if not name:
+            continue
+        other = _ADB_REGNO.sub("", a.get("otherName") or "").strip()
+        aliases = [other] if other and other.lower() != name.lower() else []
+        san = (a.get("sanctionType") or "").strip()
+        grounds = " ".join((a.get("grounds") or "").split())
+        eff = (a.get("effectiveDateOfSanction") or "").strip()
+        lapse = (a.get("lapseDateOfSanction") or "").strip()
+        addr = " ".join((a.get("address") or "").split())
+        remarks = "; ".join(x for x in [
+            "ADB " + (san.lower() if san else "sanction"),
+            f"effective {eff}" if eff else "",
+            f"lapses {lapse}" if lapse else "",
+            f"grounds: {grounds}" if grounds else "",
+            f"address: {addr}" if addr else "",
+        ] if x)
+        out.append({
+            "key": "adb" + str(r.get("id")),
+            "name": name,
+            "type": _ADB_TYPE.get((a.get("entityType") or "").strip(), ""),
+            "program": "ADB " + (san or "sanction"),
+            "source": "ADB",
+            "remarks": remarks[:REMARKS_CAP],
+            "country": re.sub(r"\s*\*\d+\s*$", "",
+                              " ".join((a.get("nationality") or "").split())),
             "aliases": aliases,
         })
     return out
@@ -765,6 +819,7 @@ def main():
     uk = safe("UK OFSI", fetch_uk_ofsi)
     eu = safe("EU FSF", fetch_eu)
     worldbank = safe("World Bank debarment", fetch_worldbank)
+    adb = safe("ADB sanctions", fetch_adb)
     fincen311 = safe("FinCEN 311 special measures", fetch_fincen311)
     sam = safe("SAM.gov Exclusions", fetch_sam)
 
@@ -815,7 +870,7 @@ def main():
     records = (
         list(ofac_records(sdn, sdn_alt, sdn_ctry, "SDN"))
         + list(ofac_records(csl, csl_alt, csl_ctry, "Non-SDN"))
-        + bis_state + un + uk + eu + worldbank + fincen311
+        + bis_state + un + uk + eu + worldbank + adb + fincen311
     )
     index = build_index(records)
     with open(SDN_INDEX_PATH, "w", encoding="utf-8") as f:
