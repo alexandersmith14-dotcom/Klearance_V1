@@ -1162,6 +1162,17 @@ details.jurgroup>summary:hover h3{color:var(--brand)}
 .pill-resc{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.04em;
   text-transform:uppercase;padding:2px 7px;border-radius:999px;vertical-align:middle;
   background:var(--raised);color:var(--ink-muted);border:1px solid var(--border)}
+/* Read-aloud button on a screening result — browser voice, no audio files. */
+.sdnplay{display:inline-flex;align-items:center;gap:5px;margin-left:8px;
+  padding:1px 9px 1px 7px;font:inherit;font-size:11px;font-weight:600;line-height:1.7;
+  color:var(--brand);background:transparent;border:1px solid var(--border);
+  border-radius:999px;cursor:pointer;vertical-align:middle}
+.sdnplay:hover{background:var(--raised)}
+.sdnplay:focus-visible{outline:2px solid var(--brand);outline-offset:1px}
+.sdnplay-i{width:0;height:0;border-style:solid;border-width:5px 0 5px 8px;
+  border-color:transparent transparent transparent currentColor}
+.sdnplay.playing{color:var(--crit)}
+.sdnplay.playing .sdnplay-i{width:8px;height:8px;border:0;background:currentColor}
 .card .agency{font-size:12px;color:var(--ink-muted)}
 .card h3{font-size:14.5px;margin:0 0 5px;font-weight:600;line-height:1.35;
   text-align:justify;text-align-last:left}
@@ -2395,6 +2406,57 @@ if (sdnListQ) {
   const minScore = () => minScoreEl ? +minScoreEl.value : 100;
   const RESULT_CAP = 60;
   let index = null, indexPromise = null, norm = null, scoreVisible = false;
+
+  // Read a result aloud with the browser's own voice (Web Speech API): no
+  // files, works offline, on any host. The voice is whatever the viewer's
+  // device provides, not a chosen one. When a server can render a chosen
+  // voice, ttsPlay() is the single place to point at it (fetch a clip by a
+  // hash of `text`, play it through <audio>, fall back to this on a miss).
+  const TTS_OK = typeof speechSynthesis !== 'undefined'
+    && typeof SpeechSynthesisUtterance !== 'undefined';
+  let ttsBtn = null;                       // the button currently speaking
+  function ttsReset() {
+    if (ttsBtn) {
+      ttsBtn.classList.remove('playing');
+      ttsBtn.setAttribute('aria-label', ttsBtn.dataset.label);
+      const t = ttsBtn.querySelector('.sdnplay-t');
+      if (t) t.textContent = 'Listen';
+    }
+    ttsBtn = null;
+  }
+  function ttsStop() { try { speechSynthesis.cancel(); } catch (e) {} ttsReset(); }
+  function ttsPlay(btn) {
+    if (ttsBtn === btn) { ttsStop(); return; }
+    ttsStop();
+    const text = btn.dataset.say || '';
+    if (!text) return;
+    const u = new SpeechSynthesisUtterance(text);
+    u.rate = 1; u.pitch = 1;
+    u.onend = ttsReset;
+    u.onerror = ttsReset;
+    ttsBtn = btn;
+    btn.classList.add('playing');
+    btn.setAttribute('aria-label', 'Stop reading');
+    const t = btn.querySelector('.sdnplay-t');
+    if (t) t.textContent = 'Stop';
+    try { speechSynthesis.speak(u); } catch (e) { ttsReset(); }
+  }
+  // What a row says: matched name, programme, country, then the notes with a
+  // trailing "Source: <url>" removed - reading a URL aloud is useless.
+  function saySpeech(r, matched) {
+    const notes = (r[6] || '')
+      .replace(/\s*Source:\s*\S+\s*$/i, '')
+      .replace(/["“”'‘’]/g, '')             // quotes read as pauses/artefacts
+      .trim();
+    return [matched || r[1], r[3], r[7] ? 'Country: ' + r[7] : '', notes]
+      .filter(Boolean).join('. ').replace(/\.\s*\.+/g, '.');
+  }
+  if (results) {
+    results.addEventListener('click', e => {
+      const b = e.target.closest('.sdnplay');
+      if (b) ttsPlay(b);
+    });
+  }
   // SAM.gov (US federal debarment) is ~4x the other lists combined. It loads
   // from its own file only after the fast index is in hand, and folds into the
   // same `index` / `norm` arrays when it arrives.
@@ -2564,13 +2626,19 @@ if (sdnListQ) {
     const rescPill = resc
       ? ` <span class="pill-resc">rescinded${rescYr ? ' ' + rescYr : ''}</span>` : '';
     const prog = resc ? esc(r[3]) + ', not in force' : esc(r[3] || '—');
+    const say = TTS_OK
+      ? ` <button type="button" class="sdnplay" aria-label="Read this result aloud"
+          data-label="Read this result aloud" data-say="${esc(saySpeech(r, m.matched))}"
+          ><span class="sdnplay-i" aria-hidden="true"></span><span class="sdnplay-t">Listen</span></button>`
+      : '';
     return `<div class="sdnrow${m.score < 100 ? ' near' : ''}${resc ? ' rescinded' : ''}">
       <div class="sdnname">${src} ${esc(m.matched || '(unnamed entry)')}${rescPill}${aka}${badge}</div>
-      <div class="sdnmeta">${prog}${r[2] ? ' · ' + esc(r[2]) : ''}</div>
+      <div class="sdnmeta">${prog}${r[2] ? ' · ' + esc(r[2]) : ''}${say}</div>
       ${detail(r)}
     </div>`;
   }
   function renderOne(query) {
+    ttsStop();                              // results are about to be rebuilt
     if (!query) { results.innerHTML = ''; countEl.textContent = ''; return; }
     const ms = minScore();
     scoreVisible = ms < 100;
@@ -2608,6 +2676,7 @@ if (sdnListQ) {
     return sdnListQ.value.split('\n').map(s => s.trim()).filter(Boolean).slice(0, 300);
   }
   function runBulk() {
+    ttsStop();
     const names = lines();
     if (!names.length) { results.innerHTML = ''; countEl.textContent = ''; return; }
     countEl.textContent = 'screening…';
