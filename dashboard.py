@@ -3820,7 +3820,7 @@ def sdn_panel(today):
             f'<div class="sdnrow">'
             f'<span class="sdnname">{hesc(e["name"] or "(unnamed entry)")}</span>'
             f'<span class="sdnmeta">{hesc(e["program"] or "—")} · {hesc(e["date"])}'
-            f'{" · Non-SDN" if e.get("list") == "Non-SDN" else ""}</span>'
+            f'{" · " + hesc(e["list"]) if e.get("list") and e["list"] != "SDN" else ""}</span>'
             f'</div>'
             for e in items
         ) + '</div>'

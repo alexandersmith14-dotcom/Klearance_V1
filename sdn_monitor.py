@@ -76,9 +76,10 @@ SAM_COL = dict(classification=0, name=1, prefix=2, first=3, middle=4, last=5,
                excl_type=21, comments=22, term_date=24, cross_ref=26,
                sam_number=27)
 
-# Committed (must persist across CI runs so the SDN diff has a baseline).
+# Committed (must persist across CI runs so the diffs have a baseline).
 SDN_SNAPSHOT_PATH = "sdn_snapshot.json"
 CSL_SNAPSHOT_PATH = "csl_snapshot.json"
+FINCEN_311_SNAPSHOT_PATH = "fincen311_snapshot.json"
 SDN_LOG_PATH = "sdn_log.json"
 
 # Derived, gitignored; the workflow copies them into site/.
@@ -619,18 +620,24 @@ def build_index(all_records):
     return rows
 
 
+def _diff_key(k):
+    """Sort key that keeps OFAC's numeric ent_nums in numeric order but also
+    accepts the FinCEN 311 slug keys (fincen311-...), which are not integers."""
+    return (0, int(k)) if str(k).isdigit() else (1, str(k))
+
+
 def diff(previous, current, today, list_name="SDN"):
     events = []
     prev, cur = set(previous), set(current)
-    for num in sorted(cur - prev, key=int):
+    for num in sorted(cur - prev, key=_diff_key):
         r = current[num]
         events.append({"date": today, "list": list_name, "ent_num": num, "action": "added",
                        "name": r["name"], "program": r["program"], "sdn_type": r["sdn_type"]})
-    for num in sorted(prev - cur, key=int):
+    for num in sorted(prev - cur, key=_diff_key):
         r = previous[num]
         events.append({"date": today, "list": list_name, "ent_num": num, "action": "removed",
                        "name": r["name"], "program": r["program"], "sdn_type": r["sdn_type"]})
-    for num in sorted(prev & cur, key=int):
+    for num in sorted(prev & cur, key=_diff_key):
         if previous[num] != current[num]:
             r = current[num]
             events.append({"date": today, "list": list_name, "ent_num": num, "action": "modified",
@@ -651,26 +658,32 @@ def write_change_feeds(log, today):
 
     def item(e):
         lst = e.get("list", "SDN")
-        long_list = "SDN" if lst == "SDN" else "Consolidated (Non-SDN)"
+        long_list = {"SDN": "SDN", "Non-SDN": "Consolidated (Non-SDN)",
+                     "FinCEN 311": "FinCEN Section 311 special measures"}.get(lst, lst)
         prefix = "" if lst == "SDN" else f"[{lst}] "
-        link = f'https://sanctionssearch.ofac.treas.gov/Details.aspx?id={e["ent_num"]}'
+        if lst == "FinCEN 311":
+            link = FINCEN_311_URL
+        else:
+            link = f'https://sanctionssearch.ofac.treas.gov/Details.aspx?id={e["ent_num"]}'
         try:
             dt = datetime.fromisoformat(e["date"]).replace(tzinfo=timezone.utc)
         except ValueError:
             dt = datetime.now(timezone.utc)
+        agency = "" if lst == "FinCEN 311" else "OFAC "
         return (f"    <item>\n"
                 f"      <title>{xml_escape(prefix + e['action'].title() + ': ' + (e['name'] or '(unnamed)'))}</title>\n"
-                f"      <description>{xml_escape(e['action'].title() + ' on the OFAC ' + long_list + ' list. Program: ' + (e['program'] or 'n/a') + '.')}</description>\n"
+                f"      <description>{xml_escape(e['action'].title() + ' on the ' + agency + long_list + ' list. Program: ' + (e['program'] or 'n/a') + '.')}</description>\n"
                 f"      <link>{xml_escape(link)}</link>\n"
-                f"      <guid isPermaLink=\"false\">{lst.lower().replace('-', '')}-{e['date']}-{e['ent_num']}-{e['action']}</guid>\n"
+                f"      <guid isPermaLink=\"false\">{re.sub(r'[^a-z0-9]', '', lst.lower())}-{e['date']}-{e['ent_num']}-{e['action']}</guid>\n"
                 f"      <pubDate>{format_datetime(dt)}</pubDate>\n"
                 f"    </item>")
 
     xml = (f"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<rss version=\"2.0\"><channel>\n"
-           f"    <title>Klearance - OFAC SDN and Consolidated (Non-SDN) list changes</title>\n"
+           f"    <title>Klearance - OFAC SDN, OFAC Consolidated and FinCEN 311 list changes</title>\n"
            f"    <link>{SITE_BASE}/</link>\n"
            f"    <description>Daily additions, removals and modifications on the OFAC "
-           f"Specially Designated Nationals and Consolidated (Non-SDN) lists.</description>\n"
+           f"Specially Designated Nationals and Consolidated (Non-SDN) lists and "
+           f"FinCEN Section 311 special measures.</description>\n"
            f"    <language>en-us</language>\n"
            f"    <lastBuildDate>{format_datetime(datetime.now(timezone.utc))}</lastBuildDate>\n"
            + "\n".join(item(e) for e in recent[:200]) + "\n</channel></rss>\n")
@@ -694,13 +707,14 @@ def main():
     fincen311 = safe("FinCEN 311 special measures", fetch_fincen311)
     sam = safe("SAM.gov Exclusions", fetch_sam)
 
-    # --- SDN + Non-SDN diff + audit log ---
-    # Both OFAC lists are diffed day over day against their committed snapshot
-    # and appended to the same sdn_log.json, tagged by an event "list" field
-    # ("SDN" / "Non-SDN"). The Consolidated (Non-SDN) list is ~480 names against
-    # ~17k on the SDN list, so its changes are rare but high-impact - a new
-    # NS-CMIC company is a US investment ban, a new NS-MBS entry a menu of
-    # trade restrictions.
+    # --- SDN + Non-SDN + FinCEN 311 diff + audit log ---
+    # Each list is diffed day over day against its committed snapshot and the
+    # events appended to sdn_log.json, tagged by a "list" field ("SDN" /
+    # "Non-SDN" / "FinCEN 311"). The two non-SDN lists are small - ~480 and ~50
+    # names - so their changes are rare but high-impact: a new NS-CMIC company
+    # is a US investment ban, a new Section 311 measure a correspondent-account
+    # prohibition. FinCEN is compared on name/program/type only, so re-mining
+    # that touches an address or alias does not register as a change.
     def diff_against(snapshot_path, current, list_name):
         if os.path.exists(snapshot_path):
             with open(snapshot_path, encoding="utf-8") as f:
@@ -714,11 +728,22 @@ def main():
 
     events = diff_against(SDN_SNAPSHOT_PATH, sdn, "SDN")
     csl_events = diff_against(CSL_SNAPSHOT_PATH, csl, "Non-SDN")
+    # fetch_fincen311 is best-effort; an empty result means the fetch failed,
+    # not that every measure was withdrawn - don't diff (or overwrite the
+    # snapshot) in that case.
+    if fincen311:
+        fincen_snap = {r["key"]: {"name": r["name"], "program": r["program"],
+                                  "sdn_type": r.get("type", "")}
+                       for r in fincen311}
+        fincen_events = diff_against(FINCEN_311_SNAPSHOT_PATH, fincen_snap, "FinCEN 311")
+    else:
+        fincen_events = []
     log = json.load(open(SDN_LOG_PATH, encoding="utf-8")) if os.path.exists(SDN_LOG_PATH) else []
     for e in log:                      # historical entries predate the tag; all were SDN
         e.setdefault("list", "SDN")
     log.extend(events)
     log.extend(csl_events)
+    log.extend(fincen_events)
     with open(SDN_LOG_PATH, "w", encoding="utf-8") as f:
         json.dump(log, f, indent=2)
 
@@ -783,11 +808,13 @@ def main():
 
     added, removed, modified = tally(events)
     c_added, c_removed, c_modified = tally(csl_events)
+    f_added, f_removed, f_modified = tally(fincen_events)
     print(f"index: {len(index)} rows + {len(sam_index)} SAM rows "
           f"from {counts['total']} entries "
           f"({', '.join(f'{k} {v}' for k, v in sorted(counts.items()) if k not in ('total', 'index_rows'))}). "
           f"SDN today: {added} added, {removed} removed, {modified} modified. "
-          f"Non-SDN today: {c_added} added, {c_removed} removed, {c_modified} modified.")
+          f"Non-SDN today: {c_added} added, {c_removed} removed, {c_modified} modified. "
+          f"FinCEN 311 today: {f_added} added, {f_removed} removed, {f_modified} modified.")
 
 
 if __name__ == "__main__":
