@@ -260,8 +260,15 @@ def get(url, timeout=60, via_worker=False):
             PROXY_WORKER_URL + "/proxy?url=" + urllib.parse.quote(url, safe=""),
             headers={**UA, "X-Proxy-Key": PROXY_KEY},
         )
-        with urllib.request.urlopen(req, timeout=timeout) as r:
-            return r.read().decode("utf-8", "ignore")
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                return r.read().decode("utf-8", "ignore")
+        except urllib.error.HTTPError as e:
+            body = e.read()[:300].decode("utf-8", "ignore")
+            print(f"    [worker-proxy {e.code}] server={e.headers.get('server')!r} "
+                  f"cf-ray={e.headers.get('cf-ray')!r} cf-mitigated={e.headers.get('cf-mitigated')!r} "
+                  f"body={body!r}")
+            raise
     # dob.texas.gov needs the completed cert chain; everything else uses the
     # default context.
     ctx = _dob_context() if DOB_HOST in urllib.parse.urlsplit(url).netloc else None
