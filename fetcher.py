@@ -142,6 +142,19 @@ VIEWS_ROW_PAGES = [
         "base": "https://www.csbs.org",
         "link_filter": "/newsroom/",
     },
+    # FinCEN press releases, readouts and enforcement announcements. These carry
+    # 311 actions, geographic targeting orders, joint interagency statements and
+    # enforcement penalties that are never in the Federal Register or the
+    # Advisories/Bulletins page - and without this a FinCEN-co-issued item is
+    # only tagged with the other agencies that also published it. The list is
+    # one Drupal view; each item is a <div class="fincen-news-article">.
+    {
+        "agency": "FinCEN News",
+        "url": "https://www.fincen.gov/news/press-releases",
+        "base": "https://www.fincen.gov",
+        "row_class": "fincen-news-article",
+        "link_filter": "/news/news-releases/",
+    },
 ]
 
 # ------------------------------------------------ Florida OFR (first state source)
@@ -469,16 +482,23 @@ def fetch_table(source):
 
 
 def fetch_views_rows(source):
-    """Scrape a Drupal listing page that renders results as views-rows.
+    """Scrape a Drupal listing page that renders results as repeated row blocks.
 
-    Chunks the page on views-row boundaries and takes the longest matching link
+    Chunks the page on row-class boundaries and takes the longest matching link
     as the title. Chunks with no matching link are dropped, which conveniently
-    also discards nested-row fragments and sidebar blocks.
+    also discards nested-row fragments and sidebar blocks. The row class is
+    "views-row" by default; a page that wraps each result in its own class
+    (FinCEN's news list uses "fincen-news-article") sets "row_class".
     """
     html = get(source["url"])
-    marks = [m.start() for m in re.finditer(r'class="[^"]*views-row', html)]
+    row_class = source.get("row_class", "views-row")
+    # Require the class token to end here (quote or space), so "fincen-news-article"
+    # does not also match its BEM children "fincen-news-article__image" etc. and
+    # chop each item into fragments.
+    marks = [m.start() for m in re.finditer(
+        r'class="[^"]*' + re.escape(row_class) + r'(?=[\s"])', html)]
     if not marks:
-        raise RuntimeError("no views-row blocks found (page layout may have changed)")
+        raise RuntimeError(f"no {row_class} blocks found (page layout may have changed)")
 
     filt = source.get("link_filter")
     items, seen = [], set()
@@ -518,7 +538,7 @@ def fetch_views_rows(source):
             )
         )
     if not items:
-        raise RuntimeError("views-rows found but none matched link_filter")
+        raise RuntimeError(f"{row_class} blocks found but none matched link_filter")
     items.sort(key=lambda p: p[0], reverse=True)
     return cap([x for _, x in items])
 
