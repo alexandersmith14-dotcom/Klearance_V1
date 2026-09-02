@@ -21,3 +21,7 @@ certifi>=2024.2.2
 # pinning this package means the lookup doesn't depend on that being true --
 # same reasoning as certifi above.
 tzdata>=2024.1
+# curl_cffi impersonates a browser's TLS fingerprint so fetcher.get(...,
+# impersonate=True) clears Cloudflare's passive bot check (AfDB debarment list).
+# Ships a compiled libcurl-impersonate; installs clean on the Ubuntu runner.
+curl_cffi>=0.7,<1

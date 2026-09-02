@@ -244,7 +244,19 @@ TIME = re.compile(r'<time[^>]*datetime="([^"]{10})', re.I)
 TEXTDATE = re.compile(r"([A-Z][a-z]{2,8})\s+(\d{1,2}),\s*(\d{4})")
 
 
-def get(url, timeout=60):
+def get(url, timeout=60, impersonate=False):
+    """Fetch a URL as text.
+
+    impersonate=True routes through curl_cffi with a real Chrome TLS/JA3
+    fingerprint, which clears Cloudflare's passive bot check (AfDB, FFIEC).
+    It does not solve the interactive JS challenge some sites use (IDB), and
+    it is slower, so it stays opt-in per source.
+    """
+    if impersonate:
+        from curl_cffi import requests as _cffi
+        r = _cffi.get(url, impersonate="chrome124", timeout=timeout)
+        r.raise_for_status()
+        return r.text
     # dob.texas.gov needs the completed cert chain; everything else uses the
     # default context.
     ctx = _dob_context() if DOB_HOST in urllib.parse.urlsplit(url).netloc else None
