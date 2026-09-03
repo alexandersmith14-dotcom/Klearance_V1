@@ -107,6 +107,15 @@ AFDB_SNAPSHOT_META_PATH = "afdb_snapshot_meta.json"
 # check. The list moves slowly, so weeks-stale is the trigger, not days.
 AFDB_STALE_PATH = "afdb_stale.json"
 AFDB_STALE_DAYS = 21
+# EBRD Ineligible Entities. Snapshot-only: www.ebrd.com fingerprint-gates its
+# list servlet so it cannot be fetched from CI at all - make_ebrd_snapshot.py
+# regenerates ebrd_snapshot.json by hand (curl_cffi, residential IP), fetch_ebrd
+# here just loads it. ~1,260 rows, mostly cross-debarments already in the World
+# Bank / ADB / AfDB feeds; EBRD's own ~130 primary debarments are the point.
+# Warn (do not fail) once the committed copy is older than EBRD_STALE_DAYS.
+EBRD_SNAPSHOT_PATH = "ebrd_snapshot.json"
+EBRD_SNAPSHOT_META_PATH = "ebrd_snapshot_meta.json"
+EBRD_STALE_DAYS = 120
 
 # Derived, gitignored; the workflow copies them into site/.
 SDN_INDEX_PATH = "sdn_index.json"          # everything except SAM (~3 MB gz)
@@ -504,6 +513,36 @@ def _write_afdb_stale(fresh, fetched_at, age_days):
     }
     with open(AFDB_STALE_PATH, "w", encoding="utf-8") as f:
         json.dump(payload, f, indent=1)
+
+
+def fetch_ebrd():
+    """EBRD Ineligible Entities, from the committed snapshot only.
+
+    www.ebrd.com fingerprint-gates /bin/ebrd_dxp/filterlistservlet (a plain
+    POST gets 403/500; an impersonated-Chrome POST gets JSON), so there is no
+    live path from CI. make_ebrd_snapshot.py regenerates ebrd_snapshot.json by
+    hand; this just loads it and prints how stale it is. Records already carry
+    the final screening shape."""
+    with open(EBRD_SNAPSHOT_PATH, encoding="utf-8") as f:
+        rows = json.load(f)
+    refreshed = None
+    try:
+        with open(EBRD_SNAPSHOT_META_PATH, encoding="utf-8") as f:
+            refreshed = json.load(f).get("refreshed_at")
+    except (OSError, ValueError):
+        pass
+    age = None
+    if refreshed:
+        try:
+            age = (datetime.now(timezone.utc).date()
+                   - datetime.fromisoformat(refreshed).date()).days
+        except ValueError:
+            pass
+    note = "age unknown" if age is None else f"snapshot {age} days old"
+    if age is None or age > EBRD_STALE_DAYS:
+        note += "  [STALE - re-run make_ebrd_snapshot.py]"
+    print(f"    EBRD: {note}")
+    return rows
 
 
 # Rows in the FinCEN 311 table that name a class of transactions rather than an
@@ -949,6 +988,7 @@ def main():
     worldbank = safe("World Bank debarment", fetch_worldbank)
     adb = safe("ADB sanctions", fetch_adb)
     afdb = safe("AfDB debarment", fetch_afdb)
+    ebrd = safe("EBRD ineligible entities", fetch_ebrd)
     fincen311 = safe("FinCEN 311 special measures", fetch_fincen311)
     sam = safe("SAM.gov Exclusions", fetch_sam)
 
@@ -999,7 +1039,7 @@ def main():
     records = (
         list(ofac_records(sdn, sdn_alt, sdn_ctry, "SDN"))
         + list(ofac_records(csl, csl_alt, csl_ctry, "Non-SDN"))
-        + bis_state + un + uk + eu + worldbank + adb + afdb + fincen311
+        + bis_state + un + uk + eu + worldbank + adb + afdb + ebrd + fincen311
     )
     index = build_index(records)
     with open(SDN_INDEX_PATH, "w", encoding="utf-8") as f:
