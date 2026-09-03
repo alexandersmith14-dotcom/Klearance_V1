@@ -134,11 +134,20 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: python fincen311_issue.py
 
+      # afdb_stale.json (from sdn_monitor.py above) flips to stale when the
+      # committed AfDB snapshot has gone weeks without a live refresh - i.e. the
+      # Cloudflare challenge has been winning. Keep one issue in sync with it.
+      - name: AfDB snapshot freshness issue
+        if: github.event_name != 'push'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python afdb_issue.py
+
       - name: Commit refreshed data
         run: |
           git config user.name "regwatch-bot"
           git config user.email "actions@github.com"
-          git add store.json dashboard.html sdn_log.json sdn_snapshot.json csl_snapshot.json fincen311_snapshot.json audit_log.jsonl audio audio_manifest.json
+          git add store.json dashboard.html sdn_log.json sdn_snapshot.json csl_snapshot.json fincen311_snapshot.json audit_log.jsonl audio audio_manifest.json afdb_snapshot.json afdb_snapshot_meta.json
           # Nothing to do when no new items were published that day.
           if git diff --staged --quiet; then
             echo "No changes to publish."

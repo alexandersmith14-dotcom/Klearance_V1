@@ -99,6 +99,14 @@ SDN_LOG_PATH = "sdn_log.json"
 # of the time, and safe() would otherwise drop the whole list on a bad day.
 # Every successful fetch rewrites this; a failed one falls back to it.
 AFDB_SNAPSHOT_PATH = "afdb_snapshot.json"
+# Sidecar for the snapshot: {"fetched_at": "YYYY-MM-DD", "rows": N}. Written on
+# every successful live fetch; read on fallback to age the snapshot. Committed.
+AFDB_SNAPSHOT_META_PATH = "afdb_snapshot_meta.json"
+# afdb_stale.json (written when the snapshot has aged past this) drives a
+# standing GitHub issue via afdb_issue.py, same as the FinCEN 311 freshness
+# check. The list moves slowly, so weeks-stale is the trigger, not days.
+AFDB_STALE_PATH = "afdb_stale.json"
+AFDB_STALE_DAYS = 21
 
 # Derived, gitignored; the workflow copies them into site/.
 SDN_INDEX_PATH = "sdn_index.json"          # everything except SAM (~3 MB gz)
@@ -436,7 +444,10 @@ def fetch_afdb():
     clears only intermittently. Retry a few times; if every attempt is blocked,
     fall back to the committed snapshot (AFDB_SNAPSHOT_PATH) so the list stays
     in screening - the debarment list moves slowly, so a few days stale is far
-    better than the source vanishing. Each success refreshes the snapshot."""
+    better than the source vanishing. Each success refreshes the snapshot and
+    its date sidecar; a fallback older than AFDB_STALE_DAYS raises the standing
+    freshness issue via afdb_issue.py."""
+    today = datetime.now(timezone.utc).date()
     last = None
     for attempt in range(4):
         try:
@@ -444,6 +455,9 @@ def fetch_afdb():
             rows = _parse_afdb(html)
             with open(AFDB_SNAPSHOT_PATH, "w", encoding="utf-8") as f:
                 json.dump(rows, f)
+            with open(AFDB_SNAPSHOT_META_PATH, "w", encoding="utf-8") as f:
+                json.dump({"fetched_at": today.isoformat(), "rows": len(rows)}, f, indent=1)
+            _write_afdb_stale(fresh=True, fetched_at=today.isoformat(), age_days=0)
             return rows
         except (urllib.error.HTTPError, urllib.error.URLError, RuntimeError) as e:
             last = e
@@ -452,11 +466,44 @@ def fetch_afdb():
     try:
         with open(AFDB_SNAPSHOT_PATH, encoding="utf-8") as f:
             rows = json.load(f)
-        print(f"    AfDB: live fetch blocked ({type(last).__name__}); "
-              f"using committed snapshot ({len(rows)} rows)")
-        return rows
     except (OSError, ValueError):
         raise last
+    fetched_at = None
+    try:
+        with open(AFDB_SNAPSHOT_META_PATH, encoding="utf-8") as f:
+            fetched_at = json.load(f).get("fetched_at")
+    except (OSError, ValueError):
+        pass
+    age = None
+    if fetched_at:
+        try:
+            age = (today - datetime.fromisoformat(fetched_at).date()).days
+        except ValueError:
+            pass
+    stale = age is None or age > AFDB_STALE_DAYS
+    print(f"    AfDB: live fetch blocked ({type(last).__name__}); using committed "
+          f"snapshot ({len(rows)} rows, "
+          f"{'age unknown' if age is None else f'{age} days old'})"
+          + ("  [STALE - see afdb-freshness issue]" if stale else ""))
+    _write_afdb_stale(fresh=False, fetched_at=fetched_at, age_days=age)
+    return rows
+
+
+def _write_afdb_stale(fresh, fetched_at, age_days):
+    """afdb_stale.json for afdb_issue.py: stale True once the snapshot fallback
+    has aged past AFDB_STALE_DAYS (or its date is unknown). A fresh live fetch
+    writes stale False, which closes the issue."""
+    stale = (not fresh) and (age_days is None or age_days > AFDB_STALE_DAYS)
+    payload = {
+        "generated": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "stale": stale,
+        "fetched_at": fetched_at,
+        "age_days": age_days,
+        "threshold_days": AFDB_STALE_DAYS,
+        "source_url": AFDB_URL,
+    }
+    with open(AFDB_STALE_PATH, "w", encoding="utf-8") as f:
+        json.dump(payload, f, indent=1)
 
 
 # Rows in the FinCEN 311 table that name a class of transactions rather than an

@@ -54,4 +54,8 @@ sdn-changes.csv
 # GitHub issue. fincen311_details.csv (the hand-mined facts) IS committed.
 fincen311_stale.json
 _fincen311_issue_body.md
+# AfDB snapshot freshness-check output; same raise/close-an-issue flow via
+# afdb_issue.py. afdb_snapshot.json + afdb_snapshot_meta.json ARE committed.
+afdb_stale.json
+_afdb_issue_body.md
 
