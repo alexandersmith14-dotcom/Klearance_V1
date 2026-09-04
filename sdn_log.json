@@ -10816,5 +10816,68 @@
     "program": "IRAN-EO13902",
     "sdn_type": "",
     "list": "SDN"
+  },
+  {
+    "date": "2026-09-04",
+    "list": "SDN",
+    "ent_num": "58486",
+    "action": "added",
+    "name": "EMPRESA DE SERVICIOS COMANDANTE RENE RAMOS LATOUR",
+    "program": "CUBA-EO14404",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-09-04",
+    "list": "SDN",
+    "ent_num": "58487",
+    "action": "added",
+    "name": "EMPRESA IMPORTADORA Y ABASTECEDORA DEL NIQUEL",
+    "program": "CUBA-EO14404",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-09-04",
+    "list": "SDN",
+    "ent_num": "58488",
+    "action": "added",
+    "name": "COMERCIAL CUPET S.A.",
+    "program": "CUBA-EO14404",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-09-04",
+    "list": "SDN",
+    "ent_num": "58489",
+    "action": "added",
+    "name": "EMPRESA IMPORTADORA DE ABASTECIMIENTO PARA EL PETROLEO",
+    "program": "CUBA-EO14404",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-09-04",
+    "list": "SDN",
+    "ent_num": "58490",
+    "action": "added",
+    "name": "BANCO EXTERIOR DE CUBA",
+    "program": "CUBA-EO14404",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-09-04",
+    "list": "SDN",
+    "ent_num": "58491",
+    "action": "added",
+    "name": "CASTRO CALIS, Fidel Ernesto",
+    "program": "CUBA-EO14404",
+    "sdn_type": "individual"
+  },
+  {
+    "date": "2026-09-04",
+    "list": "SDN",
+    "ent_num": "42734",
+    "action": "removed",
+    "name": "DULAC CAPITAL LTD",
+    "program": "RUSSIA-EO14024",
+    "sdn_type": ""
   }
 ]
