@@ -293,10 +293,7 @@ agencies, ~$16 one-off. Two switches in `fetcher.py`, both off
 
 Nothing here is broken — these are the next things to do.
 
-1. **README.md is stale** — still says "14 government sources" / "RegWatch" in
-   places, predates the sanctions screening, audio, and the Klearance rename.
-   Same refresh this file just had.
-2. **More sanctions sources**, highest value for US BSA/AML, direct-from-source,
+1. **More sanctions sources**, highest value for US BSA/AML, direct-from-source,
    one at a time, measure first:
    - OFAC Civil Penalties & Enforcement Information (~800 names back to 2003, 23
      per-year HTML pages) — label "enforcement history, not a designation".
@@ -306,18 +303,18 @@ Nothing here is broken — these are the next things to do.
      the OFSI ConList currently pulled — consider switching.
    See `project_klearance_sanctions_sources` in Claude's memory for the full plan
    and the ~193-source target.
-3. **Refresh cadence for the manual snapshots** — `make_ebrd_snapshot.py` every
+2. **Refresh cadence for the manual snapshots** — `make_ebrd_snapshot.py` every
    few months from a residential IP; AfDB self-heals whenever a live fetch gets
    through, and `afdb_issue.py` will nag if it doesn't for 21 days.
-4. **Relevance tuning** — does the keep judgment match Alexander's eye? Never
+3. **Relevance tuning** — does the keep judgment match Alexander's eye? Never
    reviewed against it; costs nothing.
-5. **Historical backfill** — ~$16 one-off, see "Parked" above.
-6. **Texas DOB phase 2** — its Enforcement Orders and Supervisory Memoranda are
+4. **Historical backfill** — ~$16 one-off, see "Parked" above.
+5. **Texas DOB phase 2** — its Enforcement Orders and Supervisory Memoranda are
    higher-value than the Industry Notices already in. Enforcement Orders need
    per-sector link following; Supervisory Memoranda carry no listing dates.
-7. **More states** — method is proven (probe reachability → find listing pages →
+6. **More states** — method is proven (probe reachability → find listing pages →
    measure keep-rate → decide). FL and TX are in.
-8. **Repo size** — `audio/` grows ~1 MB/day, uncapped. Revisit if it becomes a
+7. **Repo size** — `audio/` grows ~1 MB/day, uncapped. Revisit if it becomes a
    problem (Git LFS, or a shallow-history rewrite).
 
 ---
