@@ -10879,5 +10879,32 @@
     "name": "DULAC CAPITAL LTD",
     "program": "RUSSIA-EO14024",
     "sdn_type": ""
+  },
+  {
+    "date": "2026-09-05",
+    "list": "SDN",
+    "ent_num": "58544",
+    "action": "added",
+    "name": "GOLDEN GLOBAL YATIRIM BANKASI ANONIM SIRKETI",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-09-05",
+    "list": "SDN",
+    "ent_num": "58545",
+    "action": "added",
+    "name": "GOLDEN GLOBAL VARLIK KIRALAMA ANONIM SIRKETI",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
+  },
+  {
+    "date": "2026-09-05",
+    "list": "SDN",
+    "ent_num": "58548",
+    "action": "added",
+    "name": "GOLDEN GLOBAL PORTFOY YONETIMI ANONIM SIRKETI",
+    "program": "IRAN-EO13902",
+    "sdn_type": ""
   }
 ]
